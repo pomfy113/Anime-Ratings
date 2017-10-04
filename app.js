@@ -3,8 +3,10 @@ var exphbs  = require('express-handlebars');
 var express = require('express')
 var app = express()
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
+var methodOverride = require('method-override')
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'))
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -12,27 +14,30 @@ app.set('view engine', 'handlebars');
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost/ouranimelist');
 
-var reviewSchema = new mongoose.Schema({
-    rating: Number,
-    summary: String
+// var Review = mongoose.model('Review', {
+//   reviews: {
+//     ratings: Number,
+//     description: String
+//   }
+// });
+
+var Review = mongoose.model('Review', {
+    revDescription : String
 });
 
-var Review = mongoose.model('Review', reviewSchema);
 
-var ShowSchema = new mongoose.Schema({
-    title: { type: String},
-    description: {type: String},
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
-})
-
-var Show = mongoose.model('Show', ShowSchema);
+var Show = mongoose.model('Show', {
+  title: String,
+  description: String,
+  reviews: [Review]
+});
 
 // Home Page
 app.get('/', function (req, res) {
     res.render('home', {});
 })
 
-// Show shows :^)
+// Show shows
 app.get('/shows', function (req, res) {
   Show.find(function(err, shows) {
     res.render('shows-index', {shows: shows});
@@ -48,26 +53,26 @@ app.post('/shows', function (req, res) {
 })
 
 // New review
-// app.post('/shows/:id', function (req, res) {
-//   Show.reviews.create(req.body, function(err, show) {
-//       console.log(show);
-//       res.redirect('/shows/' + review._id);
-//   })
+// app.put('/shows/:id', function (req, res) {
+//     // Show.findById(req.params.id).exec(function (err, show){
+//     //     // if (err) return "This is an error!";
+//     //     show.reviews.set({description: req.body})
+//     //     show.save(function (err, updatedShow){
+//     //         // if (err) return "This is an error!";
+//     //         res.send(updatedShow)
+//     //     })
+//     // })
+//     // Show.update({phone:request.phone}, {$set: { phone: request.phone }}, {upsert: true}, function(err){...})
+//     // Contact.update({phone:request.phone}, {$set: { phone: request.phone }}, {upsert: true}, function(err){...})
+//
+//     Show.update({ _id: req.params.id }, { reviews: req.body }, {upsert:true});
+//     console.log(req.body, req.params.id)
 // })
+
 app.post('/shows/:id', function (req, res) {
-    Show.findById(req.params.id).exec(function (err, show) {
-
-        var FirstReview = new Review({
-            rating: 5,
-            summary: "Test!"
-        });
-        FirstReview.save(function(err, comment) {
-            show.reviews.push(comment);
-            show.save();
-            res.redirect('/shows/' + show._id);
-        });
-
-
+  Review.create(req.body, function(err, review) {
+    res.redirect('/shows/');
+    console.log(req.body, show)
   })
 })
 
@@ -83,8 +88,6 @@ app.get('/shows/:id', function (req, res) {
     res.render('shows-data', {show: show});
   })
 });
-
-
 
 
 app.listen(3000, function () {

@@ -3,8 +3,8 @@
 <form method="POST" action="/shows/{{show._id}}">
   <!-- DESCRIPTION -->
       <p>
-        <label for="summary">New Review</label><br>
-        <textarea name="summary" rows="10" /></textarea>
+        <label for="revDescription">New Review</label><br>
+        <textarea name="revDescription" rows="10" /></textarea>
       </p>
       <p>
           <button type="submit">Save Review</button>
@@ -12,5 +12,5 @@
 </form>
 
 {{#each show.reviews}}
-    <p>{{this.summary}}</p>
+    <p>{{this.description}}</p>
 {{/each}}
