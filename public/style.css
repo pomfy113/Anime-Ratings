@@ -1,0 +1,16 @@
+.reviewindex{
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.buttons {
+    float: right;
+    display: inline;
+}
+
+.reviewindex{
+    margin-top: -30px;
+    margin-right: 5px;
+}
