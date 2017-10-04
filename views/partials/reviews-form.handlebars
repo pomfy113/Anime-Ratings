@@ -5,29 +5,12 @@
   <label for="title">Title</label><br>
   <input class="form-control" type="text" name="title" value="{{review.title}}"/>
 </div>
-<!-- MOVIE TITLE -->
-<div class="form-group">
-  <label for="movieTitle">Movie Title</label><br>
-  <input class="form-control" type="text" name="movieTitle" value="{{review.movieTitle}}" />
-</div>
-
 <!-- DESCRIPTION -->
 <div class="form-group">
   <label for="description">Description</label><br>
   <textarea class="form-control" name="description" rows="10" />{{review.description}}</textarea>
 </div>
 
-<!-- RATING -->
-<div class="form-group">
-    <select class="form-control" name="rating" selected={{review.rating}}>
-        <option value="" selected disabled hidden>Rating Score</option>
-        <option value=1>1 - Bad</option>
-        <option value=2>2 - Meh</option>
-        <option value=3>3 - Okay</option>
-        <option value=4>4 - Pretty good</option>
-        <option value=5>5 - GOAT</option>
-    </select>
-</div>
 <!-- BUTTON -->
 <p>
     <button style="float:left;" type="submit" class="btn btn-primary">Save Review</button>

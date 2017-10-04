@@ -17,10 +17,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist');
 
 var Review = mongoose.model('Review', {
   title: String,
-  movieTitle: String,
   description: String,
-  rating: Number,
-  comment: [{words: String}]
+  comment: [{words: String, reviewrating: Number}]
 });
 
 app.get('/', function (req, res) {
@@ -61,11 +59,8 @@ app.get('/reviews/:id/edit', function (req, res) {
 //UPDATE; after edit form is complete, this PUTs the new data into the page
 app.put('/reviews/:id', function (req, res) {
   Review.findByIdAndUpdate(req.params.id,  req.body, function(err, review) {
-    var parent = new Review;
-    console.log("Before", parent)
     review.comment.push(req.body);
     review.save()
-    console.log("After", parent)
     res.redirect('/reviews/' + review._id);
   })
 })

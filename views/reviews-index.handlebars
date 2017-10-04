@@ -5,6 +5,7 @@
 <div class="row justify-content-between">
 <span class = "reviews">
 <!-- Whew lad, a whole lot of div shenanigans to make things work -->
+<div class="d-flex align-self-stretch">
 
 {{#each reviews}}
 <div class="col-sm-4">
@@ -25,16 +26,15 @@
     <div class="reviewindex">
         <a href="/reviews/{{this._id}}">
         <h3>{{this.title}}</h3></a>
-        <small>{{this.movieTitle}}</small>
+        <small>{{this.showTitle}}</small>
         <p>{{this.description}}</p>
         </br>
-        <p style="float:right;">Rating: {{this.rating}}</p>
         </br>
     </div>
-
   <hr>
 </div>
 
 {{/each}}
+</div>
 </div>
 </span>
