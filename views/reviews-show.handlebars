@@ -13,11 +13,14 @@
     <p>
         <button style="float:left;" type="submit" class="btn btn-primary">Save Review</button>
     </p>
+    <br><br>
+    <h4>Comment Section</h4>
+    {{#each review.comment}}
+    <p>{{this.words}}</p>
+    {{/each}}
     </div>
 </form>
 
     <a href="/{{review.id}}/comments">Comment!</a>
-    {{review.comments}}
-    {{review.comments.string}}
 
 </div>

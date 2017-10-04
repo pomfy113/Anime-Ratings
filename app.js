@@ -63,7 +63,8 @@ app.put('/reviews/:id', function (req, res) {
   Review.findByIdAndUpdate(req.params.id,  req.body, function(err, review) {
     var parent = new Review;
     console.log("Before", parent)
-    parent.comment.push({words: 'Success!'}, {words: 'Got it!'});
+    review.comment.push(req.body);
+    review.save()
     console.log("After", parent)
     res.redirect('/reviews/' + review._id);
   })
