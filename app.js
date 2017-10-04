@@ -8,23 +8,19 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'))
 
 
-// var reviews = [
-//   { title: "Great Review" },
-//   { title: "Next Review" },
-//   { title: "Okay Review"}
-// ]
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist');
 
 
 var Review = mongoose.model('Review', {
   title: String,
   movieTitle: String,
   description: String,
-  rating: Number
+  rating: Number,
+  comment: [{words: String}]
 });
 
 app.get('/', function (req, res) {
@@ -65,6 +61,10 @@ app.get('/reviews/:id/edit', function (req, res) {
 //UPDATE; after edit form is complete, this PUTs the new data into the page
 app.put('/reviews/:id', function (req, res) {
   Review.findByIdAndUpdate(req.params.id,  req.body, function(err, review) {
+    var parent = new Review;
+    console.log("Before", parent)
+    parent.comment.push({words: 'Success!'}, {words: 'Got it!'});
+    console.log("After", parent)
     res.redirect('/reviews/' + review._id);
   })
 })

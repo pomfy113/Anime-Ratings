@@ -1,15 +1,35 @@
+<!-- main.handlebars -->
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="utf-8">
-    <title>Example App</title>
-</head>
-<!-- main.handlebars -->
-<body>
-  <div class="container">
-    {{{body}}}
-  </div>
-</body>
+  <meta charset="utf-8">
+  <title>Rotten Potatoes</title>
 
+  <!-- Latest compiled and minified CSS -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+
+</head>
+<body>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+              Rotten Potatoes
+            </a>
+          </div>
+          <div class="pull-right">
+              <!-- Needed to add an extra button for this -->
+            <button><a href="/reviews/new" class="btn btn-default navbar-btn">New Review</a></button>
+          </div>
+        </div>
+      </nav>
+
+<div class="container">
+  {{{body}}}
+</div>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
 </html>

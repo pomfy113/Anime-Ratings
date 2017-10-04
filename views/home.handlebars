@@ -1,15 +1,1 @@
-<!-- home.handlebars -->
-<div class="top">
-    <a href="/hello-gif">Greetings</a> |
-    <a href="/about">About</a>
-
-
-</div>
-<h1>Search for GIFS</h1>
-<form action="/">
-  <input type="text" name="term" value="{{term}}">
-  <button type="submit">Search</button>
-  <br>
-{{#each gifs}}
-  <img src="{{this.images.fixed_height.url}}">
-{{/each}}
+<h1>{{msg}}</h1>

@@ -1,0 +1,23 @@
+<!-- views/reviews-show.handlebars -->
+<a href="/">Back to Home</a>
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h1>{{review.title}}</h1>
+    <h5>{{review.movieTitle}}</h5>
+    <p>Rating: {{review.rating}} out of 5</p>
+    <p>{{review.description}}</p>
+  <form method="POST" action="/reviews/{{review._id}}?_method=PUT">
+
+    <label for="words">Comments</label><br>
+    <input class="form-control" type="text" name="words"/>
+    <p>
+        <button style="float:left;" type="submit" class="btn btn-primary">Save Review</button>
+    </p>
+    </div>
+</form>
+
+    <a href="/{{review.id}}/comments">Comment!</a>
+    {{review.comments}}
+    {{review.comments.string}}
+
+</div>
