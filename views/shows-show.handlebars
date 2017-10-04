@@ -1,18 +1,16 @@
-<!-- views/reviews-show.handlebars -->
+<!-- views/shows-show.handlebars -->
 <!-- Basic showing stuff -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
-    <h1>{{review.title}}</h1>
-    <h5>{{review.showTitle}}</h5>
-    <p>Rating: {{review.rating}} out of 5</p>
-    <p>{{review.description}}</p>
+    <h1>{{show.title}}</h1>
+    <p>{{show.description}}</p>
 </div>
 <div class="col-sm-8 col-sm-offset-2" style="padding-top: 100px;">
     <!--  Comments stuff with panels-->
     <h4>Comments</h4>
-    {{#each review.comment}}
+    {{#each show.comment}}
         <div class="panel panel-default" style="width: 100%;">
-            <div class="panel-heading">User Rating: {{this.reviewrating}} out of 5</div>
+            <div class="panel-heading">User Rating: {{this.showrating}} out of 5</div>
             <div class="panel-body">{{this.words}}</div>
         </div>
     {{/each}}
@@ -21,10 +19,10 @@
 
 
 <div class="col-sm-6 col-sm-offset-3">
-<form method="POST" action="/reviews/{{review._id}}?_method=PUT">
+<form method="POST" action="/shows/{{show._id}}?_method=PUT">
   <label for="words">New Comment</label><br>
   <textarea class="form-control" name="words" rows="10" /></textarea>
-  <select class="form-control" name="reviewrating">
+  <select class="form-control" name="showrating">
       <option value=3 selected disabled hidden>Rating Score</option>
       <option value=1>1 - Bad</option>
       <option value=2>2 - Meh</option>

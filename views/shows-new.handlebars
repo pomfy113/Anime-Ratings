@@ -1,10 +1,10 @@
-<!-- reviews-edit.handlebars -->
+<!-- shows-new.handlebars -->
 
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
-    <legend>Edit Review</legend>
-    <form method="POST" action="/reviews/{{review._id}}?_method=PUT">
-      {{> reviews-form }}
+    <legend>New Show</legend>
+    <form method="POST" action="/shows">
+      {{> shows-form }}
     </form>
     <button style="float:right;" onclick="location.href='/'" class="btn btn-primary">
      Cancel</button>

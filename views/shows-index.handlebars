@@ -1,30 +1,30 @@
-<!-- reviews-index.handlebars -->
+<!-- shows-index.handlebars -->
 <h1>Reviews</h1>
 </br>
 </br>
 <div class="row justify-content-between">
-<span class = "reviews">
+<span class = "shows">
 <!-- Whew lad, a whole lot of div shenanigans to make things work -->
 <div class="d-flex align-self-stretch">
 
-{{#each reviews}}
+{{#each shows}}
 <div class="col-sm-4">
     <!-- I needed seperate div classes for these buttons to float
     properly. Inline didn't work as intended, so I decided on this-->
-    <form method="POST" action="/reviews/{{this._id}}?_method=DELETE">
+    <form method="POST" action="/shows/{{this._id}}?_method=DELETE">
     <div class="buttons">
     <button type="submit" class="btn btn-default">Delete</button>
     </div>
     </form>
 
     <div class="buttons">
-    <button onclick="location.href='/reviews/{{this._id}}/edit'" class="btn btn-default">
+    <button onclick="location.href='/shows/{{this._id}}/edit'" class="btn btn-default">
      Edit</button>
     </div>
-    <!-- The reviews themselves! Wanted to put the reviews on the
+    <!-- The shows themselves! Wanted to put the shows on the
     bottom right for ease of seeing; had to make that float right -->
-    <div class="reviewindex">
-        <a href="/reviews/{{this._id}}">
+    <div class="showindex">
+        <a href="/shows/{{this._id}}">
         <h3>{{this.title}}</h3></a>
         <small>{{this.showTitle}}</small>
         <p>{{this.description}}</p>
