@@ -1,12 +1,25 @@
+DONE
+* Database working
+
+DONE
+* Basic views and bootstrap working
+
+DONE
+* Basic functionality (create, read, update, destroy)
+
 ===== v1 =====
 - Allow average ratings; look into net promoter score
     - Find way to access current ratings and amount
     - Use basic division for now
     - EXTRA: If given time, look into API
 
-- Separate comments controller
-DONE    - Two separate functions for comments and shows
+* * WIP * *
+* Comments working
+    * Two separate functions for comments and shows
+    - Separate to own controller
+* * * * * *
 
 ===== v2 =====
 
 - EXTRA: If I can find a relevant API, use API to pre-populate list of shows
+- CSS shenanigans; make it unique
