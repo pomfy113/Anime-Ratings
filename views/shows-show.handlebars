@@ -7,7 +7,6 @@
 </div>
 <div class="col-sm-8 col-sm-offset-2" style="padding-top: 100px;">
     <!--  Comments stuff with panels-->
-    Current show id is: {{show._id}}
     <h4>Comments</h4>
     {{#each show.comments}}
         <div class="panel panel-default" style="width: 100%;">
@@ -16,8 +15,7 @@
             <div class="panel-footer">
             <form method="POST" action="/shows/{{../show._id}}/{{_id}}?_method=DELETE">
                 <button style="float:left;" type="submit" class="btn btn-primary">Delete comment</button>
-                ShowID: {{../show._id}}<br>
-                CommentID: {{_id}}
+
             </form>
             </div>
 
