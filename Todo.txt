@@ -1,2 +1,12 @@
+===== v1 =====
+- Allow average ratings; look into net promoter score
+    - Find way to access current ratings and amount
+    - Use basic division for now
+    - EXTRA: If given time, look into API
+
 - Separate comments controller
-    - Two separate functions for comments and shows
+DONE    - Two separate functions for comments and shows
+
+===== v2 =====
+
+- EXTRA: If I can find a relevant API, use API to pre-populate list of shows
