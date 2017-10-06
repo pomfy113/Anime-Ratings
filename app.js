@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist');
 var Show = mongoose.model('Show', {
   title: String,
   description: String,
-  comment: [{words: String, showrating: Number}]
+  comments: [{words: String, showrating: Number}]
 });
 
 app.get('/', function (req, res) {
@@ -41,7 +41,7 @@ app.get('/shows/new', function (req, res) {
 })
 
 
-// SHOW; gets the id number and shows it
+// SHOW; gets the id number of show and shows it
 app.get('/shows/:id', function (req, res) {
   Show.findById(req.params.id).exec(function (err, show) {
     res.render('shows-show', {show: show});
@@ -56,23 +56,40 @@ app.get('/shows/:id/edit', function (req, res) {
   })
 })
 
-//UPDATE; after edit form is complete, this PUTs the new data into the page
+// UPDATE; after edit form is complete, this PUTs the new data into the page
 app.put('/shows/:id', function (req, res) {
   Show.findByIdAndUpdate(req.params.id,  req.body, function(err, show) {
-    show.comment.push(req.body);
-    show.save()
     res.redirect('/shows/' + show._id);
   })
 })
 
+// CREATE: make a new comment in an id
+app.post('/shows/:id/comments', function (req, res) {
+  Show.findByIdAndUpdate(req.params.id,  req.body, function(err, show) {
+      show.comments.push(req.body);
+      show.save()
+      res.redirect('/shows/' + show._id);
+  })
+})
 
-// DELETE; remove that show entirely
+
+// DESTROY; remove that show entirely
 app.delete('/shows/:id', function (req, res) {
   Show.findByIdAndRemove(req.params.id, function(err) {
     res.redirect('/');
   })
 })
-//
+
+// DESTROY; delete comment
+app.delete('/shows/:id/:comment_id', function (req, res) {
+    Show.findById(req.params.id, function(err, show){
+            show.comments.pull({_id: req.params.comment_id})
+            show.save()
+            res.redirect('/shows/' + show._id);
+        })
+    })
+
+// double: either port for heroku or local 3000
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
