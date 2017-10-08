@@ -22,4 +22,6 @@ DONE
 ===== v2 =====
 
 - EXTRA: If I can find a relevant API, use API to pre-populate list of shows
+- New Lines
+- Update Bootstrap; look into Bootswatch
 - CSS shenanigans; make it unique
