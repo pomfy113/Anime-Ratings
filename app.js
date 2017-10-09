@@ -3,6 +3,7 @@ var methodOverride = require('method-override')
 var app = express()
 var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
+var Kitsu = require('kitsu.js');
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,6 +19,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist');
 // ROUTES
 require('./controllers/comments.js')(app);
 require('./controllers/shows.js')(app);
+require('./controllers/anime.js')(app);
 
 // double: either port for heroku or local 3000
 app.listen(process.env.PORT || 3000, function(){

@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var Show = mongoose.model('Show', {
   title: String,
   description: String,
