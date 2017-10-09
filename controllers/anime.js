@@ -5,11 +5,11 @@ var anime = new Kitsu();
 
 module.exports = function(app) {
 
-    app.get('/search/:id', function (req, res) {
-        anime.searchAnime(req.params.id)
+    app.get('/search', function (req, res) {
+        anime.searchAnime(req.query.term)
             .then(results => res.render('anime-search', {results: results}))
             .catch(err => console.error(err));
-            
+
     })
 
 

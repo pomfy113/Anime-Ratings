@@ -1,9 +1,19 @@
 Hello there!<br>
 
-{{#each results}}
-<img src={{this.posterImage.tiny}}>
-{{this.titles.canonical}}
-{{this.averageRating}}
+<div class="d-flex align-self-stretch">
 
-<br>
+{{#each results}}
+<div class="col-sm-6">
+<div class="d-inline-flex p-2">
+<p>
+    <img src={{this.posterImage.tiny}}>
+    {{this.titles.canonical}}
+    {{this.averageRating}}
+    {{this.synopsis}}
+</p>
+</div>
+</div>
+
 {{/each}}
+
+</div>
