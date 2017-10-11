@@ -16,9 +16,12 @@
     "chai-http": "^3.0.0",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
+    "kitsu": "^3.0.1",
     "kitsu.js": "^2.0.0",
+    "mal-scrape": "^1.1.0",
     "method-override": "^2.3.9",
     "mocha": "^4.0.0",
-    "mongoose": "^4.11.12"
+    "mongoose": "^4.11.12",
+    "popura": "^1.2.5"
   }
 }

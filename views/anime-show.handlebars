@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid" src="{{anime.posterImage.small}}" style="float:left;">
+        </div>
+    <div class="col-8">
+          <h2>{{anime.titles.canonical}}</h2>
+          <h4>{{anime.titles.japanese}}<br>
+              [{{anime.titles.english}}]</h4>
+                {{#if anime.titles.abbreviated.length}}
+                    <p>Also known as:<br>
+                        {{#each anime.titles.abbreviated}}
+                        - {{this}}<br>
+                        {{/each}}
+                    </p>
+                {{/if}}
+    </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-4">
+      <br>
+      {{#if anime.averageRating.length}}
+      Average Rating:   {{anime.averageRating}}<br>
+      Rating Rank:      {{anime.ratingRank}} <br>
+      {{else}}
+      No ratings yet!<br>
+      {{/if}}
+      Popularity Rank:  {{anime.popularityRank}} <br>
+  </div>
+
+  <div class="col-8">
+      Synopsis:
+      <p style="margin-left:20px;">{{anime.synopsis}}</p>
+  </div>
+
+  </div>

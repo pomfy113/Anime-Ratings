@@ -6,4 +6,10 @@ var Show = mongoose.model('Show', {
   comments: [{words: String, showrating: Number}]
 });
 
+var AnimeComment = mongoose.model('AnimeComment', {
+  title: String,
+  comment: String,
+  rating: Number
+});
+
 module.exports = Show;

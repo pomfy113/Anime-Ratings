@@ -20,4 +20,11 @@ module.exports = function(app) {
         })
     })
 
+    //CREATE; new comment for an anime
+    app.post('/anime/:id/', function (req, res) {
+      AnimeComment.create(req.body, function(err, show) {
+        res.redirect('/shows/' + req.params.id);
+      })
+    })
+
 }

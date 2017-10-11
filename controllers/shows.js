@@ -26,7 +26,7 @@ module.exports = function(app) {
       Show.findById(req.params.id).exec(function (err, show) {
         res.render('shows-show', {show: show});
       })
-    });
+    })
 
 
     // EDIT; gets the edit form

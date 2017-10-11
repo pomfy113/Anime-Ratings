@@ -1,19 +1,28 @@
-Hello there!<br>
-
-<div class="d-flex align-self-stretch">
+<h1>Search Results</h1>
+<div class="d-flex flex-column">
 
 {{#each results}}
-<div class="col-sm-6">
+<div class="col-sm-12">
 <div class="d-inline-flex p-2">
 <p>
-    <img src={{this.posterImage.tiny}}>
-    {{this.titles.canonical}}
-    {{this.averageRating}}
-    {{this.synopsis}}
+    <div style="float: left;">
+        <a href="/anime/{{this.id}}"><img src={{this.posterImage.tiny}}></a>
+    </div>
+
+    <div style="margin-left: 20px">
+        <h4>{{this.titles.canonical}}</h4>
+        {{#if this.averageRating.length}}
+        Average Rating:   {{this.averageRating}}<br>
+        {{else}}
+        No ratings available yet!
+        {{/if}}
+        <hr>
+        {{this.synopsis}}
+    </div>
 </p>
 </div>
 </div>
-
+<hr>
 {{/each}}
 
 </div>
