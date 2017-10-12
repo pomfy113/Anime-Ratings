@@ -20,20 +20,4 @@ module.exports = function(app) {
         })
     })
 
-    //CREATE; first comment for an anime?
-    app.post('/anime/:id/', function (req, res) {
-      AnimeComment.create(req.body, function(err, acomment) {
-        acomment.kitsuId = req.params.id
-        res.redirect('/shows/' + show._id);
-      })
-    })
-
-    app.post('/anime/:id/', function (req, res) {
-    AnimeComment.find( { kitsuId: req.params.id },  req.body, function(err, acomment) {
-        acomment.comments.push(req.body);
-        acomment.save()
-        res.redirect('/anime/' + acomment.kitsuId);
-    })
-  })
-
 }
