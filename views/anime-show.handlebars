@@ -35,24 +35,44 @@
   </div>
 
   </div>
-
-  <div class="col-sm-6 col-sm-offset-3">
-  <form method="POST" action="/anime/{{anime.id}}/">
-    <label for="comment">New Comment</label><br>
-    <textarea class="form-control" name="comment" rows="10" /></textarea>
-    <select class="form-control" name="rating">
-        <option value=3 selected hidden>Rating Score</option>
-        <option value=1>1 - Bad</option>
-        <option value=2>2 - Meh</option>
-        <option value=3>3 - Okay</option>
-        <option value=4>4 - Pretty good</option>
-        <option value=5>5 - GOAT</option>
-    </select>
-    <input type="hidden" class="form-control" name="kitsuId" value="{{anime.id}}">
-    <p>
-        <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
-    </p>
-  </form>
+  <div class = "row">
+  <div class="col-sm-4"></div>
+      <div class="col-sm-8">
+      <form method="POST" action="/anime/{{anime.id}}/">
+        <label for="comment">New Comment</label><br>
+        <textarea class="form-control" name="comment" rows="10" /></textarea>
+        <select class="form-control" name="rating">
+            <option value=3 selected hidden>Rating Score</option>
+            <option value=1>1 - Bad</option>
+            <option value=2>2 - Meh</option>
+            <option value=3>3 - Okay</option>
+            <option value=4>4 - Pretty good</option>
+            <option value=5>5 - GOAT</option>
+        </select>
+        <input type="hidden" class="form-control" name="kitsuId" value="{{anime.id}}">
+        <p>
+            <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
+        </p>
+      </form>
+      </div>
   </div>
+<div class="row">
+<div class="col-sm-4"></div>
+      <div class="col-sm-8" style="padding-top: 100px;">
+          <!--  Comments stuff with panels-->
+          <h4>Comments</h4>
+          {{#each comment}}
+              <div class="panel panel-default" style="width: 100%;">
+                  <div class="panel-heading">User Rating: {{rating}} out of 5</div>
+                  <div class="panel-body">{{comment}}</div>
+                  <div class="panel-footer">
+                  <form method="POST" action="/anime/{{kitsuId}}/{{_id}}?_method=DELETE">
+                      <button style="float:left;" type="submit" class="btn btn-primary">Delete comment</button><br><br>
+                  </form>
+                  </div>
 
-  <div class="col-sm-8" style="padding-top: 100px;">
+              </div>
+          {{/each}}
+          </div>
+      </div>
+</div>

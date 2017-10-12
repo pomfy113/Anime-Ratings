@@ -20,12 +20,14 @@ module.exports = function(app) {
 
     //
     app.get('/anime/:anime_id', function (req, res) {
-        AnimeComment.findOne({ kitsuId : req.params.anime_id }, function(err, acomment)
-        {
-            console.log("Testing out the search...!", acomment)
-        })
+        var comment;
+        AnimeComment.find({ kitsuId : req.params.anime_id }, function(err, acomment){
+            comment = acomment
+        });
         kitsuanime.getAnime(req.params.anime_id)
-            .then(results => res.render('anime-show', {anime: results}))
+            .then(results =>
+                {res.render('anime-show', {anime: results, comment: comment})
+                console.log("BLA BLA console.log thing", comment, "\n\n")})
             .catch(err => console.error(err));
     })
 
@@ -36,6 +38,11 @@ module.exports = function(app) {
             res.redirect('/anime/' + req.params.id);
       })
   })
+      app.delete('/anime/:id/:comment_id', function (req, res) {
+        AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
+          res.redirect('/anime/' + req.params.id);
+        })
+      })
 
   //   app.post('/anime/:id/', function (req, res) {
   //   AnimeComment.find( { kitsuId: req.params.id },  req.body, function(err, acomment) {
