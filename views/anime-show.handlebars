@@ -1,8 +1,11 @@
 <div class="container">
+<!-- Image and basic information row
+Image on left; title and aliases on right-->
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             <img class="img-fluid" src="{{anime.posterImage.small}}" style="float:left;">
         </div>
+
     <div class="col-8">
           <h2>{{anime.titles.canonical}}</h2>
           <h4>{{anime.titles.japanese}}<br>
@@ -17,10 +20,15 @@
     </div>
 </div>
 <br>
+<!-- Info row
+Rating on left, synopsis on the right-->
 <div class="row">
-  <div class="col-4">
+  <div class="col-3">
       <br>
       {{#if anime.averageRating.length}}
+      <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width: {{anime.averageRating}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
       Average Rating:   {{anime.averageRating}}<br>
       Rating Rank:      {{anime.ratingRank}} <br>
       {{else}}
@@ -34,9 +42,10 @@
       <p style="margin-left:20px;">{{anime.synopsis}}</p>
   </div>
 
+<!-- Making a new comment -->
   </div>
   <div class = "row">
-  <div class="col-sm-4"></div>
+  <div class="col-sm-3"></div>
       <div class="col-sm-8">
       <form method="POST" action="/anime/{{anime.id}}/">
         <label for="comment">New Comment</label><br>
@@ -56,6 +65,8 @@
       </form>
       </div>
   </div>
+
+<!-- Comment section -->
 <div class="row">
 <div class="col-sm-4"></div>
       <div class="col-sm-8" style="padding-top: 100px;">
