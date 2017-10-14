@@ -17,8 +17,6 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist');
 
 // ROUTES
-require('./controllers/comments.js')(app);
-require('./controllers/shows.js')(app);
 require('./controllers/anime.js')(app);
 
 // double: either port for heroku or local 3000

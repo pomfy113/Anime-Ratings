@@ -29,7 +29,11 @@ Rating on left, synopsis on the right-->
       <div class="progress">
           <div class="progress-bar bg-success" role="progressbar" style="width: {{anime.averageRating}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
       </div>
-      Average Rating:   {{anime.averageRating}}<br>
+      Kitsu Rating:   {{anime.averageRating}}/100<br>
+      <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width: {{malscore}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      MAL Rating:     {{anime2.statistics.score.value}}/10<br>
       Rating Rank:      {{anime.ratingRank}} <br>
       {{else}}
       No ratings yet!<br>

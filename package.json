@@ -14,14 +14,18 @@
     "bootstrap": "^4.0.0-beta",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "eslint": "^4.8.0",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
+    "jquery": "^3.2.1",
     "kitsu": "^3.0.1",
     "kitsu.js": "^2.0.0",
     "mal-scrape": "^1.1.0",
+    "malapi": "0.0.3",
     "method-override": "^2.3.9",
     "mocha": "^4.0.0",
     "mongoose": "^4.11.12",
+    "popper.js": "^1.12.5",
     "popura": "^1.2.5"
   }
 }
