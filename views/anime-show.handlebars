@@ -2,11 +2,11 @@
 <!-- Image and basic information row
 Image on left; title and aliases on right-->
     <div class="row">
-        <div class="col-3">
+        <div class="col-sm-3">
             <img class="img-fluid" src="{{anime.posterImage.small}}" style="float:left;">
         </div>
 
-    <div class="col-8">
+    <div class="col-sm-8">
           <h2>{{anime.titles.canonical}}</h2>
           <h4>{{anime.titles.japanese}}<br>
               [{{anime.titles.english}}]</h4>
@@ -23,7 +23,7 @@ Image on left; title and aliases on right-->
 <!-- Info row
 Rating on left, synopsis on the right-->
 <div class="row">
-  <div class="col-3">
+  <div class="col-sm-3">
       <br>
       {{#if anime.averageRating.length}}
       <div class="progress">
@@ -41,7 +41,7 @@ Rating on left, synopsis on the right-->
       Popularity Rank:  {{anime.popularityRank}} <br>
   </div>
 
-  <div class="col-8">
+  <div class="col-sm-8">
       Synopsis:
       <p style="margin-left:20px;">{{anime.synopsis}}</p>
   </div>
@@ -51,22 +51,22 @@ Rating on left, synopsis on the right-->
   <div class = "row">
   <div class="col-sm-3"></div>
       <div class="col-sm-8">
-      <form method="POST" action="/anime/{{anime.id}}/">
-        <label for="comment">New Comment</label><br>
-        <textarea class="form-control" name="comment" rows="10" /></textarea>
-        <select class="form-control" name="rating">
-            <option value=3 selected hidden>Rating Score</option>
-            <option value=1>1 - Bad</option>
-            <option value=2>2 - Meh</option>
-            <option value=3>3 - Okay</option>
-            <option value=4>4 - Pretty good</option>
-            <option value=5>5 - GOAT</option>
-        </select>
-        <input type="hidden" class="form-control" name="kitsuId" value="{{anime.id}}">
-        <p>
-            <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
-        </p>
-      </form>
+          <form method="POST" action="/anime">
+            <label for="comment">New Comment</label><br>
+            <textarea class="form-control" name="comment" rows="10" /></textarea>
+            <select class="form-control" name="rating">
+                <option value=3 selected hidden>Rating Score</option>
+                <option value=1>1 - Bad</option>
+                <option value=2>2 - Meh</option>
+                <option value=3>3 - Okay</option>
+                <option value=4>4 - Pretty good</option>
+                <option value=5>5 - GOAT</option>
+            </select>
+            <input type="hidden" class="form-control" name="kitsuId" value="{{anime.id}}">
+            <p>
+                <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
+            </p>
+        </form>
       </div>
   </div>
 

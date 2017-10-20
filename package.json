@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha"
+    "start": "nodemon app.js",
+    "test": "mocha -t 100000"
+
   },
   "author": "",
   "license": "ISC",
@@ -23,9 +24,10 @@
     "mal-scrape": "^1.1.0",
     "malapi": "0.0.3",
     "method-override": "^2.3.9",
-    "mocha": "^4.0.0",
+    "mocha": "^4.0.1",
     "mongoose": "^4.11.12",
     "popper.js": "^1.12.5",
-    "popura": "^1.2.5"
+    "popura": "^1.2.5",
+    "sinon": "^4.0.1"
   }
 }
