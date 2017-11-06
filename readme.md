@@ -1,3 +1,32 @@
-## Hello there!
-- You can safely ignore anything show related! It all should work with anything listed as "anime"
-- I basically combined the search engine and the Rotten Potatoes creation bit.
+# Our Anime List
+This project was made to consolidate all the information from several anime information sites at once.
+___
+
+## Getting Started
+### Accessing the Site
+The project is up and running at Heroku! If you would like to visit it, [click this link](http://our-anime-list-fc.herokuapp.com/). Because of how Heroku works, please allow some time for the site to get up and running.
+
+### Prerequisites
+Most of the things needed should be in the folder already. If you have any issues, please feel free to contact me
+
+### Running Locally
+To get it running on your local device, all you need to do is:
+1. Go to your terminal
+2. Head to where you put the folder in
+3. Use `node install` to install dependencies  if needed
+4. Run `node app.js` on the terminal
+5. Open `localhost:3000`
+
+And voila! You're good to go
+___
+
+## Built With
+- Node.js
+- Express
+- MongoDB
+- Kitsu and MyAnimeList API
+___
+
+## Author
+* **Ferdinand Cruz** - everything so far!
+___
