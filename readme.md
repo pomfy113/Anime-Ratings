@@ -19,11 +19,12 @@ To get it running on your local device, all you need to do is:
 And voila! You're good to go
 
 ## Built With
-- Node.js
-- Express
-- MongoDB
-- Kitsu and MyAnimeList API
+- Node.js as run-time environment
+- Express as framework
+- Handlebars for templating
+- [MongoDB](https://www.mongodb.com/) as database
+- [Kitsu API](https://www.npmjs.com/package/kitsu)
+- [Popura API](https://www.npmjs.com/package/popura)
 
 ## Author
 * **Ferdinand Cruz** - everything so far!
-___
