@@ -1,6 +1,5 @@
 # Our Anime List
 This project was made to consolidate all the information from several anime information sites at once.
-___
 
 ## Getting Started
 ### Accessing the Site
@@ -18,14 +17,12 @@ To get it running on your local device, all you need to do is:
 5. Open `localhost:3000`
 
 And voila! You're good to go
-___
 
 ## Built With
 - Node.js
 - Express
 - MongoDB
 - Kitsu and MyAnimeList API
-___
 
 ## Author
 * **Ferdinand Cruz** - everything so far!
