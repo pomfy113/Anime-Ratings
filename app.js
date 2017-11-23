@@ -1,9 +1,12 @@
 var express = require('express')
 var methodOverride = require('method-override')
-var app = express()
 var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 var Kitsu = require('kitsu.js');
+
+require('dotenv').config()
+var app = express()
+
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
