@@ -4,7 +4,7 @@ var kitsuanime = new Kitsu();
 var AnimeComment = require('../models/anime.js')
 
 
-// Let's add MAL in there just because
+// Let's add MAL in there just because; not a resource
 var Anime = require('malapi').Anime;
 
 
@@ -24,8 +24,11 @@ module.exports = function(app) {
     // Grab comments, then anime
     app.get('/anime/:anime_id', function (req, res) {
         var comment, MALresults;
-        //Comment
         AnimeComment.find({ kitsuId : req.params.anime_id }, function(err, acomment){
+            if(err){
+                console.log(err, "Could not find anime!")
+                res.status(500).send()
+            }
             comment = acomment
         });
 
@@ -45,13 +48,14 @@ module.exports = function(app) {
 
                         })
                 })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err, "Could not get from Kitsu!"));
     })
 
     //CREATE; comment for an anime
     app.post('/anime', function (req, res) {
         AnimeComment.create(req.body, function(err, acomment) {
             if(err){
+                console.log(err, "Could not post comment!")
                 res.status(500).send()
                 return
             }
@@ -64,6 +68,7 @@ module.exports = function(app) {
       app.delete('/anime/:id/:comment_id', function (req, res) {
         AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
             if(err){
+                console.log(err, "Could not find delete!")
                 res.status(500).send()
                 return
             }

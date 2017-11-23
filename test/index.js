@@ -52,7 +52,7 @@ describe('Resource: Comments', function() {
       })
   })
 
-  it('should be able get comments', function (done) {
+  it('should be able get comments and load everything', function (done) {
       request.get({
           url: 'http://localhost:3000/anime/1',
           method: 'GET',
@@ -79,6 +79,7 @@ describe('Resource: Comments', function() {
               url: 'http://localhost:3000/anime/1/' + comment._id,
               method: 'DELETE'
           }, function (err, res, body){
+
               expect(res.statusCode).to.equal(302)
               done();
           })
@@ -86,3 +87,14 @@ describe('Resource: Comments', function() {
   })
 
 })
+
+// describe('Resource: API', function() {
+//     it('should be able grab information', function (done) {
+//         request.get({
+//             url: 'http://localhost:3000/anime/1',
+//             method: 'GET',
+//         }, function (err, res, body){
+//             done();
+//         })
+//     })
+// })
