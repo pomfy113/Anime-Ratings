@@ -46,26 +46,24 @@ module.exports = function(app) {
         // Grabbing stats from kitsu, THEN MAL.
         kitsuanime.getAnime(req.params.anime_id)
         .then(results => {
-            console.log(results.titles.english)
             let title = results.titles.english
             let malData = Anime.fromName(title)
-            let alistData = nani.get('anime/search/'+title)
+
+            let alistData =
+                nani.get('anime/search/'+title).then((result) => {
+                    return result[0]
+                })
 
             // let malscore = malData.statistics.score.value * 10
 
             Promise.all([results, malData, alistData])
             .then(([results, malData, alistData]) => {
-
-                console.log(alistData);
-
                 let malscore = malData.statistics.score.value * 10
-
                 res.render('anime-show', {
                     anime: results,
                     comment: comment,
                     anime2: malData,
                     anime3: alistData,
-
                     malscore: malscore
                 })
             })
