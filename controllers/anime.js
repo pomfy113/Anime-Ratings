@@ -16,7 +16,16 @@ var Anime = require('malapi').Anime;
 module.exports = function(app) {
 
     app.get('/', function (req, res) {
-        res.render('anime-search', {})
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
+        .then((anime) => {
+            res.render('home', {anime});
+        })
+    })
+
+    app.get('/genres', function (req, res) {
+        nani.get('genre_list').then((anime) => {
+            res.send(anime)
+        })
     })
 
     app.get('/test', function (req, res) {
@@ -47,18 +56,33 @@ module.exports = function(app) {
         kitsuanime.getAnime(req.params.anime_id)
         .then(results => {
             let title = results.titles.english
-            let malData = Anime.fromName(title)
 
+            // MyAnimeList data
+            let malData =
+            Anime.fromName(title)
+                .catch((err) =>{
+                    console.log("Cannot get MAL data")
+                    return null
+                })
+            // Anilist data
             let alistData =
                 nani.get('anime/search/'+title).then((result) => {
                     return result[0]
+                }).catch((err) => {
+                    console.log("Cannot get AniList data")
+                    return null
                 })
-
-            // let malscore = malData.statistics.score.value * 10
 
             Promise.all([results, malData, alistData])
             .then(([results, malData, alistData]) => {
-                let malscore = malData.statistics.score.value * 10
+            let testing = new Promise((resolve, reject) => {
+                if(malData){
+                    resolve(malData.statistics.score.value * 10)
+                }
+                else{
+                    resolve(null)
+                }
+            }).then((malscore) => {
                 res.render('anime-show', {
                     anime: results,
                     comment: comment,
@@ -66,6 +90,8 @@ module.exports = function(app) {
                     anime3: alistData,
                     malscore: malscore
                 })
+            })
+
             })
 
         }).catch(err => {
