@@ -2,7 +2,7 @@
 <style>
 #anime_title{
     position: absolute;
-    bottom: -20px;
+    bottom: 50px;
     left: 0;
     width: 100%;
     padding-left: 25px;
@@ -14,21 +14,42 @@
     background: rgba(0, 0, 0, 0.7);
     line-height: 10px;
     padding: 5px;
+}
 
+#anime_tags{
+    position: relative;
+    font-size: 8px;
+    text-align: left;
+    padding: 2px;
+    margin: 0px;
+}
+
+#card_contents{
+    margin: -20px -20px;
+    line-height: 10px;
+    justify-content:flex-start;
+}
+
+.card-title{
+    margin-top: 5px;
+    margin-bottom: -2px;
+    font-size: 12px;
 }
 </style>
 <h1>Currently Airing:<h1>
 
-<div class="d-flex flex-column">
 <div class="row">
 {{#each anime}}
 <div class="col-sm-2">
     <div class="card">
         <img class="card-img-top" src="{{this.image_url_lge}}" alt="Anime poster">
         <h5 id="anime_title" class="text-justify"><p>{{this.title_english}}</p></h5>
-
-        <!-- <div class="card-body">
-        </div> -->
+        <h4 class="card-title">Tags:</h4>
+        <div class="card-body" id="card_contents">
+            {{#each this.tags}}
+            <button class="btn btn-outline-primary" id="anime_tags">{{this.name}}</button>
+            {{/each}}
+        </div>
     </div>
 </div>
 {{/each}}
