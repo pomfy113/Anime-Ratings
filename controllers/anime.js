@@ -123,4 +123,11 @@ module.exports = function(app) {
         })
       })
 
+      // Show for homepage
+      app.get('/:id', (req, res) => {
+          nani.get("anime/"+req.params.id).then((anime) => {
+              res.render("home-show", anime)
+          })
+      })
+
 }

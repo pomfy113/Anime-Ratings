@@ -27,7 +27,16 @@ DONE
 - New Lines
 DONE
 - Update Bootstrap; look into Bootswatch
-
-* * WORKING ON IT * *
+DONE
 - CSS shenanigans; make it unique
-* * * * * * * * * * *
+
+
+===================================
+        WEB-2 - IMPROVEMENTS
+===================================
+Routes required:
+    - Homepage modal
+    - Log-in
+    - Sign-up
+
+Resources
