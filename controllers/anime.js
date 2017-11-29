@@ -67,7 +67,7 @@ module.exports = function(app) {
         console.log("QUERY", query, "\n\n")
 
         // Get Anilist data
-        nani.get(query).then((results) => {
+        let finaldata = nani.get(query).then((results) => {
             let title = results.title_english
 
             // Promise - grab KitsuAnime data
@@ -87,27 +87,27 @@ module.exports = function(app) {
                 })
 
             // With all our Promises combined, we are Captain Render
-            Promise.all([results, kitsuData, malData])
+            return Promise.all([kitsuData, malData, results])
             .then((results) =>{
                 // res.send(results)
                 // Something funky is going on here
                 // The query sends "QUERY anime/style.css" for some reason
-                res.render("home")
-                console.log("???")
+                res.render("anime-show", {
+                    anime: results[0], // Anilist
+                    anime2: results[1], // MAL
+                    anime3: results[2] // Anilist
+                })
+                // console.log("???")
+
+                return results
+            }).catch((err) => {
+                console.log(err)
+                console.log("SOMETHING HAPPENED HERE!")
             })
         }).catch((err) => {
-            console.log("SOMETHING HAPPENED HERE!")
+            console.log("Cannot get junk from Anilist!")
+            console.log(err)
         })
-
-        // Promise.all([anilistData, kitsuData, malData])
-        // .then(([anilistData, kitsuData, malData]) => {
-        //     console.log(data)
-            // return res.render('anime-get', {
-            //     anime: kitsuData,
-            //     anime2: malData,
-            //     anime3: anilistData
-            // })
-        // })
 
     })
 
