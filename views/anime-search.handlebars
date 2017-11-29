@@ -5,19 +5,18 @@
 <div class="row">
 <div class="col-sm-3 justify-content-sm-center">
         <a href="/anime/{{this.id}}">
-            <img src={{this.posterImage.small}} class="img-fluid" style="margin: 0 auto; display: block;">
+            <img src={{this.image_url_lge}} class="img-fluid" style="margin: 0 auto; display: block;">
         </a>
 </div>
     <div class="col-sm-9">
 <p>
 
     <div style="margin-left: 20px">
-        <h4>{{this.titles.canonical}}</h4>
-        {{#if this.averageRating.length}}
-        Average Rating:   {{this.averageRating}}<br>
-        {{else}}
-        No ratings available yet!
-        {{/if}}
+        <h4>{{this.title_english}}</h4>
+        <h5>{{this.title_romaji}}</h5>
+        <h5>{{this.title_japanese}}</h5>
+        <p>{{this.description}}</p>
+
         <hr>
         {{this.synopsis}}
     </div>

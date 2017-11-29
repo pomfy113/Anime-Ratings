@@ -36,67 +36,79 @@ module.exports = function(app) {
 
     // Search function
     app.get('/search', function (req, res) {
-        kitsuanime.searchAnime(req.query.term)
-            .then(results => res.render('anime-search', {results: results}))
-            .catch(err => console.error(err));
+        // kitsuanime.searchAnime(req.query.term)
+        //     .then(results => res.render('anime-search', {results: results}))
+        //     .catch(err => console.error(err));
+
+        nani.get('anime/search/' + req.query.term).then((results) => {
+
+            results.filter(function(result){
+                result.description = result.description.replace(/\<br\>/g,"");
+            })
+
+            res.render('anime-search', {results})
+        }).catch((err) => {
+            console.log(err)
+        })
     })
 
     // Grab comments, then anime
-    app.get('/anime/:anime_id', function (req, res) {
-        var comment, MALresults;
-        AnimeComment.find({ kitsuId : req.params.anime_id }, function(err, acomment){
-            if(err){
-                console.log(err, "Could not find anime!")
-                res.status(500).send()
-            }
-            comment = acomment
-        });
+    app.get('/anime/:anime_id', (req, res) => {
+        // var comment, MALresults;
+        // let comment = AnimeComment.find({ kitsuId : req.params.anime_id }, function(err, acomment){
+        //     if(err){
+        //         console.log(err, "Could not find anime!")
+        //         res.status(500).send()
+        //     }
+        //     comment = acomment
+        // });
 
-        // Grabbing stats from kitsu, THEN MAL.
-        kitsuanime.getAnime(req.params.anime_id)
-        .then(results => {
-            let title = results.titles.english
+        var query = ('anime/' + req.params.anime_id)
+        console.log("QUERY", query, "\n\n")
 
-            // MyAnimeList data
-            let malData =
-            Anime.fromName(title)
-                .catch((err) =>{
-                    console.log("Cannot get MAL data")
-                    return null
-                })
-            // Anilist data
-            let alistData =
-                nani.get('anime/search/'+title).then((result) => {
-                    return result[0]
-                }).catch((err) => {
-                    console.log("Cannot get AniList data")
-                    return null
+        // Get Anilist data
+        nani.get(query).then((results) => {
+            let title = results.title_english
+
+            // Promise - grab KitsuAnime data
+            kitsuData =
+                kitsuanime.searchAnime(title).then((results) => {
+                    return new Promise((resolve, reject) => {
+                        resolve(results[0])
+                    })
                 })
 
-            Promise.all([results, malData, alistData])
-            .then(([results, malData, alistData]) => {
-            let testing = new Promise((resolve, reject) => {
-                if(malData){
-                    resolve(malData.statistics.score.value * 10)
-                }
-                else{
-                    resolve(null)
-                }
-            }).then((malscore) => {
-                res.render('anime-show', {
-                    anime: results,
-                    comment: comment,
-                    anime2: malData,
-                    anime3: alistData,
-                    malscore: malscore
+            // Promise - grab MAL data
+            malData =
+                Anime.fromName(title).then((results) => {
+                    return new Promise((resolve, reject) => {
+                        resolve(results)
+                    })
                 })
+
+            // With all our Promises combined, we are Captain Render
+            Promise.all([results, kitsuData, malData])
+            .then((results) =>{
+                // res.send(results)
+                // Something funky is going on here
+                // The query sends "QUERY anime/style.css" for some reason
+                res.render("home")
+                console.log("???")
             })
+        }).catch((err) => {
+            console.log("SOMETHING HAPPENED HERE!")
+        })
 
-            })
+        // Promise.all([anilistData, kitsuData, malData])
+        // .then(([anilistData, kitsuData, malData]) => {
+        //     console.log(data)
+            // return res.render('anime-get', {
+            //     anime: kitsuData,
+            //     anime2: malData,
+            //     anime3: anilistData
+            // })
+        // })
 
-        }).catch(err => {
-            console.error(err, "Could not get from Kitsu!")
-        });
     })
 
     //CREATE; comment for an anime
@@ -108,26 +120,26 @@ module.exports = function(app) {
                 return
             }
             res.redirect('/anime/' + req.body.kitsuId);
-      })
-  })
+        })
+    })
 
     //DELETE; comment for anime
-      app.delete('/anime/:id/:comment_id', function (req, res) {
+    app.delete('/anime/:id/:comment_id', function (req, res) {
         AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
             if(err){
                 console.log(err, "Could not find delete!")
                 res.status(500).send()
                 return
             }
-          res.redirect('/anime/' + req.params.id);
+            res.redirect('/anime/' + req.params.id);
         })
-      })
+    })
 
-      // Show for homepage
-      app.get('/:id', (req, res) => {
-          nani.get("anime/"+req.params.id).then((anime) => {
-              res.render("home-show", anime)
-          })
-      })
+    // Show for homepage
+    app.get('/:id', (req, res) => {
+        nani.get("anime/"+req.params.id).then((anime) => {
+            res.render("home-show", anime)
+        })
+    })
 
 }
