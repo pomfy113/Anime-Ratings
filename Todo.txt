@@ -36,8 +36,8 @@ DONE
 ===================================
 Routes required:
 * * Anime related * *
-GET   - /                   -   Home page; has current season shows
-GET   - /modal/:id          -   Grabbed by AJAX; shows mini-description on modal
+[*] GET   - /                   -   Home page; has current season shows
+[ ] GET   - /modal/:id          -   Grabbed by AJAX; shows mini-description on modal
 GET   - /search             -   Grabs terms submitted from search bar, then uses search API
 GET   - /anime/:id          -   Grab full page of a certain anime
 * * Auth related * *

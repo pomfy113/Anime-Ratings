@@ -2,6 +2,7 @@
 var Kitsu = require('kitsu.js');
 var kitsuanime = new Kitsu();
 var AnimeComment = require('../models/anime.js')
+const User = require('../models/user.js')
 // const AniListAPI = require('anilist-api-pt');
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
@@ -10,7 +11,7 @@ const nani = require('nani').init(client_id, client_secret);
 
 
 // Let's add MAL in there just because; not a resource
-var Anime = require('malapi').Anime;
+const Anime = require('malapi').Anime;
 
 
 module.exports = function(app) {
@@ -41,7 +42,6 @@ module.exports = function(app) {
         //     .catch(err => console.error(err));
 
         nani.get('anime/search/' + req.query.term).then((results) => {
-
             results.filter(function(result){
                 result.description = result.description.replace(/\<br\>/g,"");
             })
@@ -54,20 +54,23 @@ module.exports = function(app) {
 
     // Grab comments, then anime
     app.get('/anime/:anime_id', (req, res) => {
-        nani.get(query).then((ALISTdata) => {
+
+        nani.get("anime/" + req.params.anime_id).then((ALISTdata) => {
             // Title for grabbing info
             const title = ALISTdata.title_english
             // Grab data from other sites
             const KITSUdata = kitsuanime.searchAnime(title)
             const MALdata = Anime.fromName(title)
-            const comments = AnimeComment.find({ animeId : req.params.anime_id })
+            const comments = AnimeComment.find({ animeId : req.params.anime_id }).then(comments => comments)
             return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
         }).then((data) => {
+            console.log(data[3])
+
             res.render("anime-show", {
                 anime: data[0][0],  // Kitsuanime data
                 anime2: data[1],    // MAL
                 anime3: data[2],    // Anilist
-                comments: data[3]   // Comments
+                comment: data[3]   // Comments
             })
         }).catch((err) => {
             console.log("Something happened!")
@@ -77,14 +80,22 @@ module.exports = function(app) {
 
     //CREATE; comment for an anime
     app.post('/anime', function (req, res) {
-        if(!user){
+        if(!req.user){
             res.status(400).send()
         }
-        AnimeComment.create(req.body, () => {
-            res.redirect('/anime/' + req.body.animeId);
+
+        let comment = new AnimeComment(req.body)
+
+        User.findById(req.user._id).then((user) => {
+            comment.author = user
+            console.log(comment)
+            return comment.save()
+        }).then(() => {
+            // After finishing, redirect
+            res.redirect('/anime/'+ comment.animeId)
         }).catch((err) => {
-            console.log(err, "Could not post comment!")
-            res.status(500).send()
+            console.log(err.message, "Could not save post!")
+            res.send(err.message)
         })
     })
 
