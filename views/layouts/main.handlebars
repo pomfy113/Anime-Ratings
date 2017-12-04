@@ -6,11 +6,9 @@
   <title>OurAnimeList</title>
 
   <!-- Latest compiled and minified CSS -->
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="../../public/style.css"/>
+  <link rel="stylesheet" href="../../style.css"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -21,20 +19,33 @@
           <!-- I'll handle this later -->
 
           <!-- Search bar -->
+          <ul class="navbar-nav mr-auto">
+              <li>
+                  <a class="nav-link" href="/register">Register</a>
+              </li>
+              <li>
+                  <a class="nav-link" href="/login">Login</a>
+              </li>
+          </ul>
+
           <form method="GET" action="/search"class="form-inline">
                 <div class="pull-right">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" name="term" value="{{term}}">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </div>
           </form>
+
         </div>
     </nav>
 
-<div class="container" style="padding-top: 70px;">
+    <div class="container" style="padding-top: 120px;">
+      {{{body}}}
+    </div>
 
-  {{{body}}}
-</div>
   <!-- Latest compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+  <script src="/js/auth.js"></script>
+
 </body>
 </html>

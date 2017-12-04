@@ -54,72 +54,37 @@ module.exports = function(app) {
 
     // Grab comments, then anime
     app.get('/anime/:anime_id', (req, res) => {
-        // var comment, MALresults;
-        // let comment = AnimeComment.find({ kitsuId : req.params.anime_id }, function(err, acomment){
-        //     if(err){
-        //         console.log(err, "Could not find anime!")
-        //         res.status(500).send()
-        //     }
-        //     comment = acomment
-        // });
-
-        var query = ('anime/' + req.params.anime_id)
-        console.log("QUERY", query, "\n\n")
-
-        // Get Anilist data
-        let finaldata = nani.get(query).then((results) => {
-            let title = results.title_english
-
-            // Promise - grab KitsuAnime data
-            kitsuData =
-                kitsuanime.searchAnime(title).then((results) => {
-                    return new Promise((resolve, reject) => {
-                        resolve(results[0])
-                    })
-                })
-
-            // Promise - grab MAL data
-            malData =
-                Anime.fromName(title).then((results) => {
-                    return new Promise((resolve, reject) => {
-                        resolve(results)
-                    })
-                })
-
-            // With all our Promises combined, we are Captain Render
-            return Promise.all([kitsuData, malData, results])
-            .then((results) =>{
-                // res.send(results)
-                // Something funky is going on here
-                // The query sends "QUERY anime/style.css" for some reason
-                res.render("anime-show", {
-                    anime: results[0], // Anilist
-                    anime2: results[1], // MAL
-                    anime3: results[2] // Anilist
-                })
-                // console.log("???")
-
-                return results
-            }).catch((err) => {
-                console.log(err)
-                console.log("SOMETHING HAPPENED HERE!")
+        nani.get(query).then((ALISTdata) => {
+            // Title for grabbing info
+            const title = ALISTdata.title_english
+            // Grab data from other sites
+            const KITSUdata = kitsuanime.searchAnime(title)
+            const MALdata = Anime.fromName(title)
+            const comments = AnimeComment.find({ animeId : req.params.anime_id })
+            return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
+        }).then((data) => {
+            res.render("anime-show", {
+                anime: data[0][0],  // Kitsuanime data
+                anime2: data[1],    // MAL
+                anime3: data[2],    // Anilist
+                comments: data[3]   // Comments
             })
         }).catch((err) => {
-            console.log("Cannot get junk from Anilist!")
-            console.log(err)
+            console.log("Something happened!")
         })
 
     })
 
     //CREATE; comment for an anime
     app.post('/anime', function (req, res) {
-        AnimeComment.create(req.body, function(err, acomment) {
-            if(err){
-                console.log(err, "Could not post comment!")
-                res.status(500).send()
-                return
-            }
-            res.redirect('/anime/' + req.body.kitsuId);
+        if(!user){
+            res.status(400).send()
+        }
+        AnimeComment.create(req.body, () => {
+            res.redirect('/anime/' + req.body.animeId);
+        }).catch((err) => {
+            console.log(err, "Could not post comment!")
+            res.status(500).send()
         })
     })
 
@@ -136,9 +101,14 @@ module.exports = function(app) {
     })
 
     // Show for homepage
-    app.get('/:id', (req, res) => {
-        nani.get("anime/"+req.params.id).then((anime) => {
-            res.render("home-show", anime)
+    app.get('/modal/:id', (req, res) => {
+        nani.get("anime/"+req.params.id).then((results) => {
+            // console.log(results.description)
+            // results.description = results.description.replace(/\<br\>/g,"\n");
+            // console.log(results.description)
+            res.render("./partials/anime-summary", {anime: results, layout: false})
+        }).catch((err)=>{
+            console.log(err)
         })
     })
 

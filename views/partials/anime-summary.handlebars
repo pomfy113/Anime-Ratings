@@ -1,0 +1,46 @@
+<head>
+  <meta charset="utf-8">
+  <title>OurAnimeList</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../../../style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<div class="container" style="padding-top: 10px;">
+    <div class="row justify-content-center">
+        <div class="col-sm-3">
+            <div class="row">
+                <h2>{{anime.title_english}}</h2>
+                <p>{{anime.title_romaji}} - {{anime.title_japanese}}</p>
+            </div>
+            <div class="row justify-content-center">
+                <img src={{anime.image_url_lge}}>
+            </div>
+
+        </div>
+        <div class="col-sm-9">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Genres:<br>
+                    {{#each anime.genres}}
+                        <button type="button" class="btn btn-primary btn-sm">{{this}}</button>
+                    {{/each}}
+                </li>
+                <li class="list-group-item">
+                    {{#each anime.tags}}
+                        {{this}}
+                    {{/each}}
+                </li>
+            </ul>
+            Summary:
+            <p style="white-space: pre-wrap; font-size: 12px;">{{anime.description}}</p>
+
+
+
+
+
+
+
+
+</div>

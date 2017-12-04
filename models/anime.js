@@ -1,12 +1,12 @@
-var Kitsu = require('kitsu.js');
-var anime = new Kitsu();
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-
-var AnimeComment = mongoose.model('AnimeComment', {
+const CommentSchema = new Schema({
     comment: String,
     rating: Number,
-    kitsuId: Number
+    animeId: Number,
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
-module.exports = AnimeComment;
+// module.exports = AnimeComment;
+module.exports = mongoose.model('AnimeComment', CommentSchema);

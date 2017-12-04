@@ -35,8 +35,25 @@ DONE
         WEB-2 - IMPROVEMENTS
 ===================================
 Routes required:
-    - Homepage modal
-    - Log-in
-    - Sign-up
+* * Anime related * *
+GET   - /                   -   Home page; has current season shows
+GET   - /modal/:id          -   Grabbed by AJAX; shows mini-description on modal
+GET   - /search             -   Grabs terms submitted from search bar, then uses search API
+GET   - /anime/:id          -   Grab full page of a certain anime
+* * Auth related * *
+GET   - /login              -   Grabs login page
+GET   - /register           -   Grabs register page
+POST  - /register           -   Create new USER.
+* * User related * *
+GET   - /user               -   View user (more content pending)
+GET   - /user/favorites     -   Get list of user favorites
+PATCH - /anime/:id/favorite -   Add current anime to logged in user's favorites
+GET   - /user/comments      -   See all of user's comments
+POST  - /anime/:id/comment/ -   Create comment on anime
 
 Resources
+- USER:
+    contains:
+    - FAVORITES: list of favorite anime
+    creates:
+    - COMMENTS: comments on anime
