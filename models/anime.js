@@ -8,5 +8,14 @@ const CommentSchema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
+const autoPopulateAuthor = function(next) {
+  this.populate('author');
+  next();
+};
+
+CommentSchema.
+  pre('find', autoPopulateAuthor).
+  pre('findOne', autoPopulateAuthor);
+
 // module.exports = AnimeComment;
 module.exports = mongoose.model('AnimeComment', CommentSchema);

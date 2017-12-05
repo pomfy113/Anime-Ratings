@@ -1,14 +1,15 @@
 // Kitsu is the API
-var Kitsu = require('kitsu.js');
-var kitsuanime = new Kitsu();
-var AnimeComment = require('../models/anime.js')
+const Kitsu = require('kitsu.js');
+const kitsuanime = new Kitsu();
+const AnimeComment = require('../models/anime.js')
 const User = require('../models/user.js')
 // const AniListAPI = require('anilist-api-pt');
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 // const anilistApi = new AniListAPI({client_id, client_secret});
 const nani = require('nani').init(client_id, client_secret);
-
+// Utilities
+const utils = require('./utils')
 
 // Let's add MAL in there just because; not a resource
 const Anime = require('malapi').Anime;
@@ -16,14 +17,16 @@ const Anime = require('malapi').Anime;
 
 module.exports = function(app) {
 
-    app.get('/', function (req, res) {
+    app.get('/', (req, res) => {
+        let bodytype = utils.checklog("home", req.user)
+
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
         .then((anime) => {
-            res.render('home', {anime});
+            res.render('home', {anime, bodytype});
         })
     })
 
-    app.get('/genres', function (req, res) {
+    app.get('/genres', (req, res) => {
         nani.get('genre_list').then((anime) => {
             res.send(anime)
         })
@@ -37,16 +40,14 @@ module.exports = function(app) {
 
     // Search function
     app.get('/search', function (req, res) {
-        // kitsuanime.searchAnime(req.query.term)
-        //     .then(results => res.render('anime-search', {results: results}))
-        //     .catch(err => console.error(err));
+        let bodytype = utils.checklog("search", req.user)
 
         nani.get('anime/search/' + req.query.term).then((results) => {
             results.filter(function(result){
                 result.description = result.description.replace(/\<br\>/g,"");
             })
 
-            res.render('anime-search', {results})
+            res.render('anime-search', {results, bodytype})
         }).catch((err) => {
             console.log(err)
         })
@@ -65,21 +66,24 @@ module.exports = function(app) {
             return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
         }).then((data) => {
             console.log(data[3])
+            let bodytype = utils.checklog("show", req.user)
 
             res.render("anime-show", {
                 anime: data[0][0],  // Kitsuanime data
                 anime2: data[1],    // MAL
                 anime3: data[2],    // Anilist
-                comment: data[3]   // Comments
+                comment: data[3],   // Comments
+                bodytype
             })
         }).catch((err) => {
             console.log("Something happened!")
+            console.log(err)
         })
 
     })
 
     //CREATE; comment for an anime
-    app.post('/anime', function (req, res) {
+    app.post('/anime/:id/comments', function (req, res) {
         if(!req.user){
             res.status(400).send()
         }
@@ -114,9 +118,6 @@ module.exports = function(app) {
     // Show for homepage
     app.get('/modal/:id', (req, res) => {
         nani.get("anime/"+req.params.id).then((results) => {
-            // console.log(results.description)
-            // results.description = results.description.replace(/\<br\>/g,"\n");
-            // console.log(results.description)
             res.render("./partials/anime-summary", {anime: results, layout: false})
         }).catch((err)=>{
             console.log(err)

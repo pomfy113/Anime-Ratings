@@ -44,12 +44,15 @@ let checkAuth = (req, res, next) => {
   }
   next()
 }
+
+//
+
 // // Run checkAuth
 app.use(checkAuth)
 
-
 // ROUTES
 require('./controllers/anime.js')(app);
+// function(
 require('./controllers/auth.js')(app);
 
 
