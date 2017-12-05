@@ -9,15 +9,21 @@
 </div>
 
 <h1>Currently Airing:<h1>
-<div class="d-flex flex-row flex-wrap no-gutters justify-content-start">
+<div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
 {{#each anime}}
     <div class="flex-col mb-2 mr-2">
-        <div class="card" data-id="{{this.id}}"
-        style="background-image: url({{this.image_url_lge}})">
-            <div id="anime_title"><h5 class="text-justify">{{this.title_english}}</h5>
-            <!-- <h5>{{this.average_score}}%</h5> -->
-            </div>
+        <div class="card" data-id="{{this.id}}">
+        <!-- <div class="card-body" style="background-image: url({{this.image_url_lge}})"></div> -->
+        <img class="card-img-top" src="{{this.image_url_lge}}" alt="Card image cap">
 
+            <!-- <div class="card_contents">
+                <p id="title" class="text-justify-center">{{this.title_english}}</p>
+                <p id="score">{{this.average_score}}%</p>
+            </div> -->
+            <div class="card-footer">
+                <p id="title" class="text-capitalize"><em>{{this.title_english}}</em></p>
+                <p id="score">AL Rating: <br>{{this.average_score}}%</p>
+            </div>
         </div>
     </div>
 {{/each}}
@@ -32,7 +38,8 @@ $('body').on('click', '.card', function(e) {
       url: "/modal"+url,
       type: 'GET'
     }).done((data) => {
-        $('.mymodal').css({"display":"block"})
+        // $('.mymodal').css({"display":"block"})
+        $('.mymodal').fadeIn(400)
         $('.modalcontent').html(data)
     }).fail(() => {
         console.log("Failed")
@@ -40,6 +47,8 @@ $('body').on('click', '.card', function(e) {
 })
 
 $('body').on('click', '.mymodal', function(e) {
-    $('.mymodal').css({"display":"none"})
+    // $('.mymodal').css({"display":"none"})
+    $('.mymodal').fadeOut(400)
+
 })
 </script>

@@ -5,9 +5,9 @@
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="../../../style.css"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<div class="container" style="padding-top: 10px;">
+<div class="container-fluid" id="modal-container">
     <div class="row justify-content-center">
         <div class="col-sm-3">
             <div class="row">
@@ -15,7 +15,7 @@
                 <p>{{anime.title_romaji}} - {{anime.title_japanese}}</p>
             </div>
             <div class="row justify-content-center">
-                <img src={{anime.image_url_lge}}>
+                <img class="img-fluid" src={{anime.image_url_lge}}>
             </div>
             <div class="row">
                 <a href="/anime/{{anime.id}}">Details</a>
@@ -23,6 +23,8 @@
 
         </div>
         <div class="col-sm-9">
+            Summary:
+            <p class="modal-text">{{{anime.description}}}</p>
             <ul class="list-group">
                 <li class="list-group-item">
                     Genres:<br>
@@ -30,14 +32,10 @@
                         <button type="button" class="btn btn-primary btn-sm">{{this}}</button>
                     {{/each}}
                 </li>
-                <li class="list-group-item">
-                    {{#each anime.tags}}
-                        {{this}}
-                    {{/each}}
-                </li>
+                <!-- <li class="list-group-item">
+
+                </li> -->
             </ul>
-            Summary:
-            <p class="modal-text">{{{anime.description}}}</p>
 
 
 

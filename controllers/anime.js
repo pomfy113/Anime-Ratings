@@ -20,7 +20,7 @@ module.exports = function(app) {
     app.get('/', (req, res) => {
         let bodytype = utils.checklog("home", req.user)
 
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
         .then((anime) => {
             res.render('home', {anime, bodytype});
         })
@@ -118,6 +118,7 @@ module.exports = function(app) {
     // Show for homepage
     app.get('/modal/:id', (req, res) => {
         nani.get("anime/"+req.params.id).then((results) => {
+            console.log(results)
             res.render("./partials/anime-summary", {anime: results, layout: false})
         }).catch((err)=>{
             console.log(err)
