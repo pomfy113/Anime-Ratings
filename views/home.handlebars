@@ -1,33 +1,33 @@
-
-<style>
-
-
-
-</style>
 <div class="mymodal">
     <div class="modalcontent"></div>
 </div>
-
-<h1>Currently Airing:<h1>
-<div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
-{{#each anime}}
-    <div class="flex-col mb-2 mr-2">
-        <div class="card" data-id="{{this.id}}">
-        <!-- <div class="card-body" style="background-image: url({{this.image_url_lge}})"></div> -->
-        <img class="card-img-top" src="{{this.image_url_lge}}" alt="Card image cap">
-
-            <!-- <div class="card_contents">
-                <p id="title" class="text-justify-center">{{this.title_english}}</p>
-                <p id="score">{{this.average_score}}%</p>
-            </div> -->
-            <div class="card-footer">
-                <p id="title" class="text-capitalize"><em>{{this.title_english}}</em></p>
-                <p id="score">AL Rating: <br>{{this.average_score}}%</p>
-            </div>
+    <div class="current">
+        <h1>Airing - Anime</h1>
+        <h3>Sorted by Score</h3>
+    </div>
+    <div class="col-sm-2">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-secondary" id="sort-score">Score</button>
+          <button type="button" class="btn btn-secondary" id="sort-pop">Popularity</button>
         </div>
     </div>
-{{/each}}
-</div>
+    <span class="loading"><img src="../../images/tamamo.png"><br>LOADING</span>
+
+    <div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
+            {{#each anime}}
+            <div class="flex-col mb-2 mr-2">
+                <div class="card" data-id="{{this.id}}">
+                        <img class="card-img-top" src="{{this.image_url_lge}}" alt="Card image cap">
+                        <div class="card-overlay"></div>
+                        </img>
+                    <div class="card-footer">
+                        <p id="title" class="text-capitalize"><em>{{this.title_english}}</em></p>
+                        <p id="score">AL Rating: <br>{{this.average_score}}%</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
@@ -35,8 +35,8 @@ $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
     console.log("Going to /modal" + url)
     $.ajax({
-      url: "/modal"+url,
-      type: 'GET'
+        url: "/modal"+url,
+        type: 'GET'
     }).done((data) => {
         // $('.mymodal').css({"display":"block"})
         $('.mymodal').fadeIn(400)
@@ -49,6 +49,36 @@ $('body').on('click', '.card', function(e) {
 $('body').on('click', '.mymodal', function(e) {
     // $('.mymodal').css({"display":"none"})
     $('.mymodal').fadeOut(400)
-
 })
+
+$('body').on('click', '#sort-score', function(e) {
+    $('.loading').show()
+    $.ajax({
+        url: "/home-sort/score",
+        type: 'GET'
+    }).done((data) => {
+        $('.loading').hide()
+        $('#home-container').html(data)
+        $('.current').children("h3").html("Sorted by Score")
+    }).fail(() => {
+        console.log("Failed")
+    });
+})
+
+$('body').on('click', '#sort-pop', function(e) {
+    $('.loading').show()
+    $.ajax({
+        url: "/home-sort/popularity",
+        type: 'GET'
+    }).done((data) => {
+        $('.loading').hide()
+        $('#home-container').html(data)
+        console.log("Grabbing pop")
+        $('.current').children("h3").html("Sorted by Popularity")
+
+    }).fail(() => {
+        console.log("Failed")
+    });
+})
+
 </script>

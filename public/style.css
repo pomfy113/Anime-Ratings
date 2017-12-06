@@ -110,6 +110,8 @@ body.logged .logged-out{
     width: 150px;
     border: 1px;
 }
+
+
 .card-img-top{
     height: 245px;
     width: 150px;
@@ -117,6 +119,36 @@ body.logged .logged-out{
     background-position: center;
     z-index: auto;
 }
+
+.card:hover > .card-overlay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.loading {
+    display: none;
+    position: absolute;
+    left: 80%;
+    top: 10%;
+    font-size: 20px;
+    font-weight: 900;
+}
+.loading > img{
+    height: 100px;
+    width: 100px;
+    transform: translate(50%);
+    z-index: 1;
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
 .card-footer{
     height: 50px;
     width: 150px;

@@ -65,7 +65,7 @@ module.exports = function(app) {
             const comments = AnimeComment.find({ animeId : req.params.anime_id }).then(comments => comments)
             return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
         }).then((data) => {
-            console.log(data[3])
+            res.send(data)
             let bodytype = utils.checklog("show", req.user)
 
             res.render("anime-show", {
@@ -92,7 +92,6 @@ module.exports = function(app) {
 
         User.findById(req.user._id).then((user) => {
             comment.author = user
-            console.log(comment)
             return comment.save()
         }).then(() => {
             // After finishing, redirect
@@ -104,7 +103,7 @@ module.exports = function(app) {
     })
 
     //DELETE; comment for anime
-    app.delete('/anime/:id/:comment_id', function (req, res) {
+    app.delete('/anime/:id/:comment_id', (req, res) => {
         AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
             if(err){
                 console.log(err, "Could not find delete!")
@@ -122,6 +121,20 @@ module.exports = function(app) {
             res.render("./partials/anime-summary", {anime: results, layout: false})
         }).catch((err)=>{
             console.log(err)
+        })
+    })
+
+    app.get('/home-sort/popularity', (req, res) => {
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
+        .then((anime) => {
+            res.render('./partials/home-search', {anime, layout: false});
+        })
+    })
+
+    app.get('/home-sort/score', (req, res) => {
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
+        .then((anime) => {
+            res.render('./partials/home-search', {anime, layout: false});
         })
     })
 
