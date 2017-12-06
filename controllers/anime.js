@@ -65,7 +65,6 @@ module.exports = function(app) {
             const comments = AnimeComment.find({ animeId : req.params.anime_id }).then(comments => comments)
             return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
         }).then((data) => {
-            res.send(data)
             let bodytype = utils.checklog("show", req.user)
 
             res.render("anime-show", {
@@ -117,7 +116,6 @@ module.exports = function(app) {
     // Show for homepage
     app.get('/modal/:id', (req, res) => {
         nani.get("anime/"+req.params.id).then((results) => {
-            console.log(results)
             res.render("./partials/anime-summary", {anime: results, layout: false})
         }).catch((err)=>{
             console.log(err)

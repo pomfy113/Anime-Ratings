@@ -1,6 +1,3 @@
-<div class="mymodal">
-    <div class="modalcontent"></div>
-</div>
     <div class="current">
         <h1>Airing - Anime</h1>
         <h3>Sorted by Score</h3>
@@ -29,6 +26,10 @@
         {{/each}}
     </div>
 
+<div class="mymodal">
+    <div class="modalcontent"></div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 $('body').on('click', '.card', function(e) {
@@ -39,8 +40,8 @@ $('body').on('click', '.card', function(e) {
         type: 'GET'
     }).done((data) => {
         // $('.mymodal').css({"display":"block"})
-        $('.mymodal').fadeIn(400)
         $('.modalcontent').html(data)
+        $('.mymodal').fadeIn(400)
     }).fail(() => {
         console.log("Failed")
     });
