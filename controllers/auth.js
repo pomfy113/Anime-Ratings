@@ -22,23 +22,25 @@ module.exports = function(app) {
             res.end
         }
 
-        User.findOne({ 'username': username }).then((user) => {
+        User.findOne({ 'username': username }).then((checkuser) => {
             // Check if user already exists
-            if(user){
+            if(checkuser){
                 return res.status(400).send('Username already exists')
             }
+            else{
             // Saving user and jwt token
-            user.save(() => {
-                // Else, use jwt to make token and save to cookie, then redirect
-                // NOTE: dotenv required
-                let token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, { expiresIn: "60 days" });
-                res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
-                res.redirect('/');
-            }).catch((err) => {
-                res.send(err.message)
-            })
+                user.save(() => {
+                    // Else, use jwt to make token and save to cookie, then redirect
+                    // NOTE: dotenv required
+                    let token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, { expiresIn: "60 days" });
+                    res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
+                    res.redirect('/');
+                }).catch((err) => {
+                    res.send(err.message)
+                })
+            }
         }).catch((err) => {
-            console.log("Something happened here")
+            console.log(err, "Something happened while registering")
         })
 
 
@@ -79,5 +81,19 @@ module.exports = function(app) {
             res.send(err.message)
         })
     });
+
+    app.get('/anime/:id/favorite', (req, res) => {
+        console.log(req.user)
+        if(req.user){
+            User.findOne({ username: req.user.username}).then((user) =>{
+                user.favorites.unshift(req.params.id)
+                user.save()
+                res.redirect("/anime/"+req.params.id)
+            }).catch((err) => {
+                console.log(err, "Could not save favorite")
+            })
+
+        }
+    })
 
 }
