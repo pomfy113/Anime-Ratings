@@ -5,23 +5,25 @@ const utils = require('./utils')
 
 
 module.exports = function(app) {
-
+    // Register page
     app.get('/register', (req, res) => {
         res.render('register', {})
     })
 
+    // Actual registry
     app.post('/register', (req, res) => {
         // Create User
         let user = new User(req.body);
         let username = user.username
         let password = user.password
-
+        // Check if it's empty
         if((!username) || (!password)){
             return res.status(400).send('Cannot leave fields empty')
             res.end
         }
 
         User.findOne({ 'username': username }).then((user) => {
+            // Check if user already exists
             if(user){
                 return res.status(400).send('Username already exists')
             }

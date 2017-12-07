@@ -3,11 +3,11 @@ const Kitsu = require('kitsu.js');
 const kitsuanime = new Kitsu();
 // MAL is another
 const Anime = require('malapi').Anime;
-// Lastly, we have Anilist
+// Lastly, we have Anilist; requires client id for use
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const nani = require('nani').init(client_id, client_secret);
-
+// Comments
 const AnimeComment = require('../models/anime.js')
 const User = require('../models/user.js')
 
@@ -16,7 +16,7 @@ const utils = require('./utils')
 
 
 module.exports = function(app) {
-
+    // Getting home
     app.get('/', (req, res) => {
         let bodytype = utils.checklog("home", req.user)
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
@@ -24,19 +24,19 @@ module.exports = function(app) {
             res.render('home', {anime, bodytype});
         })
     })
-
+    // Genre check
     app.get('/genres', (req, res) => {
         nani.get('genre_list').then((anime) => {
             res.send(anime)
         })
     })
-
-    app.get('/test', function (req, res) {
+    // Debugging purposes
+    app.get('/test-AL', function (req, res) {
         nani.get('anime/search/Attack+On+Titan').then((anime) => {
             res.send(anime)
         })
     })
-
+    // Debugging purposes
     app.get('/test-MAL', function (req, res) {
         var test = Anime.fromName("Attack on Titan")
         test.then(newthing => res.send(newthing))
@@ -45,21 +45,24 @@ module.exports = function(app) {
     // Search function
     app.get('/search', function (req, res) {
         let bodytype = utils.checklog("search", req.user)
-
+        // Use AL search
         nani.get('anime/search/' + req.query.term).then((results) => {
-            results.filter(function(result){
-                result.description = result.description.replace(/\<br\>/g,"");
-            })
-
+            // Replacing text in description
+                results.filter(function(result){
+                    if(result.description){
+                        result.description = result.description.replace(/\<br\>/g,"");
+                    }
+                })
             res.render('anime-search', {results, bodytype})
         }).catch((err) => {
+            console.log("Search failure")
             console.log(err)
+            res.render('anime-search-failure', {bodytype})
         })
     })
 
-    // Grab comments, then anime
+    // Grab and anime
     app.get('/anime/:anime_id', (req, res) => {
-
         nani.get("anime/" + req.params.anime_id).then((ALISTdata) => {
             // Title for grabbing info
             const title = ALISTdata.title_english
@@ -79,14 +82,14 @@ module.exports = function(app) {
                 bodytype
             })
         }).catch((err) => {
-            console.log("Something happened!")
+            console.log("Fetch thing")
             console.log(err)
         })
 
     })
 
     //CREATE; comment for an anime
-    app.post('/anime/:id/comments', function (req, res) {
+    app.post('/anime/:id/comments', (req, res) => {
         if(!req.user){
             res.status(400).send()
         }
@@ -114,29 +117,6 @@ module.exports = function(app) {
                 return
             }
             res.redirect('/anime/' + req.params.id);
-        })
-    })
-
-    // Show for homepage
-    app.get('/modal/:id', (req, res) => {
-        nani.get("anime/"+req.params.id).then((results) => {
-            res.render("./partials/anime-summary", {anime: results, layout: false})
-        }).catch((err)=>{
-            console.log(err)
-        })
-    })
-
-    app.get('/home-sort/popularity', (req, res) => {
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
-        .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
-        })
-    })
-
-    app.get('/home-sort/score', (req, res) => {
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
-        .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
         })
     })
 

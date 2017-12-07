@@ -1,30 +1,28 @@
-    <div class="current">
-        <h1>Airing - Anime</h1>
-        <h3>Sorted by Score</h3>
-    </div>
     <div class="row">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-secondary" id="sort-score">Score</button>
-          <button type="button" class="btn btn-secondary" id="sort-pop">Popularity</button>
+        <div class="current">
+            <h1>Currently Airing</h1>
+            <h3>Sorted by Score</h3>
         </div>
+    </div>
+    <div class="row justify-content-between">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-secondary" id="sort-score">Score</button>
+              <button type="button" class="btn btn-secondary" id="sort-pop">Popularity</button>
+            </div>
+            <div class="btn-group season-buttons pr-5" role="group">
+                <button type="button" class="btn btn-secondary" id="airing">Airing</button>
+                <span class="input-group-addon" data-id="" id="current-year">Year</span>
+                <input type="text" id="year-input" class="form-control" aria-describedby="current-year">
+              <button type="button" class="btn btn-secondary" data-id="spring">Spring</button>
+              <button type="button" class="btn btn-secondary" data-id="summer">Summer</button>
+              <button type="button" class="btn btn-secondary" data-id="fall">Fall</button>
+              <button type="button" class="btn btn-secondary" data-id="winter">Winter</button>
+            </div>
     </div>
     <span class="loading"><img src="../../images/tamamo.png"><br>LOADING</span>
 
     <div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
-            {{#each anime}}
-            <div class="flex-col mb-2 mr-2">
-                <div class="card" data-id="{{this.id}}">
-                        <img class="card-img-top" src="{{this.image_url_lge}}" alt="Card image cap">
-                        <div class="card-overlay"></div>
-                        </img>
-                    <div class="card-footer">
-                        <p id="title" class="text-capitalize">
-                            <em>{{this.title_english}}</em></p>
-                        <p id="score">Rating: <br>{{this.average_score}}%</p>
-                    </div>
-                </div>
-            </div>
-        {{/each}}
+        {{> home-search}}
     </div>
 
 <div class="mymodal">
@@ -36,6 +34,10 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
+var airing = true;
+var year, season;
+
+// Modals
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
     console.log("Going to /modal" + url)
@@ -50,36 +52,120 @@ $('body').on('click', '.card', function(e) {
     });
 })
 
+// Modal remove
 $('body').on('click', '.mymodal', function(e) {
     $('.mymodal').hide()
 })
 
+// Sort by score
 $('body').on('click', '#sort-score', function(e) {
     $('.loading').show()
-    $.ajax({
-        url: "/home-sort/score",
-        type: 'GET'
-    }).done((data) => {
-        $('.loading').hide()
-        $('#home-container').html(data)
-        $('.current').children("h3").html("Sorted by Score")
-    }).fail(() => {
-        console.log("Failed")
-    });
+    if(airing === true){
+        $.ajax({
+            url: "/home-sort/score",
+            type: 'GET'
+        }).done((data) => {
+            $('#home-container').fadeOut(200)
+            $('.loading').hide()
+            $('#home-container').html(data)
+            $('#home-container').fadeIn(200)
+            $('.current').children("h3").html("Sorted by Score")
+        }).fail(() => {
+            console.log("Failed")
+        });
+    }
+    else{
+        $.ajax({
+            url: "/home-sort/score-date/"+season+"/"+year,
+            type: 'GET'
+        }).done((data) => {
+            $('#home-container').fadeOut(200)
+            $('.loading').hide()
+            $('#home-container').html(data)
+            $('#home-container').fadeIn(200)
+            $('.current').children("h3").html("Sorted by Score")
+        }).fail(() => {
+            console.log("Failed")
+        });
+    }
+
 })
 
+// Sort by popularity
 $('body').on('click', '#sort-pop', function(e) {
     $('.loading').show()
+    // Current season
+    if(airing === true){
+        $.ajax({
+            url: "/home-sort/popularity",
+            type: 'GET'
+        }).done((data) => {
+            $('#home-container').fadeOut(200)
+            $('.loading').hide()
+            $('#home-container').html(data)
+            $('#home-container').fadeIn(200)
+            $('.current').children("h3").html("Sorted by Popularity")
+        }).fail(() => {
+            console.log("Failed")
+        });
+    }
+    // If we we're not going with seasonal stuff
+    else{
+        $.ajax({
+            url: "/home-sort/popularity-date/"+season+"/"+year,
+            type: 'GET'
+        }).done((data) => {
+            $('#home-container').fadeOut(200)
+            $('.loading').hide()
+            $('#home-container').html(data)
+            $('#home-container').fadeIn(200)
+            $('.current').children("h3").html("Sorted by Popularity")
+        }).fail(() => {
+            console.log("Failed")
+        });
+    }
+})
+
+// Back to airing stuff!
+$('body').on('click', '#airing', function(e) {
+    $('.loading').show()
+    airing = true
     $.ajax({
-        url: "/home-sort/popularity",
+        url: "/home-sort/score",
         type: 'GET'
     }).done((data) => {
         $('#home-container').fadeOut(200)
         $('.loading').hide()
         $('#home-container').html(data)
         $('#home-container').fadeIn(200)
-        $('.current').children("h3").html("Sorted by Popularity")
+        $('.current').children("h1").html("Currently Airing")
+        $('.current').children("h3").html("Sorted by Score")
+    }).fail(() => {
+        console.log("Failed")
+    });
+})
 
+// Changing the season up; defaults to score
+$('body').on('click', '.season-buttons > button', function(e) {
+    $('.loading').show()
+    season = $(this).data('id')
+    year = $('.season-buttons > #year-input').val()
+
+    if(!jQuery.isNumeric(year)){
+        console.log("Not quite!")
+        return
+    }
+    $.ajax({
+        url: "/home-sort/date/"+season+"/"+year,
+        type: 'GET'
+    }).done((data) => {
+        airing = false
+        $('#home-container').fadeOut(200)
+        $('.loading').hide()
+        $('#home-container').html(data)
+        $('#home-container').fadeIn(200)
+        $('.current').children("h1").html(`${season[0].toUpperCase()+ season.substring(1)}, ${year}`)
+        $('.current').children("h3").html("Sorted by Score")
     }).fail(() => {
         console.log("Failed")
     });

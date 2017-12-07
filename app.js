@@ -50,9 +50,11 @@ let checkAuth = (req, res, next) => {
 // // Run checkAuth
 app.use(checkAuth)
 
-// ROUTES
+// Anime routes
 require('./controllers/anime.js')(app);
-// function(
+// This needs its own; lot of work happening at home
+require('./controllers/anime-home.js')(app);
+// Authentication
 require('./controllers/auth.js')(app);
 
 
