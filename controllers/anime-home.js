@@ -19,6 +19,8 @@ module.exports = function(app) {
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
+        }).catch((err) => {
+            console.log(err, "Pop sort error")
         })
     })
 
@@ -27,6 +29,8 @@ module.exports = function(app) {
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
+        }).catch((err) => {
+            console.log(err, "Score sort error")
         })
     })
 
@@ -34,7 +38,9 @@ module.exports = function(app) {
     app.get('/home-sort/airing-shows', (req, res) => {
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
         .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
+            res.render('./partials/home-search', {anime});
+        }).catch((err) => {
+            console.log(err, "Airing data error")
         })
     })
 
@@ -45,6 +51,8 @@ module.exports = function(app) {
         nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
+        }).catch((err) => {
+            console.log(err, "Custom date error")
         })
     })
 
@@ -54,6 +62,8 @@ module.exports = function(app) {
         nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
+        }).catch((err) => {
+            console.log(err, "Custom date - score error")
         })
     })
 
@@ -63,6 +73,8 @@ module.exports = function(app) {
         nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc`)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
+        }).catch((err) => {
+            console.log(err, "Custom date - popularity error")
         })
     })
 }

@@ -1,23 +1,42 @@
-    <div class="row">
-        <div class="current">
-            <h1>Currently Airing</h1>
-            <h3>Sorted by Score</h3>
+    <div class="row justify-content-between">
+        <div class="col">
+            <div class="title-container">
+                <h1>Currently Airing</h1>
+                <h3>Sorted by Score</h3>
+            </div>
+        </div>
+        <div class="col">
+            <div class="loading-error alert alert-warning" role="alert">
+            </div>
         </div>
     </div>
-    <div class="row justify-content-between">
+    <div class="row button-container">
+        <div class="col-sm">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-secondary" id="sort-score">Score</button>
               <button type="button" class="btn btn-secondary" id="sort-pop">Popularity</button>
             </div>
-            <div class="btn-group season-buttons pr-5" role="group">
+        </div>
+        <div class="d-flex col-sm justify-content-start"></div>
+        <div class="d-flex col-sm justify-content-start flex-wrap">
+            <div class="d-flex row">
+                <div class="btn-group" role="group">
+
                 <button type="button" class="btn btn-secondary" id="airing">Airing</button>
                 <span class="input-group-addon" data-id="" id="current-year">Year</span>
-                <input type="text" id="year-input" class="form-control" aria-describedby="current-year">
-              <button type="button" class="btn btn-secondary" data-id="spring">Spring</button>
-              <button type="button" class="btn btn-secondary" data-id="summer">Summer</button>
-              <button type="button" class="btn btn-secondary" data-id="fall">Fall</button>
-              <button type="button" class="btn btn-secondary" data-id="winter">Winter</button>
+                <input type="text" id="year-input" style="width: 160px;" class="form-control" aria-describedby="current-year">
+                </div>
             </div>
+            <div class="d-flex row">
+                <div class="btn-group season-buttons" role="group">
+                  <button type="button" class="btn btn-secondary" data-id="spring">Spring</button>
+                  <button type="button" class="btn btn-secondary" data-id="summer">Summer</button>
+                  <button type="button" class="btn btn-secondary" data-id="fall">Fall</button>
+                  <button type="button" class="btn btn-secondary" data-id="winter">Winter</button>
+                </div>
+            </div>
+        </div>
+
     </div>
     <span class="loading"><img src="../../images/tamamo.png"><br>LOADING</span>
 
@@ -60,11 +79,12 @@ $('body').on('click', '.mymodal', function(e) {
 // Sort by score
 $('body').on('click', '#sort-score', function(e) {
     $('.loading').show()
-    if(airing === true){
+    if(airing == true){
         $.ajax({
             url: "/home-sort/score",
             type: 'GET'
         }).done((data) => {
+            console.log("Currently airing!")
             $('#home-container').fadeOut(200)
             $('.loading').hide()
             $('#home-container').html(data)
@@ -95,11 +115,12 @@ $('body').on('click', '#sort-score', function(e) {
 $('body').on('click', '#sort-pop', function(e) {
     $('.loading').show()
     // Current season
-    if(airing === true){
+    if(airing == true){
         $.ajax({
             url: "/home-sort/popularity",
             type: 'GET'
         }).done((data) => {
+            console.log("Currently airing!")
             $('#home-container').fadeOut(200)
             $('.loading').hide()
             $('#home-container').html(data)
@@ -147,18 +168,26 @@ $('body').on('click', '#airing', function(e) {
 
 // Changing the season up; defaults to score
 $('body').on('click', '.season-buttons > button', function(e) {
-    $('.loading').show()
     season = $(this).data('id')
-    year = $('.season-buttons > #year-input').val()
+    year = $('#year-input').val()
 
-    if(!jQuery.isNumeric(year)){
+    if(!jQuery.isNumeric(year) && !year){
         console.log("Not quite!")
-        return
+        $('.loading-error').show()
+        $('.loading-error').html("Year required")
+        return setTimeout(function(){$('.loading-error').fadeOut(400); return}, 2000);
+
     }
+    $('.loading').show()
+
     $.ajax({
         url: "/home-sort/date/"+season+"/"+year,
         type: 'GET'
     }).done((data) => {
+        if(!data){
+            console.log(data)
+            $('#home-container').html("Nothing here!")
+        }
         airing = false
         $('#home-container').fadeOut(200)
         $('.loading').hide()

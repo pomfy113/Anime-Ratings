@@ -4,13 +4,23 @@
     font-size: 12px;
 }
 
-.container-fluid{
+/*.container-fluid{
     padding: 120px 100px;
+}*/
+
+body{
+    padding: 80px 50px;
+}
+
+.container-fluid{
+    padding: 30px 50px;
 }
 
 #modal-container{
     padding: 40px 60px;
 }
+
+
 /* Check if logged in or not and render accordingly */
 .logged-in {
     display: none;
@@ -27,52 +37,9 @@ body.logged .logged-in {
 body.logged .logged-out{
     display: none;
 }
-/* ======= */
-/* HOMEPAGE; deals with modals */
-/* ======= */
-
-#anime_title{
-    /*position: absolute;
-    bottom: 0%;
-    left: 0;
-    width: 100%;
-    padding-left: 30px;*/
-}
-
-
-/*.card_contents{
-    height: 100%;
-    width: 100%;
-    display: grid;
-    grid-column-gap: 0px;
-    grid-template-rows: repeat(20, 5%);
-    grid-template-columns: repeat(8, 12.5%);
-
-}*/
-
-/*.card_contents #title{
-    grid-row: 17 / 21;
-    grid-column: 3 / 9;
-    color: white;
-    font: 12px Helvetica;
-    text-align: right;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 5px 2px;
-    line-height: 14px;
-}
-
-.card_contents #score{
-    grid-row: 19 / 21;
-    grid-column: 1 / 3;
-    color: white;
-    height: 100%;
-    font: 10px Helvetica;
-    background: rgba(0, 0, 0, 0.7);
-    line-height: 14px;
-    padding: 5px 2px;
-    margin: 0px;
-}*/
+/* =================================== */
+/* HOMEPAGE; deals with modals and cards */
+/* =================================== */
 
 .card-title{
     margin-top: 5px;
@@ -153,7 +120,7 @@ body.logged .logged-out{
     height: 70px;
     width: 150px;
     display: grid;
-    padding: 5px;
+    padding: 10px;
     grid-column-gap: 0px;
     background-color: #343a40;
     color: #fff;
@@ -163,7 +130,7 @@ body.logged .logged-out{
 
 .card-footer #title{
     grid-column: 2 / 5;
-    grid-row: 2 / 6;
+    grid-row: 1 / 6;
     font: 12px Helvetica;
     text-align: right;
     padding-top: 2px;
@@ -184,11 +151,57 @@ body.logged .logged-out{
 }
 
 #home-container{
-    padding: 20px 40px;
+    padding: 20px 50px;
 }
 
-/* INDIVIDUAL SHOW STUFF */
+/* Loading error! */
+.loading-error{
+    display: none;
+}
+
+/* ===================== */
+/* Individual shows! */
+/* ===================== */
 
 progress{
      width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 769px){
+    body{
+        padding: 80px 20px;
+    }
+    .home{
+        padding-left: 20px;
+    }
+    #home-container{
+        padding: 20px 50px;
+    }
+    .container-fluid{
+        padding: 20px 20px;
+    }
+}
+
+@media (max-width: 425px){
+    body{
+        padding: 80px 0px;
+    }
+
+    .home{
+        padding-left: 0px;
+    }
+    #home-container{
+        padding: 20px 0px;
+    }
+    .home > .container-fluid{
+        padding: 20px 0px;
+    }
+    .title-container{
+        padding: 10px 20px;
+    }
+    .button-container{
+        padding-left: 20px;
+    }
+
 }
