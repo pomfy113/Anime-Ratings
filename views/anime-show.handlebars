@@ -2,7 +2,7 @@
 Image on left; title and aliases on right-->
 <div class="row">
         <div class="col-sm-3">
-            <img class="img-fluid" src="{{anime.posterImage.small}}"
+            <img class="img-fluid" src="{{anime3.image_url_lge}}"
             class="img-fluid" style="margin: 0 auto; display: block;">
         </div>
 
@@ -10,9 +10,10 @@ Image on left; title and aliases on right-->
           <h2>{{anime.titles.canonical}}</h2>
           <h4>{{anime.titles.japanese}}<br>
               [{{anime.titles.english}}]</h4>
-                {{#if anime.titles.abbreviated.length}}
+            <!-- Synonyms -->
+                {{#if anime3.synonyms}}
                     <p>Also known as:<br>
-                        {{#each anime.titles.abbreviated}}
+                        {{#each anime3.synonyms}}
                         - {{this}}<br>
                         {{/each}}
                     </p>
@@ -26,35 +27,47 @@ Rating on left, synopsis on the right-->
   <div class="col-sm-3">
       <br>
       {{#if anime.averageRating}}
-      <div class="progress">
+      <!-- <div class="progress">
           <div class="progress-bar bg-success" role="progressbar" style="width: {{anime.averageRating}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-      Kitsu Rating:   {{anime.averageRating}}/100<br>
-      Kitsu Rating Rank:      {{anime.ratingRank}} <br>
-      Kitsu Popularity Rank: {{anime.popularityRank}} <br>
+      </div> -->
+      <progress value="{{anime.averageRating}}" max="100"></progress>
+      <ul>
+          <li>Kitsu Score:   {{anime.averageRating}}/100</li>
+          <li>Kitsu Score Rank:      {{anime.ratingRank}}</li>
+          <li>Kitsu Popularity Rank: {{anime.popularityRank}}</li>
+      </ul>
       {{/if}}
 
       {{#if anime2}}
       <br>
-      <div class="progress">
+      <!-- <div class="progress">
           <div id="MalBar" class="progress-bar bg-success" role="progressbar" style="width: {{anime2.statistics.score.value}}%;" aria-valuenow={{anime2.statistics.score.value}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-      <script>
+      </div> -->
+
+      <progress value="{{anime2.statistics.score.value}}" max="10"></progress>
+      <ul>
+          <li>MAL Score: {{anime2.statistics.score.value}} / 10</li>
+          <li>MAL Score Ranking: {{anime2.statistics.ranking}}
+          <li>MAL Popularity: {{anime2.statistics.popularity}}</li>
+      </ul>
+      <!-- <script>
         // We need to do some math to make that bar look just right
         const malBar = document.getElementById('MalBar')
         let barscore = malBar.getAttribute("aria-valuenow") * 10
         malBar.style.width = String(barscore + "%")
-      </script>
-      MAL Rating:     {{anime2.statistics.score.value}}/10<br>
+      </script> -->
       {{/if}}
 
       {{#if anime3.mean_score}}
       <br>
-      <div class="progress">
+      <!-- <div class="progress">
           <div class="progress-bar bg-success" role="progressbar" style="width: {{anime3.mean_score}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-      Anilist Rating: {{anime3.mean_score}}/100<br>
-      Anilist Popularity Rank: {{anime3.popularity}}<br>
+      </div> -->
+      <progress value="{{anime3.mean_score}}" max="10"></progress>
+      <ul>
+          <li>Anilist Score (Average): {{anime3.average_score}}/100</li>
+          <li>Anilist Score (Mean): {{anime3.mean_score}}/100</li>
+      </ul>
       {{/if}}
 
 
@@ -62,7 +75,7 @@ Rating on left, synopsis on the right-->
 
   <div class="col-sm-8">
       Synopsis:
-      <p style="margin-left:20px;">{{anime.synopsis}}</p>
+      <p style="margin-left:20px; white-space: pre-wrap;">{{anime2.synopsis}}</p>
   </div>
 
 <!-- Making a new comment -->

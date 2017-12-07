@@ -1,12 +1,3 @@
-<head>
-  <meta charset="utf-8">
-  <title>OurAnimeList</title>
-
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="../../../style.css"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 <div class="container-fluid" id="modal-container">
     <div class="row justify-content-center">
         <div class="col-sm-3">
@@ -24,12 +15,12 @@
         </div>
         <div class="col-sm-9">
             Summary:
-            <p class="modal-text">{{{anime.description}}}</p>
+            <p class="modal-text">{{anime.description}}</p>
             <ul class="list-group">
                 <li class="list-group-item">
                     Genres:<br>
                     {{#each anime.genres}}
-                        {{this}} &nbsp; &nbsp;	
+                        {{this}} &nbsp; &nbsp;
                     {{/each}}
                 </li>
                 <!-- <li class="list-group-item">

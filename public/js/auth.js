@@ -18,9 +18,6 @@ $('#register').submit(function (e) {
       window.setTimeout(hidewindow, 1000)
       $('#errorbox').css("opacity", "100")
       $('#errorbox').html(err.responseText)
-
-
-
       console.log(err.responseText)
   })
 

@@ -1,25 +1,24 @@
-// Kitsu is the API
+// Kitsu is one of the APIs for searching
 const Kitsu = require('kitsu.js');
 const kitsuanime = new Kitsu();
-const AnimeComment = require('../models/anime.js')
-const User = require('../models/user.js')
-// const AniListAPI = require('anilist-api-pt');
+// MAL is another
+const Anime = require('malapi').Anime;
+// Lastly, we have Anilist
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-// const anilistApi = new AniListAPI({client_id, client_secret});
 const nani = require('nani').init(client_id, client_secret);
+
+const AnimeComment = require('../models/anime.js')
+const User = require('../models/user.js')
+
 // Utilities
 const utils = require('./utils')
-
-// Let's add MAL in there just because; not a resource
-const Anime = require('malapi').Anime;
 
 
 module.exports = function(app) {
 
     app.get('/', (req, res) => {
         let bodytype = utils.checklog("home", req.user)
-
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
         .then((anime) => {
             res.render('home', {anime, bodytype});
@@ -36,6 +35,11 @@ module.exports = function(app) {
         nani.get('anime/search/Attack+On+Titan').then((anime) => {
             res.send(anime)
         })
+    })
+
+    app.get('/test-MAL', function (req, res) {
+        var test = Anime.fromName("Attack on Titan")
+        test.then(newthing => res.send(newthing))
     })
 
     // Search function

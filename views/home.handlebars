@@ -2,7 +2,7 @@
         <h1>Airing - Anime</h1>
         <h3>Sorted by Score</h3>
     </div>
-    <div class="col-sm-2">
+    <div class="row">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-secondary" id="sort-score">Score</button>
           <button type="button" class="btn btn-secondary" id="sort-pop">Popularity</button>
@@ -18,8 +18,9 @@
                         <div class="card-overlay"></div>
                         </img>
                     <div class="card-footer">
-                        <p id="title" class="text-capitalize"><em>{{this.title_english}}</em></p>
-                        <p id="score">AL Rating: <br>{{this.average_score}}%</p>
+                        <p id="title" class="text-capitalize">
+                            <em>{{this.title_english}}</em></p>
+                        <p id="score">Rating: <br>{{this.average_score}}%</p>
                     </div>
                 </div>
             </div>
@@ -27,7 +28,10 @@
     </div>
 
 <div class="mymodal">
-    <div class="modalcontent"></div>
+    <div class="modalcontent">
+        <span class="modal-loading"></span>
+    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -39,17 +43,15 @@ $('body').on('click', '.card', function(e) {
         url: "/modal"+url,
         type: 'GET'
     }).done((data) => {
-        // $('.mymodal').css({"display":"block"})
         $('.modalcontent').html(data)
-        $('.mymodal').fadeIn(400)
+        $(".mymodal").fadeIn("400")
     }).fail(() => {
         console.log("Failed")
     });
 })
 
 $('body').on('click', '.mymodal', function(e) {
-    // $('.mymodal').css({"display":"none"})
-    $('.mymodal').fadeOut(400)
+    $('.mymodal').hide()
 })
 
 $('body').on('click', '#sort-score', function(e) {
@@ -72,9 +74,10 @@ $('body').on('click', '#sort-pop', function(e) {
         url: "/home-sort/popularity",
         type: 'GET'
     }).done((data) => {
+        $('#home-container').fadeOut(200)
         $('.loading').hide()
         $('#home-container').html(data)
-        console.log("Grabbing pop")
+        $('#home-container').fadeIn(200)
         $('.current').children("h3").html("Sorted by Popularity")
 
     }).fail(() => {
