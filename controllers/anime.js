@@ -21,7 +21,7 @@ module.exports = function(app) {
         let bodytype = utils.checklog("home", req.user)
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
         .then((anime) => {
-            res.render('home', {anime, bodytype});
+            res.render('home', {anime, bodytype, user: req.user});
         })
     })
     // Genre check
@@ -57,7 +57,7 @@ module.exports = function(app) {
         }).catch((err) => {
             console.log("Search failure")
             console.log(err)
-            res.render('anime-search-failure', {bodytype})
+            res.render('anime-search-failure', {bodytype, user: req.user})
         })
     })
 
@@ -79,7 +79,8 @@ module.exports = function(app) {
                 anime2: data[1],    // MAL
                 anime3: data[2],    // Anilist
                 comment: data[3],   // Comments
-                bodytype
+                bodytype,
+                user: req.user
             })
         }).catch((err) => {
             console.log("Fetch thing")

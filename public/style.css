@@ -7,7 +7,13 @@
 /*.container-fluid{
     padding: 120px 100px;
 }*/
+.navbar-brand {
+    font-weight: 900;
+}
 
+.nav-link {
+    border: 0.5px solid grey;
+}
 body{
     padding: 80px 50px;
 }
