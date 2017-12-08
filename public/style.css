@@ -14,12 +14,9 @@
 .nav-link {
     border: 0.5px solid grey;
 }
+
 body{
     padding: 80px 50px;
-}
-
-.container-fluid{
-    padding: 30px 50px;
 }
 
 #modal-container{
@@ -47,12 +44,7 @@ body.logged .logged-out{
 /* HOMEPAGE; deals with modals and cards */
 /* =================================== */
 
-.card-title{
-    margin-top: 5px;
-    margin-bottom: -2px;
-    font-size: 12px;
-}
-
+/* Modals*/
 .mymodal{
     display: none;
     width: 100%;
@@ -78,12 +70,19 @@ body.logged .logged-out{
     border-radius: 20px;
     padding: 10px;
 }
+
+/* Cards */
 .card {
     height: 315px;
     width: 150px;
     border: 1px;
 }
 
+.card-title{
+    margin-top: 5px;
+    margin-bottom: -2px;
+    font-size: 12px;
+}
 
 .card-img-top{
     height: 245px;
@@ -102,19 +101,30 @@ body.logged .logged-out{
 }
 
 .loading {
+    z-index: 1;
     display: none;
     position: absolute;
-    left: 80%;
-    top: 10%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #eeeeee;
     font-size: 20px;
     font-weight: 900;
+    border-radius: 50%;
+    padding: 25px;
+    text-align: center;
 }
+
 .loading > img{
-    height: 100px;
-    width: 100px;
-    transform: translate(50%);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 150px;
+    width: 150px;
     z-index: 1;
-    animation: spin 2s infinite linear;
+    transform-origin: 50% 50%;
+    animation: spin 1s infinite linear;
 }
 
 @keyframes spin {
@@ -157,12 +167,30 @@ body.logged .logged-out{
 }
 
 #home-container{
-    padding: 20px 50px;
+    padding: 10px 0px;
 }
+
 
 /* Loading error! */
 .loading-error{
+    z-index: 1;
     display: none;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, -50%)
+}
+
+.button-container > *{
+    margin-bottom: 15px;
+}
+
+.button-container > .row > *{
+    margin-right: 15px;
+}
+
+.above-cards {
+    padding-left: 5px;
 }
 
 /* ===================== */
@@ -181,10 +209,7 @@ progress{
     .home{
         padding-left: 20px;
     }
-    #home-container{
-        padding: 20px 50px;
-    }
-    .container-fluid{
+    .home > .container-fluid{
         padding: 20px 20px;
     }
 }
@@ -193,21 +218,14 @@ progress{
     body{
         padding: 80px 0px;
     }
-
     .home{
         padding-left: 0px;
-    }
-    #home-container{
-        padding: 20px 0px;
     }
     .home > .container-fluid{
         padding: 20px 0px;
     }
-    .title-container{
-        padding: 10px 20px;
-    }
-    .button-container{
-        padding-left: 20px;
+    .above-cards{
+        padding-left: 10px;
     }
 
 }
