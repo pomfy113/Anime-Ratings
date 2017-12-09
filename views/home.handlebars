@@ -63,7 +63,6 @@ var season = "Spring"
 // Modals
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
-    console.log("Going to /modal" + url)
     $.ajax({
         url: "/modal"+url,
         type: 'GET'

@@ -212,6 +212,9 @@ progress{
     .home > .container-fluid{
         padding: 20px 20px;
     }
+    #modal-container{
+        padding: 40px 20px;
+    }
 }
 
 @media (max-width: 425px){
@@ -226,6 +229,9 @@ progress{
     }
     .above-cards{
         padding-left: 10px;
+    }
+    #modal-container{
+        padding: 40px 0px;
     }
 
 }

@@ -32,7 +32,7 @@ module.exports = function(app) {
     })
     // Debugging purposes
     app.get('/test-AL', function (req, res) {
-        nani.get('anime/search/Attack+On+Titan').then((anime) => {
+        nani.get('anime/21202/page').then((anime) => {
             res.send(anime)
         })
     })

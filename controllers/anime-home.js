@@ -4,10 +4,19 @@ const nani = require('nani').init(client_id, client_secret);
 // Utilities
 const utils = require('./utils')
 
+// YES, THIS NEEDS ITS OWN JS
 module.exports = function(app) {
     // Show for homepage
     app.get('/modal/:id', (req, res) => {
-        nani.get("anime/"+req.params.id).then((results) => {
+        nani.get("anime/"+req.params.id+"/page").then((results) => {
+            res.render("./partials/anime-summary", {anime: results, layout: false})
+        }).catch((err)=>{
+            console.log(err)
+        })
+    })
+
+    app.get('/modal/:id/more-scores', (req, res) => {
+        nani.get("anime/"+req.params.id+"/page").then((results) => {
             res.render("./partials/anime-summary", {anime: results, layout: false})
         }).catch((err)=>{
             console.log(err)

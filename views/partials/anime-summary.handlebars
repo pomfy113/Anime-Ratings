@@ -1,21 +1,22 @@
 <div class="container-fluid" id="modal-container">
     <div class="row justify-content-center">
-        <div class="col-sm-3">
-            <div class="row">
-                <h2>{{anime.title_english}}</h2>
-                <p>{{anime.title_romaji}} - {{anime.title_japanese}}</p>
-            </div>
-            <div class="row justify-content-center">
-                <img class="img-fluid" src={{anime.image_url_lge}}>
-            </div>
-            <div class="row">
-                <a href="/anime/{{anime.id}}">Details</a>
-            </div>
+    <h2>{{anime.title_english}}</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-4">
+                <ul class="list-group">
+                  <li class="list-group-item">{{anime.title_romaji}}</li>
+                  <li class="list-group-item">{{anime.title_japanese}}</li>
+                  <li class="list-group-item">{{anime.studio.0.studio_name}}</li>
+
+                  <li class="list-group-item"><img class="img-fluid" style="max-width 200px;" src={{anime.image_url_lge}}></li>
+                  <li class="list-group-item"><a href="/anime/{{anime.id}}">Details</a></li>
+                </ul>
 
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             Summary:
-            <p class="modal-text">{{anime.description}}</p>
+            <p class="modal-text">{{{anime.description}}}</p>
             <ul class="list-group">
                 <li class="list-group-item">
                     Genres:<br>
