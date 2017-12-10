@@ -23,6 +23,8 @@
     grid-template-columns: repeat(10, 1fr);
     grid-column-gap: 0px;
     height: 60px;
+    background-color: #343a40;
+    border-radius: 20px;
 }
 
 .nav-test *{
@@ -37,6 +39,7 @@
     border-width: 0px;
     padding: 15px 15px;
 }
+
 /*============*/
 /* Title */
 /*============*/
@@ -139,6 +142,10 @@
 }
 
 @media (max-width: 425px){
+    .nav-test{
+        height: 120px;
+    }
+
     .nav-test > .mynav-search{
         padding: 0px;
     }
@@ -146,6 +153,17 @@
     .nav-test > .mynav-search input{
         width: 70%;
     }
+
+    .nav-test > .mynav-list{
+        padding-top: 30px;
+    }
+}
+
+@media (max-width: 767px){
+    .nav-test > .mynav-search{
+        height: 120px;
+    }
+
 }
 
 

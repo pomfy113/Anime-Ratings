@@ -1,6 +1,78 @@
+<!--  For the modal business -->
+
+<style>
+.trailer-container {
+	position:relative;
+	padding-bottom:56.25%;
+	padding-top:30px;
+	height:0;
+	overflow:hidden;
+}
+
+.trailer-container iframe{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+
+.closemodal{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.closemodal:focus{
+    outline: none;
+}
+
+.closemodal:hover{
+    background-color: #dddddd;
+}
+
+.related{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.clickable-list {
+    border: 1px solid lightgrey;
+    padding: 5px 15px;
+    font-size: 15px;
+}
+
+.clickable-list.prequel {
+    border-radius: 50% 0px 0px 50%;
+    text-align: right;
+    width: 50%;
+}
+
+.clickable-list.sequel {
+    text-align: left;
+    border-radius: 0px 50% 50% 0px;
+    width: 50%;
+
+}
+
+.clickable-list > p{
+    cursor: pointer;
+    color: blue;
+}
+
+.clickable-list:hover{
+    background-color: #dddddd;
+}
+
+</style>
 <div class="container-fluid" id="modal-container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="text-align: center;">
     <h2>{{anime.title_english}}</h2>
+    <button class="closemodal">&#10006;</button>
     </div>
     <div class="row justify-content-center">
         <div class="col-sm-4">
@@ -11,30 +83,36 @@
 
                   <li class="list-group-item"><img class="img-fluid" style="max-width 200px;" src={{anime.image_url_lge}}></li>
                   <li class="list-group-item"><a href="/anime/{{anime.id}}">Details</a></li>
+
+                  <li class="list-group-item">
+                      Genres:<br>
+                      {{#each anime.genres}}
+                          {{this}} &nbsp; &nbsp;
+                      {{/each}}
+                  </li>
                 </ul>
 
         </div>
         <div class="col-sm-8">
+            <div class="related">
+                {{#if prequel}}
+                    <div class="clickable-list prequel">
+                        Prequel: <p id="prequel" data-id="{{prequel.id}}">{{prequel.title_english}}</p>
+                    </div>
+                {{/if}}
+                {{#if sequel}}
+                    <div class="clickable-list sequel">
+                        Sequel: <p id="sequel" data-id="{{sequel.id}}">{{sequel.title_english}}</p>
+                    </div>
+                {{/if}}
+            </div>
             Summary:
             <p class="modal-text">{{{anime.description}}}</p>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    Genres:<br>
-                    {{#each anime.genres}}
-                        {{this}} &nbsp; &nbsp;
-                    {{/each}}
-                </li>
-                <!-- <li class="list-group-item">
-
-                </li> -->
-            </ul>
-
-
-
-
-
-
-
-
+            {{#if anime.youtube_id}}
+            <div class="trailer-container">
+            <iframe src="http://www.youtube.com/embed/{{anime.youtube_id}}"
+            frameborder="0" allowfullscreen></iframe
+               {{/if}}
+           </div>
 
 </div>

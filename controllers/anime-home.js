@@ -8,8 +8,18 @@ const utils = require('./utils')
 module.exports = function(app) {
     // Show for homepage
     app.get('/modal/:id', (req, res) => {
+        let sequel, prequel;
         nani.get("anime/"+req.params.id+"/page").then((results) => {
-            res.render("./partials/anime-summary", {anime: results, layout: false})
+            for(x in results.relations){
+                if(results.relations[x].relation_type === "prequel"){
+                    prequel = results.relations[x]
+                }
+                if(results.relations[x].relation_type === "sequel"){
+                    sequel = results.relations[x]
+                }
+            }
+
+            res.render("./partials/anime-summary", {anime: results, sequel, prequel, layout: false})
         }).catch((err)=>{
             console.log(err)
         })
