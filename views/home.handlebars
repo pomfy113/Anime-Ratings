@@ -48,8 +48,10 @@ Buttons for all the filtering
 </div>
 
 <div class="mymodal">
+    <span class="loading-modal">
+        <img src="../../images/TamamoBall4.gif"><p>LOADING</p>
+    </span>
     <div class="modalcontent">
-        <span class="modal-loading"></span>
     </div>
 
 </div>
@@ -63,10 +65,17 @@ var season = "Spring"
 // Modals
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
+    $('.loading-modal').show()
+
     $.ajax({
         url: "/modal"+url,
         type: 'GET'
     }).done((data) => {
+        // Need this to remove scrolling
+        $("body").addClass("modal-open");
+        $('.loading-modal').hide()
+
+        // Data -> modal
         $('.modalcontent').html(data)
         $(".mymodal").fadeIn("400")
     }).fail(() => {
@@ -76,6 +85,7 @@ $('body').on('click', '.card', function(e) {
 
 // Modal remove
 $('body').on('click', '.closemodal', function(e) {
+    $("body").removeClass("modal-open")
     $('.mymodal').hide()
     $('.modalcontent').html("")
 })
@@ -214,10 +224,13 @@ $('body').on('click', '#current-year', function(e) {
     }).done((data) => {
         if(!data){
             console.log(data)
-            $('#home-container').html("Nothing here!")
+            $('#home-container').html("<h1>Nothing here!</h1>")
+            $('.loading').hide()
+        }
+        else{
+            showdata(data)
         }
         airing = false
-        showdata(data)
         $('.title-container').children("h1").html(`${season}, ${year.substring(0,4)}`)
         $('.title-container').children("h3").html("Sorted by Score")
         $('#sort-drop').html("&#9660; Score")
@@ -226,13 +239,16 @@ $('body').on('click', '#current-year', function(e) {
     });
 })
 
+// For clicking on prequels
 $('body').on('click', '#prequel', function(e) {
     let url = "/" + $(this).data('id')
+    $('.loading-modal').show()
+
     $.ajax({
         url: "/modal"+url,
         type: 'GET'
     }).done((data) => {
-        console.log("???")
+        $('.loading-modal').hide()
         $('.modalcontent').html(data)
         $('.modalcontent').fadeIn(400)
 
@@ -241,13 +257,16 @@ $('body').on('click', '#prequel', function(e) {
     });
 })
 
+// For clicking on sequels
 $('body').on('click', '#sequel', function(e) {
     let url = "/" + $(this).data('id')
+    $('.loading-modal').show()
+
     $.ajax({
         url: "/modal"+url,
         type: 'GET'
     }).done((data) => {
-        console.log("!!!")
+        $('.loading-modal').hide()
         $('.modalcontent').html(data)
         $('.modalcontent').fadeIn(400)
     }).fail(() => {

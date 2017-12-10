@@ -75,6 +75,12 @@
     background-color: #eeeeee;
 }
 
+.preview-list{
+    text-align: center;
+}
+
+
+
 
 </style>
 <div class="container-fluid" id="modal-container">
@@ -103,13 +109,12 @@
 
     </div>
     <div class="row justify-content-center">
-        <div class="col-sm-4">
+        <div class="col preview-list">
                 <ul class="list-group">
                   <li class="list-group-item">{{anime.title_romaji}}</li>
                   <li class="list-group-item">{{anime.title_japanese}}</li>
                   <li class="list-group-item">{{anime.studio.0.studio_name}}</li>
-
-                  <li class="list-group-item"><img class="img-fluid" style="max-width 200px;" src={{anime.image_url_lge}}></li>
+                  <li class="list-group-item"><img class="img-fluid" style="max-width 300px;" src={{anime.image_url_lge}}></li>
                   <li class="list-group-item"><a href="/anime/{{anime.id}}">Details</a></li>
 
                   <li class="list-group-item">
@@ -121,7 +126,7 @@
                 </ul>
 
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             Summary:
             <p class="modal-text">{{{anime.description}}}</p>
             {{#if anime.youtube_id}}
