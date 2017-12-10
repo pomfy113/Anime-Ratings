@@ -32,47 +32,75 @@
 .closemodal:hover{
     background-color: #dddddd;
 }
-
+/* Containing sequels/prequels*/
 .related{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     text-overflow: ellipsis;
+    justify-content: space-between;
 }
+
 
 .clickable-list {
     border: 1px solid lightgrey;
-    padding: 5px 15px;
+    margin: 5px;
+    padding: 5px 5px;
     font-size: 15px;
+    cursor: pointer;
+
 }
 
+
 .clickable-list.prequel {
+    position: relative;
     border-radius: 50% 0px 0px 50%;
     text-align: right;
-    width: 50%;
+    width: 40%;
 }
 
 .clickable-list.sequel {
+    position: relative;
     text-align: left;
+    /*transform: translate(15%);*/
     border-radius: 0px 50% 50% 0px;
-    width: 50%;
-
+    width: 40%;
 }
 
 .clickable-list > p{
-    cursor: pointer;
     color: blue;
 }
 
 .clickable-list:hover{
-    background-color: #dddddd;
+    background-color: #eeeeee;
 }
+
 
 </style>
 <div class="container-fluid" id="modal-container">
     <div class="row justify-content-center" style="text-align: center;">
     <h2>{{anime.title_english}}</h2>
     <button class="closemodal">&#10006;</button>
+    <div class="related">
+        {{#if prequel}}
+            <div class="clickable-list prequel" id="prequel" data-id="{{prequel.id}}">
+                Prequel: <p>{{prequel.title_english}}</p>
+            </div>
+            {{else}}
+            <div style="display:hidden;"></div>
+        {{/if}}
+        {{#if sequel}}
+            <div class="clickable-list sequel" id="sequel" data-id="{{sequel.id}}">
+                Sequel: <p>{{sequel.title_english}}</p>
+            </div>
+            {{else}}
+            <div style="display:hidden;"></div>
+
+        {{/if}}
+        </div>
+
+    </div>
+
     </div>
     <div class="row justify-content-center">
         <div class="col-sm-4">
@@ -94,24 +122,12 @@
 
         </div>
         <div class="col-sm-8">
-            <div class="related">
-                {{#if prequel}}
-                    <div class="clickable-list prequel">
-                        Prequel: <p id="prequel" data-id="{{prequel.id}}">{{prequel.title_english}}</p>
-                    </div>
-                {{/if}}
-                {{#if sequel}}
-                    <div class="clickable-list sequel">
-                        Sequel: <p id="sequel" data-id="{{sequel.id}}">{{sequel.title_english}}</p>
-                    </div>
-                {{/if}}
-            </div>
             Summary:
             <p class="modal-text">{{{anime.description}}}</p>
             {{#if anime.youtube_id}}
             <div class="trailer-container">
             <iframe src="http://www.youtube.com/embed/{{anime.youtube_id}}"
-            frameborder="0" allowfullscreen></iframe
+            frameborder="0" allowfullscreen></iframe>
                {{/if}}
            </div>
 

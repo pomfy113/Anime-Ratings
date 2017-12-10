@@ -226,15 +226,6 @@ $('body').on('click', '#current-year', function(e) {
     });
 })
 
-
-
-function showdata(data){
-    $('#home-container').fadeOut(200)
-    $('.loading').hide()
-    $('#home-container').html(data)
-    $('#home-container').fadeIn(200)
-}
-
 $('body').on('click', '#prequel', function(e) {
     let url = "/" + $(this).data('id')
     $.ajax({
@@ -263,5 +254,13 @@ $('body').on('click', '#sequel', function(e) {
         console.log("Failed")
     });
 })
+
+
+function showdata(data){
+    $('#home-container').fadeOut(200)
+    $('.loading').hide()
+    $('#home-container').html(data)
+    $('#home-container').fadeIn(200)
+}
 
 </script>
