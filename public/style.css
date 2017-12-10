@@ -4,16 +4,6 @@
     font-size: 12px;
 }
 
-/*.container-fluid{
-    padding: 120px 100px;
-}*/
-.navbar-brand {
-    font-weight: 900;
-}
-
-.nav-link {
-    border: 0.5px solid grey;
-}
 
 body{
     padding: 80px 50px;
@@ -204,7 +194,7 @@ progress{
 /* Mobile */
 @media (max-width: 769px){
     body{
-        padding: 80px 20px;
+        padding: 100px 45px;
     }
     .home{
         padding-left: 20px;
@@ -217,9 +207,9 @@ progress{
     }
 }
 
-@media (max-width: 425px){
+@media (max-width: 424px){
     body{
-        padding: 80px 0px;
+        padding: 120px 0px;
     }
     .home{
         padding-left: 0px;
@@ -228,7 +218,7 @@ progress{
         padding: 20px 0px;
     }
     .above-cards{
-        padding-left: 10px;
+        padding-left: 15px;
     }
     #modal-container{
         padding: 40px 0px;

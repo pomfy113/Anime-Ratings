@@ -11,43 +11,175 @@
     <link rel="stylesheet" href="../../style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 </head>
+<style>
+.nav-test{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 95%;
+
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-column-gap: 0px;
+    height: 60px;
+}
+
+.nav-test *{
+    line-height: 20px;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav-test div{
+    background-color: #343a40;
+    border-width: 0px;
+    padding: 15px 15px;
+}
+/*============*/
+/* Title */
+/*============*/
+
+.nav-test > .mynav-title{
+    grid-column: 1/4;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    text-align: center;
+    /* Text stuff*/
+    padding-left: 10px;
+    padding-top: 20px;
+}
+.nav-test > .mynav-title a{
+    font-size: 26px;
+    font-weight: 900;
+    color: white;
+}
+/*Need to remove underline*/
+.nav-test > .mynav-title a:hover{
+    text-decoration: none;
+}
+/*============*/
+/* Links */
+/*============*/
+
+.nav-test > .mynav-list{
+    grid-column: 4/8;
+    vertical-align: middle;
+    font-size: 18px;
+    width: 100%;
+    padding: 15px 0px;
+
+}
+/*Move links next to search*/
+.nav-test > .mynav-list * {
+    justify-content: flex-end;
+}
+
+.nav-test > .mynav-list > ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px;
+    list-style-type: none;
+    overflow: auto;
+
+}
+
+.nav-test > .mynav-list > ul a{
+    margin: 2px;
+    padding: 3px 5px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.nav-test > .mynav-list > ul span{
+    margin: 0px;
+    padding: 6px 5px;
+    color: #ffffff;
+
+}
+
+.nav-test > .mynav-list > ul a:hover{
+    background-color: #777777;
+}
+/* Search */
+
+.nav-test > .mynav-search{
+    grid-column: 8/11;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0px;
+    padding-left: 30px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.nav-test > .mynav-search input{
+    border: 1px solid #343a40;
+    border-radius: 0px 10px 10px 0px;
+    width: 90%;
+    height: 50%;
+}
+
+.nav-test > .mynav-search input:focus{
+    outline: none;
+}
+
+.nav-test > .mynav-search button{
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid #343a40;
+    color: white;
+    height: 50%;
+
+}
+
+.nav-test > .mynav-search button:hover{
+    background-color: #777777;
+}
+
+@media (max-width: 425px){
+    .nav-test > .mynav-search{
+        padding: 0px;
+    }
+
+    .nav-test > .mynav-search input{
+        width: 70%;
+    }
+}
+
+
+</style>
 <body class="{{bodytype}}">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <!-- Navbar Title -->
-                <a class="navbar-brand" href="/">Our Anime List</a>
-                <!-- Navbar navigation buttons -->
-                <!-- I'll handle this later -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- Search bar -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                <ul class="navbar-nav mr-auto">
-                    <li>
-                        <a class="nav-link logged-out" href="/register">Register</a>
-                    </li>
-                    <li>
-                        <a class="nav-link logged-in" href="/logout">Logout</a>
-                    </li>
-                    <li>
-                        <a class="nav-link logged-out" href="/login">Login</a>
-                    </li>
-                    <li>
-                        <span class="navbar-text logged-in">&nbsp; Logged in as: {{user.username}}</span>
-                    </li>
-                </ul>
-
-                <form method="GET" action="/search"class="form-inline">
-                    <div class="pull-right">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" name="term" value="{{term}}">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </div>
-                </form>
-            </div>
+    <div class="nav-test">
+        <div class="mynav-title"><a href="/">Our Anime List</a></div>
+        <div class="mynav-list">
+            <ul class="mynav-link-list">
+                <li>
+                    <span class="navbar-text logged-in"><strong>{{user.username}}</strong></span>
+                </li>
+                <li>
+                    <a class="nav-link logged-out" href="/register">Register</a>
+                </li>
+                <li>
+                    <a class="nav-link logged-in" href="/logout">Logout</a>
+                </li>
+                <li>
+                    <a class="nav-link logged-out" href="/login">Login</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+        <div class="mynav-search">
+            <form method="GET" action="/search"class="form-inline">
+                <!-- <input type="text" placeholder="Search" name="term" value="{{term}}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                  <button type="submit">&#x1F50D;</button>
+                  <input type="text" class="form-control" placeholder="Search" name="term">
+            </form>
+        </div>
+
+    </div>
+
 
     <div class="container-fluid">
         {{{body}}}
