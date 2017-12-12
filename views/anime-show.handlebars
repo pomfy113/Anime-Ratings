@@ -115,13 +115,12 @@ Rating on left, synopsis on the right-->
         </div>
         <p class="mb-1">{{this.comment}}</p>
         <small class="text-muted">By: {{this.author.username}}</small>
-        <form method="POST" action="/anime/{{animeId}}/{{_id}}?_method=DELETE">
-            <button type="submit" class="btn btn-primary pull-right">Delete comment</button><br><br>
-        </form>
+            {{#if this.isMine}}
+            <form method="POST" action="/anime/{{this.animeId}}/{{this._id}}?_method=DELETE">
+                <button type="submit" class="btn btn-primary pull-right">Delete comment</button><br><br>
+            </form>
+            {{/if}}
       </a>
-
-
-
       {{/each}}
       </div>
     </div>

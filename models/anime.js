@@ -5,7 +5,8 @@ const CommentSchema = new Schema({
     comment: String,
     rating: Number,
     animeId: Number,
-    author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    isMine: Boolean
 });
 
 const autoPopulateAuthor = function(next) {

@@ -99,4 +99,29 @@ module.exports = function(app) {
         }
     })
 
+    // Delete
+    app.delete('/anime/:id/:comment_id', (req, res) => {
+        if(req.user){
+            AnimeComment.findById(req.params.comment_id).then((comment) => {
+                if(comment.author._id.equals(req.user._id)){
+                    console.log("Success!")
+                    AnimeComment.findByIdAndRemove(req.params.comment_id).then(() =>{
+                        res.redirect('/anime/' + req.params.id);
+                    })
+                }
+                else{
+                    res.send("Illegal operation!")
+                }
+            }).catch((err) => {
+                console.log(err)
+                res.status(500).send()
+                return
+            })
+        }
+        else{
+            res.render("not-logged", {})
+
+        }
+    })
+
 }

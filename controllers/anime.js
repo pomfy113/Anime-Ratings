@@ -69,10 +69,21 @@ module.exports = function(app) {
             // Grab data from other sites
             const KITSUdata = kitsuanime.searchAnime(title)
             const MALdata = Anime.fromName(title)
-            const comments = AnimeComment.find({ animeId : req.params.anime_id }).then(comments => comments)
+            const comments = AnimeComment.find({ animeId : req.params.anime_id }).then((comments) => {
+                    return comments.map(function(item){
+                        if(req.user){
+                            if(item.author._id.equals(req.user._id)){
+                                item.isMine = true;
+                            }
+                        }
+                        return item
+                    })
+
+                })
             return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
         }).then((data) => {
             let bodytype = utils.checklog("show", req.user)
+            console.log(data[3])
 
             res.render("anime-show", {
                 anime: data[0][0],  // Kitsuanime data
@@ -110,15 +121,16 @@ module.exports = function(app) {
     })
 
     //DELETE; comment for anime
-    app.delete('/anime/:id/:comment_id', (req, res) => {
-        AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
-            if(err){
-                console.log(err, "Could not find delete!")
-                res.status(500).send()
-                return
-            }
-            res.redirect('/anime/' + req.params.id);
-        })
-    })
+    // app.delete('/anime/:id/:comment_id', (req, res) => {
+    //     AnimeComment.findByIdAndRemove(req.params.comment_id, function(err) {
+    //         if(err){
+    //             console.log(err, "Could not find delete!")
+    //             res.status(500).send()
+    //             return
+    //         }
+    //         res.redirect('/anime/' + req.params.id);
+    //     })
+    // })
+
 
 }
