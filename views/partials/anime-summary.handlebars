@@ -3,7 +3,7 @@
 <style>
 .trailer-container {
 	position:relative;
-	padding-bottom:56.25%;
+	padding-bottom: 56.25%;
 	padding-top:30px;
 	height:0;
 	overflow:hidden;
@@ -15,6 +15,8 @@
 	left:0;
 	width:100%;
 	height:100%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .closemodal{
@@ -42,44 +44,95 @@
 }
 
 
-.clickable-list {
-    border: 1px solid lightgrey;
-    margin: 5px;
-    padding: 5px 5px;
-    font-size: 15px;
-    cursor: pointer;
-
-}
-
-
-.clickable-list.prequel {
-    position: relative;
-    border-radius: 50% 0px 0px 50%;
-    text-align: right;
-    width: 40%;
-}
-
-.clickable-list.sequel {
-    position: relative;
-    text-align: left;
-    /*transform: translate(15%);*/
-    border-radius: 0px 50% 50% 0px;
-    width: 40%;
-}
-
-.clickable-list > p{
-    color: blue;
-}
-
 .clickable-list:hover{
     background-color: #eeeeee;
 }
 
 .preview-list{
     text-align: center;
+    display: flex;
+}
+
+.preview-list *{
+    flex-wrap: wrap;
+}
+
+.genre-list{
+    column-count: 2;
+    column-gap: 0px;
+    list-style: none;
+    padding: 0px;
+}
+
+.clickable-list {
+    /*border: 1px solid lightgrey;*/
+    margin: 5px;
+    padding: 5px 5px;
+    font-size: 15px;
+    cursor: pointer;
 }
 
 
+.clickable-list.prequel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    position: relative;
+    text-align: left;
+    width: 45%;
+}
+
+.clickable-list.sequel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    position: relative;
+    text-align: right;
+    width: 45%;
+}
+
+.clickable-list > p{
+    color: blue;
+}
+/* For prequel/sequel content to make use of arrows */
+.clickable-list.prequel > .rest{
+    grid-column: 2 / 7;
+    padding: 5px;
+}
+
+.clickable-list.sequel > .rest{
+    grid-column: 1 / 6;
+    padding: 5px;
+}
+
+.arrow-left {
+  grid-column: 1 / 2;
+  width: 100%;
+  height: 0;
+  border-top: 25px solid transparent;
+  border-right: 50px solid grey;
+  border-bottom: 25px solid transparent;
+}
+
+.arrow-right {
+    grid-column: 6 / 7;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-left: 50px solid grey;
+    border-bottom: 25px solid transparent;
+}
+
+@media (max-width: 769px){
+    .arrow-left{
+        border-top: 12.5px solid transparent;
+        border-right: 25px solid grey;
+        border-bottom: 12.5px solid transparent;
+    }
+    .arrow-right{
+        border-top: 12.5px solid transparent;
+        border-left: 25px solid grey;
+        border-bottom: 12.5px solid transparent;
+    }
+}
 
 
 </style>
@@ -90,14 +143,16 @@
     <div class="related">
         {{#if prequel}}
             <div class="clickable-list prequel" id="prequel" data-id="{{prequel.id}}">
-                Prequel: <p>{{prequel.title_english}}</p>
+                <div class="arrow-left"></div>
+                <div class="rest">Prequel: <p>{{prequel.title_english}}</p></div>
             </div>
             {{else}}
             <div style="display:hidden;"></div>
         {{/if}}
         {{#if sequel}}
             <div class="clickable-list sequel" id="sequel" data-id="{{sequel.id}}">
-                Sequel: <p>{{sequel.title_english}}</p>
+                <div class="rest">Sequel: <p>{{sequel.title_english}}</p></div>
+                <div class="arrow-right"></div>
             </div>
             {{else}}
             <div style="display:hidden;"></div>
@@ -106,22 +161,24 @@
         </div>
 
     </div>
-
+<!-- List of easy to grab information -->
     </div>
     <div class="row justify-content-center">
         <div class="col preview-list">
                 <ul class="list-group">
                   <li class="list-group-item">{{anime.title_romaji}}</li>
                   <li class="list-group-item">{{anime.title_japanese}}</li>
-                  <li class="list-group-item">{{anime.studio.0.studio_name}}</li>
+                  <li class="list-group-item">Studio: <br>{{anime.studio.0.studio_name}}</li>
                   <li class="list-group-item"><img class="img-fluid" style="max-width 300px;" src={{anime.image_url_lge}}></li>
                   <li class="list-group-item"><a href="/anime/{{anime.id}}">Details</a></li>
 
                   <li class="list-group-item">
                       Genres:<br>
+                      <ul class="genre-list">
                       {{#each anime.genres}}
-                          {{this}} &nbsp; &nbsp;
+                          <li>{{this}}</li>
                       {{/each}}
+                    </ul>
                   </li>
                 </ul>
 

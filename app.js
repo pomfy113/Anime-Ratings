@@ -13,6 +13,7 @@ require('dotenv').config()
 const app = express()
 
 
+
 // MIDDLEWARE
 // Body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,6 +57,7 @@ require('./controllers/anime.js')(app);
 require('./controllers/anime-home.js')(app);
 // Authentication
 require('./controllers/auth.js')(app);
+require('./controllers/user.js')(app);
 
 
 // double: either port for heroku or local 3000

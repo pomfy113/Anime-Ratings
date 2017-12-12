@@ -56,7 +56,6 @@ module.exports = function(app) {
     // Login; render the login page
     app.get('/login', (req, res) => {
         let bodytype = utils.checklog("home", req.user)
-
         res.render('login', {bodytype, user: req.user});
     });
 
@@ -86,12 +85,17 @@ module.exports = function(app) {
     });
 
     app.get('/anime/:id/favorite', (req, res) => {
-        console.log(req.user)
         if(req.user){
             User.findOne({ username: req.user.username}).then((user) =>{
-                user.favorites.unshift(req.params.id)
-                user.save()
-                res.redirect("/anime/"+req.params.id)
+                if(user.favorites.includes(req.params.id)){
+                    console.log("You already have that favorited!")
+                    res.redirect("/anime/"+req.params.id)
+                }
+                else{
+                    user.favorites.unshift(req.params.id)
+                    user.save()
+                    res.redirect("/anime/"+req.params.id)
+                }
             }).catch((err) => {
                 console.log(err, "Could not save favorite")
             })

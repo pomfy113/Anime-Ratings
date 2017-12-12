@@ -40,17 +40,21 @@ Buttons for all the filtering
     </div>
 </div>
 </div>
-
+<span class="loading-modal">
+    <img src="../../images/TamamoBall4.gif"><p>LOADING</p>
+</span>
 <span class="loading"><img src="../../images/TamamoBall4.gif"><br>LOADING</span>
-
+<!--
+= * = * =
+Actual content below
+= * = * =
+-->
 <div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
     {{> home-search}}
 </div>
 
+
 <div class="mymodal">
-    <span class="loading-modal">
-        <img src="../../images/TamamoBall4.gif"><p>LOADING</p>
-    </span>
     <div class="modalcontent">
     </div>
 
@@ -66,7 +70,6 @@ var season = "Spring"
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
     $('.loading-modal').show()
-
     $.ajax({
         url: "/modal"+url,
         type: 'GET'
@@ -243,7 +246,6 @@ $('body').on('click', '#current-year', function(e) {
 $('body').on('click', '#prequel', function(e) {
     let url = "/" + $(this).data('id')
     $('.loading-modal').show()
-
     $.ajax({
         url: "/modal"+url,
         type: 'GET'
