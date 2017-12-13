@@ -1,15 +1,40 @@
+<style>
+.genre-filter{
+    margin: 5px;
+    padding: 5px;
+    width: 400%;
+}
+
+.genre-filter li{
+    padding: 5px;
+    float: left;
+}
+
+@media (max-width: 769px){
+    .genre-filter{
+        width: 300%;
+    }
+}
+
+@media (max-width: 424px){
+    .genre-filter{
+        width: 200%;
+    }
+}
+</style>
+
 <div class="above-cards">
     <div class="title-container">
         <h1>Currently Airing</h1>
-        <h3>Sorted by Score</h3>
+        <h3>Sorted by score</h3>
     </div>
 
     <div class="loading-error alert alert-warning" role="alert">
     </div>
-<!--
-= * = * =
-Buttons for all the filtering
-= * = * =
+    <!--
+    = * = * =
+    Buttons for all the filtering
+    = * = * =
 -->
 <div class="col button-container">
     <div class="row">
@@ -17,27 +42,56 @@ Buttons for all the filtering
         <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sort by:
         </button>
-        <div class="dropdown-menu">
-            <button class="dropdown-item" id="sort-score">&#9660; Score</button>
-            <button class="dropdown-item" id="sort-pop">&#9660; Popularity</button>
+        <div class="dropdown-menu main-filters">
+            <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
+            <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
         </div>
     </div>
     <div class="row">
-    <div class="btn-group" role="group">
-        <button class="btn btn-secondary" id="current-year">Filter</button>
-        <input type="text" placeholder="Year "id="year-input" style="width: 75px;" class="form-control" aria-describedby="current-year">
-        <button id="season-drop" data-season="Spring" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="btn-group" role="group">
+            <button class="btn btn-secondary" id="current-year">Filter</button>
+            <input type="text" placeholder="Year "id="year-input" style="width: 75px;" class="form-control" aria-describedby="current-year">
+            <button id="season-drop" data-season="Spring" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Spring
-        </button>
-        <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
+            </button>
+            <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
                 <button class="dropdown-item" data-id="Spring">Spring</button>
                 <button class="dropdown-item" data-id="Summer">Summer</button>
                 <button class="dropdown-item" data-id="Fall">Fall</button>
                 <button class="dropdown-item" data-id="Winter">Winter</button>
-        </div>
+            </div>
 
         </div>
     </div>
+    <div class="row">
+        <!-- Time for the genres...! -->
+        <div class="dropdown tags">
+            <button type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown">Genre Filter<span class="caret"></span></button>
+            <ul class="dropdown-menu genre-filter">
+                <!-- <div class="tags"> -->
+                <li><label><input type="checkbox" rel="action" />Action</label></li>
+                <li><label><input type="checkbox" rel="adventure" />Adventure</label></li>
+                <li><label><input type="checkbox" rel="comedy" />Comedy</label></li>
+                <li><label><input type="checkbox" rel="drama" />Drama</label></li>
+                <li><label><input type="checkbox" rel="ecchi" />Ecchi</label></li>
+                <li><label><input type="checkbox" rel="fantasy" />Fantasy</label></li>
+                <li><label><input type="checkbox" rel="mahoushoujo" />Mahou Shoujo</label></li>
+                <li><label><input type="checkbox" rel="mecha" />Mecha</label></li>
+                <li><label><input type="checkbox" rel="music" />Music</label></li>
+                <li><label><input type="checkbox" rel="mystery" />Mystery</label></li>
+                <li><label><input type="checkbox" rel="psychological" />Psychological</label></li>
+                <li><label><input type="checkbox" rel="romance" />Romance</label></li>
+                <li><label><input type="checkbox" rel="sci-fi" />Sci-fi</label></li>
+                <li><label><input type="checkbox" rel="sliceoflife" />Slice of Life</label></li>
+                <li><label><input type="checkbox" rel="sports" />Sports</label></li>
+                <li><label><input type="checkbox" rel="supernatural" />Supernatural</label></li>
+                <li><label><input type="checkbox" rel="thriller" />Thriller</label></li>
+                <li><button class="clear-all">Clear All</button></li>
+                <!-- </div> -->
+            </ul>
+        </div>
+    </div>
+
 </div>
 </div>
 <span class="loading-modal">
@@ -66,6 +120,11 @@ var airing = true;
 var year;
 var season = "Spring"
 
+
+$('body').on('click', '.dropdown-menu', function (e) {
+    e.stopPropagation();
+});
+
 // Modals
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
@@ -93,29 +152,36 @@ $('body').on('click', '.closemodal', function(e) {
     $('.modalcontent').html("")
 })
 
-// Sort by score
-$('body').on('click', '#sort-score', function(e) {
+// === === === === === ===
+// === === SORTING === ===
+// === === === === === ===
+
+// Sort by score or popularity
+$('body').on('click', '.main-filters > *', function(e) {
+    let sorting = $(this).data('id')
     $('.loading').show()
+    let genres = genrelist();
+
     if(airing == true){
         $.ajax({
-            url: "/home-sort/score",
+            url: `/home-sort/${sorting}/${genres}`,
             type: 'GET'
         }).done((data) => {
             showdata(data)
-            $('.title-container').children("h3").html("Sorted by Score")
-            $('#sort-drop').html("&#9660; Score")
+            $('.title-container').children("h3").html(`Sorted by ${sorting}`)
+            $('#sort-drop').html(`&#9660; ${capitalize(sorting)}`)
         }).fail(() => {
             console.log("Failed")
         });
     }
     else{
         $.ajax({
-            url: "/home-sort/score-date/"+season+"/"+year,
+            url: `/home-sort/${sorting}-date/${season}/${year}/${genres}`,
             type: 'GET'
         }).done((data) => {
             showdata(data)
-            $('.title-container').children("h3").html("Sorted by Score")
-            $('#sort-drop').html("&#9660; Score")
+            $('.title-container').children("h3").html(`Sorted by ${sorting}`)
+            $('#sort-drop').html(`&#9660; ${capitalize(sorting)}`)
         }).fail(() => {
             console.log("Failed")
         });
@@ -123,49 +189,24 @@ $('body').on('click', '#sort-score', function(e) {
 
 })
 
-// Sort by popularity
-$('body').on('click', '#sort-pop', function(e) {
-    $('.loading').show()
-    // Current season
-    if(airing == true){
-        $.ajax({
-            url: "/home-sort/popularity",
-            type: 'GET'
-        }).done((data) => {
-            console.log("Currently airing!")
-            showdata(data)
-            $('.title-container').children("h3").html("Sorted by Popularity")
-            $('#sort-drop').html("&#9660; Popularity")
-        }).fail(() => {
-            console.log("Failed")
-        });
-    }
-    // If we we're not going with seasonal stuff
-    else{
-        $.ajax({
-            url: "/home-sort/popularity-date/"+season+"/"+year,
-            type: 'GET'
-        }).done((data) => {
-            showdata(data)
-            $('.title-container').children("h3").html("Sorted by Popularity")
-            $('#sort-drop').html("&#9660; Popularity")
-        }).fail(() => {
-            console.log("Failed")
-        });
-    }
-})
-
+// === === === === === ===
+// === ===  DATING === ===
+// === === === === === ===
 // Back to airing stuff!
+
+// All airing; default to score without dates
 $('body').on('click', '#airing', function(e) {
     $('.loading').show()
     airing = true
+    let genres = genrelist();
+
     $.ajax({
-        url: "/home-sort/score",
+        url: `/home-sort/score/${genres}`,
         type: 'GET'
     }).done((data) => {
         showdata(data)
         $('.title-container').children("h1").html("Currently Airing")
-        $('.title-container').children("h3").html("Sorted by Score")
+        $('.title-container').children("h3").html("Sorted by score")
         $('#sort-drop').html("&#9660; Score")
     }).fail(() => {
         console.log("Failed")
@@ -178,8 +219,6 @@ $('body').on('click', '.season-buttons > .dropdown-item', function(e) {
     year = $('#year-input').val()
     // Change the box
     $('#season-drop').attr('data-season', season)
-
-
     if(!jQuery.isNumeric(year) && !year){
         console.log("Not quite!")
         $('.loading-error').show()
@@ -188,8 +227,9 @@ $('body').on('click', '.season-buttons > .dropdown-item', function(e) {
     }
     $('.loading').show()
 
+    let genres = genrelist()
     $.ajax({
-        url: "/home-sort/date/"+season+"/"+year,
+        url: `/home-sort/score-date/${season}/${year}/${genres}`,
         type: 'GET'
     }).done((data) => {
         if(!data){
@@ -210,6 +250,7 @@ $('body').on('click', '.season-buttons > .dropdown-item', function(e) {
 // When you click on year
 $('body').on('click', '#current-year', function(e) {
     year = $('#year-input').val()
+    let genres = genrelist()
 
     if(!jQuery.isNumeric(year) && !year){
         console.log("Not quite!")
@@ -222,7 +263,7 @@ $('body').on('click', '#current-year', function(e) {
     $('.loading').show()
 
     $.ajax({
-        url: "/home-sort/date/"+season+"/"+year,
+        url: `/home-sort/score-date/${season}/${year}/${genres}`,
         type: 'GET'
     }).done((data) => {
         if(!data){
@@ -276,7 +317,26 @@ $('body').on('click', '#sequel', function(e) {
     });
 })
 
+// === === === === === ===
+// === === FILTERS === ===
+// === === === === === ===
 
+$("body").on('click', '.clear-all', (e) => {
+    $('input[type="checkbox"]:checked').prop('checked',false);
+})
+
+function capitalize(word){
+    return word[0].toUpperCase() + word.slice(1)
+}
+
+function genrelist(){
+    let genrelist = "genres?q="
+    $('div.tags').find('input:checked').each(function () {
+        genrelist += ($(this).attr('rel') + ",")
+    });
+    return genrelist.slice(0, -1)
+
+}
 function showdata(data){
     $('#home-container').fadeOut(200)
     $('.loading').hide()

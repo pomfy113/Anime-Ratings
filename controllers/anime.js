@@ -42,6 +42,13 @@ module.exports = function(app) {
         test.then(newthing => res.send(newthing))
     })
 
+    app.get('/test-specific', function (req, res) {
+        nani.get('anime/100684/page').then((anime) => {
+            res.send(anime)
+        })
+    })
+
+
     // Search function
     app.get('/search', function (req, res) {
         let bodytype = utils.checklog("search", req.user)

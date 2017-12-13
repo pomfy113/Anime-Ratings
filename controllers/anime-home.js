@@ -25,17 +25,14 @@ module.exports = function(app) {
         })
     })
 
-    app.get('/modal/:id/more-scores', (req, res) => {
-        nani.get("anime/"+req.params.id+"/page").then((results) => {
-            res.render("./partials/anime-summary", {anime: results, layout: false})
-        }).catch((err)=>{
-            console.log(err)
-        })
-    })
-
     // Sorting home page by popularity
-    app.get('/home-sort/popularity', (req, res) => {
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc')
+    app.get('/home-sort/popularity/genres', (req, res) => {
+        let url = 'browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc'
+        // If you have a genre filter on, add it to the genre
+        if(req.query.q){
+            url += "&genres=" + req.query.q
+        }
+        nani.get(url)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
         }).catch((err) => {
@@ -43,9 +40,14 @@ module.exports = function(app) {
         })
     })
 
-    // Sorting home page by score
-    app.get('/home-sort/score', (req, res) => {
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
+    // Score sort
+    app.get('/home-sort/score/genres', (req, res) => {
+        let url = 'browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc'
+        // If you have a genre filter on, add it to the genre
+        if(req.query.q){
+            url += "&genres=" + req.query.q
+        }
+        nani.get(url)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
         }).catch((err) => {
@@ -54,20 +56,25 @@ module.exports = function(app) {
     })
 
     // Everything airing; usually the default
-    app.get('/home-sort/airing-shows', (req, res) => {
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
-        .then((anime) => {
-            res.render('./partials/home-search', {anime});
-        }).catch((err) => {
-            console.log(err, "Airing data error")
-        })
-    })
+    // app.get('/home-sort/airing-shows', (req, res) => {
+    //     let url = "browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc"
+    //     nani.get(url)
+    //     .then((anime) => {
+    //         res.render('./partials/home-search', {anime});
+    //     }).catch((err) => {
+    //         console.log(err, "Airing data error")
+    //     })
+    // })
 
-    // Default grabbing date
-    app.get('/home-sort/date/:season/:year', (req, res) => {
+    // Default grabbing date + sort by score
+    app.get('/home-sort/score-date/:season/:year/genres', (req, res) => {
         let year = req.params.year
         let season = req.params.season
-        nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`)
+        let url = `browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`
+        if(req.query.q){
+            url += "&genres=" + req.query.q
+        }
+        nani.get(url)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
         }).catch((err) => {
@@ -75,18 +82,8 @@ module.exports = function(app) {
         })
     })
 
-    app.get('/home-sort/score-date/:season/:year', (req, res) => {
-        let year = req.params.year
-        let season = req.params.season
-        nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`)
-        .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
-        }).catch((err) => {
-            console.log(err, "Custom date - score error")
-        })
-    })
-
-    app.get('/home-sort/popularity-date/:season/:year', (req, res) => {
+    // Sort by popularity
+    app.get('/home-sort/popularity-date/:season/:year/genres', (req, res) => {
         let year = req.params.year
         let season = req.params.season
         nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc`)
