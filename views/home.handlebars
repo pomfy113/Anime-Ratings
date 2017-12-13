@@ -160,7 +160,7 @@ Actual content below
 
 
 <div class="mymodal">
-    <div class="modalcontent">
+    <div id="inmodal" class="modalcontent">
     </div>
 
 </div>
@@ -168,7 +168,7 @@ Actual content below
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 var airing = true;
-var year;
+var year = "2017";
 var season;
 var page = 1;
 
@@ -176,9 +176,6 @@ $('body').on('click', '.genre-show', (e) => {
     $(".genre-filter").slideToggle()
 })
 
-$('body').on('click', '.dropdown-menu', function (e) {
-    e.stopPropagation();
-});
 
 // Modals
 $('body').on('click', '.card', function(e) {
@@ -206,7 +203,17 @@ $('body').on('click', '.closemodal', function(e) {
     $('.mymodal').hide()
     $('.modalcontent').html("")
 })
+// Hide if you click outside too
+$('body').on('click', '.mymodal', function(e) {
+    var target = e.target;
+    if (jQuery(target).is('.mymodal')){
+        $("body").removeClass("modal-open")
+        $('.mymodal').hide()
+        $('.modalcontent').html("")
+    }
+})
 
+// Next page
 $('body').on('click', '.next-page', function(e) {
     let sorting = "score"
     $('.loading').show()
@@ -222,6 +229,7 @@ $('body').on('click', '.next-page', function(e) {
         if(!data){
             $('.loading').hide()
             showerror("No more pages available")
+            page -= 1
             return
         }
         else{
@@ -272,6 +280,12 @@ $('body').on('click', '.main-filters > *', function(e) {
         type: 'GET'
     }).done((data) => {
         showdata(data)
+        if(season === "airing"){
+            $('.title-container').children("h1").html(`Currently Airing`)
+        }
+        else{
+            $('.title-container').children("h1").html(`${season}, ${year.substring(0,4)}`)
+        }
         $('.title-container').children("h3").html(`Sorted by ${sorting}`)
         $('#sort-drop').html(`&#9660; ${capitalize(sorting)}`)
     }).fail(() => {
