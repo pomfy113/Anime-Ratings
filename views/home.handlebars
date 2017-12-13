@@ -6,19 +6,37 @@
 }
 
 .genre-filter li{
+    width: 25%;
     padding: 5px;
     float: left;
 }
 
+.genre-filter label{
+    padding: 5px;
+}
+
+
+/*input:checked{
+    background-color: black;
+    border: 20px solid black;
+}*/
+
 @media (max-width: 769px){
     .genre-filter{
         width: 300%;
+    }
+    .genre-filter li{
+        width: 33.33%;
     }
 }
 
 @media (max-width: 424px){
     .genre-filter{
         width: 200%;
+    }
+
+    .genre-filter li{
+        width: 50%;
     }
 }
 </style>
@@ -38,18 +56,8 @@
 -->
 <div class="col button-container">
     <div class="row">
-        <button type="button" class="btn btn-secondary btn-lg" id="airing">Airing</button>
-        <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Sort by:
-        </button>
-        <div class="dropdown-menu main-filters">
-            <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
-            <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
-        </div>
-    </div>
-    <div class="row">
         <div class="btn-group" role="group">
-            <button class="btn btn-secondary" id="current-year">Filter</button>
+            <button class="btn btn-secondary" id="current-year">Search</button>
             <input type="text" placeholder="Year "id="year-input" style="width: 75px;" class="form-control" aria-describedby="current-year">
             <button id="season-drop" data-season="Spring" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Spring
@@ -64,9 +72,19 @@
         </div>
     </div>
     <div class="row">
+        <button type="button" class="btn btn-secondary btn-lg" id="airing">Show Airing</button>
+        <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by:
+        </button>
+        <div class="dropdown-menu main-filters">
+            <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
+            <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
+        </div>
+    </div>
+    <div class="row">
         <!-- Time for the genres...! -->
         <div class="dropdown tags">
-            <button type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown">Genre Filter<span class="caret"></span></button>
+            <button type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown">Genre Select<span class="caret"></span></button>
             <ul class="dropdown-menu genre-filter">
                 <!-- <div class="tags"> -->
                 <li><label><input type="checkbox" rel="action" />Action</label></li>
