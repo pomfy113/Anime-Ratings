@@ -8,12 +8,19 @@
     border-radius: 10px;
 }
 
+.genre-filter label{
+    padding: 0px;
+    margin: 0px;
+}
+
 .genre-filter ul{
     list-style: none;
+    padding: 5px;
+    margin: 5px;
 }
 
 .genre-filter li{
-    width: 25%;
+    width: 16.667%;
     padding: 5px;
     float: left;
 }
@@ -28,27 +35,33 @@
     border: 20px solid black;
 }*/
 
-@media (max-width: 769px){
-    .genre-filter{
-        width: 300%;
+@media (max-width: 1040px){
+    .genre-filter li{
+        padding: 0px;
+        width: 25%;
     }
+}
+
+@media (max-width: 767px){
     .genre-filter li{
         padding: 0px;
         width: 33.33%;
     }
+    .genre-filter label{
+        padding: 2px;
+        margin: 2px;
+    }
 }
 
-@media (max-width: 424px){
-    .genre-filter{
-        padding: 0px;
-        margin: 0px;
-        width: 200%;
-    }
-
+@media (max-width: 573px){
     .genre-filter li{
         padding: 0px;
         margin: 0px;
         width: 50%;
+    }
+    .genre-filter label{
+        padding: 5px;
+        margin: 5px;
     }
 }
 </style>
@@ -76,8 +89,7 @@
 
             <input type="text" placeholder="Year" value="2017" id="year-input" style="width: 65px; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" class="form-control" aria-describedby="current-year">
             <button id="season-drop" value="airing" data-season="" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Season
-            </button>
+                Season</button>
             <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
                 <button class="dropdown-item" data-id="Spring">Spring</button>
                 <button class="dropdown-item" data-id="Summer">Summer</button>
@@ -88,8 +100,10 @@
 
     </div>
     <div class="row">
+        <div class="btn-group" role="group">
             <button type="button" class="btn btn-secondary genre-show">Show Genres</button>
             <button class="btn btn-secondary clear-all">Clear Genres</button>
+        </div>
             <div class="genre-filter">
             <ul>
                 <li><label><input type="checkbox" rel="action" />Action</label></li>
@@ -251,7 +265,7 @@ $('body').on('click', '.main-filters > *', function(e) {
     let genres = genrelist();
     season = $('#season-drop').val();
     page = 1;
-
+    $("#page").html(`Page: ${page}`)
 
     $.ajax({
         url: `/home-sort/${sorting}/${season}/${year}/${page}/${genres}`,
@@ -280,6 +294,7 @@ $('body').on('click', '#airing', function(e) {
     $('#season-drop').val('airing')
     season = "airing"
     page = 1
+    $("#page").html(`Page: ${page}`)
 
     $.ajax({
         url: `/home-sort/score/${season}/${year}/${page}/${genres}`,
@@ -314,6 +329,7 @@ $('body').on('click', '#search', function(e) {
     season = $('#season-drop').val()
     let genres = genrelist()
     page = 1
+    $("#page").html(`Page: ${page}`)
 
 
     if(!jQuery.isNumeric(year) || !year){

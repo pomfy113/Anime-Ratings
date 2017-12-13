@@ -97,7 +97,7 @@ body.modal-open {
 .loading {
     z-index: 1;
     display: none;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -129,7 +129,7 @@ body.modal-open {
 .loading-modal{
     z-index: 2;
     display: none;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -208,7 +208,7 @@ body.modal-open {
 .loading-error{
     z-index: 1;
     display: none;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 15%;
     transform: translate(-50%, -50%)
