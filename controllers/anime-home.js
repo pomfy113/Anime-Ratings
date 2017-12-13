@@ -25,72 +25,63 @@ module.exports = function(app) {
         })
     })
 
-    // Sorting home page by popularity
-    app.get('/home-sort/popularity/genres', (req, res) => {
-        let url = 'browse/anime?status=currently+airing&genres_exclude=hentai&sort=popularity-desc'
-        // If you have a genre filter on, add it to the genre
-        if(req.query.q){
-            url += "&genres=" + req.query.q
-        }
-        nani.get(url)
-        .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
-        }).catch((err) => {
-            console.log(err, "Pop sort error")
-        })
-    })
-
-    // Score sort
-    app.get('/home-sort/score/genres', (req, res) => {
-        let url = 'browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc'
-        // If you have a genre filter on, add it to the genre
-        if(req.query.q){
-            url += "&genres=" + req.query.q
-        }
-        nani.get(url)
-        .then((anime) => {
-            res.render('./partials/home-search', {anime, layout: false});
-        }).catch((err) => {
-            console.log(err, "Score sort error")
-        })
-    })
-
-    // Everything airing; usually the default
-    // app.get('/home-sort/airing-shows', (req, res) => {
-    //     let url = "browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc"
-    //     nani.get(url)
-    //     .then((anime) => {
-    //         res.render('./partials/home-search', {anime});
-    //     }).catch((err) => {
-    //         console.log(err, "Airing data error")
-    //     })
-    // })
-
     // Default grabbing date + sort by score
-    app.get('/home-sort/score-date/:season/:year/genres', (req, res) => {
+    app.get('/home-sort/score/:season/:year/:page/genres', (req, res) => {
         let year = req.params.year
         let season = req.params.season
-        let url = `browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`
+        let page = req.params.page
+
+        let url;
+        console.log(season)
+        // Let's see if it's airing or not
+        // If not, do the season and year normally
+        if(req.params.season === 'airing'){
+            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=score-desc`
+        }
+        else{
+            url = `browse/anime?page=${page}&year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`
+        }
+
         if(req.query.q){
             url += "&genres=" + req.query.q
         }
+
+        console.log(url)
+
         nani.get(url)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
         }).catch((err) => {
-            console.log(err, "Custom date error")
+            console.log(err, "Custom score + date error")
         })
     })
 
     // Sort by popularity
-    app.get('/home-sort/popularity-date/:season/:year/genres', (req, res) => {
+    app.get('/home-sort/popularity/:season/:year/:page/genres', (req, res) => {
         let year = req.params.year
         let season = req.params.season
-        nani.get(`browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc`)
+        let url;
+        let page = req.params.page
+
+
+        // Let's see if it's airing or not
+        // If not, do the season and year normally
+        if(req.params.season === 'airing'){
+            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=popularity-desc`
+        }
+        else{
+            url = `browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc`
+        }
+        if(req.query.q){
+            url += "&genres=" + req.query.q
+        }
+        console.log(url)
+
+        nani.get(url)
         .then((anime) => {
             res.render('./partials/home-search', {anime, layout: false});
         }).catch((err) => {
-            console.log(err, "Custom date - popularity error")
+            console.log(err, "Custom popularity + date error")
         })
     })
 }

@@ -48,6 +48,22 @@ module.exports = function(app) {
         })
     })
 
+    app.get('/test-pages1', function (req, res) {
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc').then((anime) => {
+            res.send(anime[0])
+        })
+    })
+
+    app.get('/test-pages2', function (req, res) {
+        let cake = nani.get('browse/anime?status=currently+airing&page1');
+        let cake2 = nani.get('browse/anime?status=currently+airing&page2');
+
+        Promise.all([cake]).then((cake) => {
+            console.log(cake)
+            res.send(cake)
+        })
+    })
+
 
     // Search function
     app.get('/search', function (req, res) {
@@ -68,7 +84,7 @@ module.exports = function(app) {
         })
     })
 
-    // Grab and anime
+    // Grab an anime
     app.get('/anime/:anime_id', (req, res) => {
         nani.get("anime/" + req.params.anime_id).then((ALISTdata) => {
             // Title for grabbing info
