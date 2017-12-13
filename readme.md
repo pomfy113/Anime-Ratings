@@ -1,3 +1,5 @@
+## Readme is a tad outdated! Updating is in progress; please wait warmly!
+
 # Our Anime List
 This project was made to consolidate all the information from several anime information sites at once.
 
