@@ -32,13 +32,20 @@ module.exports = function(app) {
     })
     // Debugging purposes
     app.get('/test-AL', function (req, res) {
-        nani.get('anime/21202/page').then((anime) => {
+        nani.get('anime/21699/page').then((anime) => {
             res.send(anime)
         })
     })
     // Debugging purposes
     app.get('/test-MAL', function (req, res) {
-        var test = Anime.fromName("Attack on Titan")
+        var test = Anime.fromName("Kono Subarashii Sekai ni Shukufuku wo! 2")
+        test.then(newthing => res.send(newthing))
+    })
+
+    app.get('/test-kitsu', function (req, res) {
+        var test = kitsuanime.searchAnime("Konosuba 2")
+        // var test = kitsuanime.getAnime('10941')
+
         test.then(newthing => res.send(newthing))
     })
 
@@ -86,7 +93,7 @@ module.exports = function(app) {
 
     // Grab an anime
     app.get('/anime/:anime_id', (req, res) => {
-        nani.get("anime/" + req.params.anime_id).then((ALISTdata) => {
+        nani.get(`anime/${req.params.anime_id}/page`).then((ALISTdata) => {
             // Title for grabbing info
             const title = ALISTdata.title_english
             // Grab data from other sites
@@ -109,9 +116,9 @@ module.exports = function(app) {
             console.log(data[3])
 
             res.render("anime-show", {
-                anime: data[0][0],  // Kitsuanime data
-                anime2: data[1],    // MAL
-                anime3: data[2],    // Anilist
+                KITdata: data[0][0],  // Kitsuanime data
+                MALdata: data[1],    // MAL
+                ALdata: data[2],    // Anilist
                 comment: data[3],   // Comments
                 bodytype,
                 user: req.user

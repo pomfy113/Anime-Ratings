@@ -1,127 +1,133 @@
 <!-- Image and basic information row
 Image on left; title and aliases on right-->
 <div class="row">
-        <div class="col-sm-3">
-            <img class="img-fluid" src="{{anime3.image_url_lge}}"
-            class="img-fluid" style="margin: 0 auto; display: block;">
-            <a href="{{anime3.id}}/favorite">Favorite</a>
-        </div>
+    <div class="col-sm-3">
+        <img class="img-fluid" src="{{ALdata.image_url_lge}}"
+        class="img-fluid" style="margin: 0 auto; display: block;">
+        <a href="{{ALdata.id}}/favorite">Favorite</a>
+    </div>
 
     <div class="col-sm-8">
-          <h2>{{anime.titles.canonical}}</h2>
-          <h4>{{anime.titles.japanese}}<br>
-              [{{anime.titles.english}}]</h4>
+        <h2>{{KITdata.titles.canonical}}</h2>
+        <h4>{{KITdata.titles.japanese}}<br>
+            [{{KITdata.titles.english}}]</h4>
             <!-- Synonyms -->
-                {{#if anime3.synonyms}}
-                    <p>Also known as:<br>
-                        {{#each anime3.synonyms}}
-                        - {{this}}<br>
-                        {{/each}}
-                    </p>
-                {{/if}}
-    </div>
-</div>
-<br>
-<!-- Info row
-Rating on left, synopsis on the right-->
-<div class="row">
-  <div class="col-sm-3">
-      <br>
-      {{#if anime.averageRating}}
-      <!-- <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: {{anime.averageRating}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div> -->
-      <progress value="{{anime.averageRating}}" max="100"></progress>
-      <ul>
-          <li>Kitsu Score:   {{anime.averageRating}}/100</li>
-          <li>Kitsu Score Rank:      {{anime.ratingRank}}</li>
-          <li>Kitsu Popularity Rank: {{anime.popularityRank}}</li>
-      </ul>
-      {{/if}}
-
-      {{#if anime2}}
-      <br>
-      <!-- <div class="progress">
-          <div id="MalBar" class="progress-bar bg-success" role="progressbar" style="width: {{anime2.statistics.score.value}}%;" aria-valuenow={{anime2.statistics.score.value}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div> -->
-
-      <progress value="{{anime2.statistics.score.value}}" max="10"></progress>
-      <ul>
-          <li>MAL Score: {{anime2.statistics.score.value}} / 10</li>
-          <li>MAL Score Ranking: {{anime2.statistics.ranking}}
-          <li>MAL Popularity: {{anime2.statistics.popularity}}</li>
-      </ul>
-      <!-- <script>
-        // We need to do some math to make that bar look just right
-        const malBar = document.getElementById('MalBar')
-        let barscore = malBar.getAttribute("aria-valuenow") * 10
-        malBar.style.width = String(barscore + "%")
-      </script> -->
-      {{/if}}
-
-      {{#if anime3.mean_score}}
-      <br>
-      <!-- <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: {{anime3.mean_score}}%" aria-valuenow={{anime.averageRating}} aria-valuemin="0" aria-valuemax="100"></div>
-      </div> -->
-      <progress value="{{anime3.mean_score}}" max="100"></progress>
-      <ul>
-          <li>Anilist Score (Average): {{anime3.average_score}}/100</li>
-          <li>Anilist Score (Mean): {{anime3.mean_score}}/100</li>
-      </ul>
-      {{/if}}
-
-
-  </div>
-
-  <div class="col-sm-8">
-      Synopsis:
-      <p style="margin-left:20px; white-space: pre-wrap;">{{anime2.synopsis}}</p>
-  </div>
-
-<!-- Making a new comment -->
-</div>
-<div class = "row">
-  <div class="col-sm-8 logged-in">
-      <form method="POST" action="/anime/{{anime.id}}/comments">
-        <label for="comment">New Comment</label><br>
-        <textarea class="form-control" name="comment" rows="10" /></textarea>
-        <select class="form-control" name="rating">
-            <option value=3 selected hidden>Rating Score</option>
-            <option value=1>1 - Bad</option>
-            <option value=2>2 - Meh</option>
-            <option value=3>3 - Okay</option>
-            <option value=4>4 - Pretty good</option>
-            <option value=5>5 - GOAT</option>
-        </select>
-        <input type="hidden" class="form-control" name="animeId" value="{{anime3.id}}">
-        <p>
-            <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
-        </p>
-    </form>
-  </div>
-</div>
-
-<!-- Comment section -->
-<div class="row">
-    <div class="col-sm-8" style="padding-top: 100px;">
-      <!--  Comments stuff with panels-->
-      <h4>Comments</h4>
-      {{#each comment}}
-      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-end">
-          <!-- <h5 class="mb-1">List group item heading</h5> -->
-          <small class="text-muted">{{this.rating}}/5</small>
-        </div>
-        <p class="mb-1">{{this.comment}}</p>
-        <small class="text-muted">By: {{this.author.username}}</small>
-            {{#if this.isMine}}
-            <form method="POST" action="/anime/{{this.animeId}}/{{this._id}}?_method=DELETE">
-                <button type="submit" class="btn btn-primary pull-right">Delete comment</button><br><br>
-            </form>
+            {{#if ALdata.synonyms}}
+            <p>Also known as:<br>
+                {{#each ALdata.synonyms}}
+                - {{this}}<br>
+                {{/each}}
+            </p>
             {{/if}}
-      </a>
-      {{/each}}
-      </div>
+        </div>
     </div>
-</div>
+    <br>
+    <!-- Info row
+    Rating on left, synopsis on the right-->
+    <div class="row">
+        <div class="col-sm-3">
+            <br>
+            {{#if KITdata.averageRating}}
+            <progress value="{{KITdata.averageRating}}" max="100"></progress>
+            <ul>
+                <li>Kitsu Score:   {{KITdata.averageRating}}/100</li>
+                <li>Kitsu Score Rank:      {{KITdata.ratingRank}}</li>
+                <li>Kitsu Popularity Rank: {{KITdata.popularityRank}}</li>
+            </ul>
+            {{/if}}
+
+            {{#if MALdata}}
+            <br>
+
+            <progress value="{{MALdata.statistics.score.value}}" max="10"></progress>
+            <ul>
+                <li>MAL Score: {{MALdata.statistics.score.value}} / 10</li>
+                <li>MAL Score Ranking: {{MALdata.statistics.ranking}}
+                    <li>MAL Popularity: {{MALdata.statistics.popularity}}</li>
+                </ul>
+                {{/if}}
+
+                {{#if ALdata.mean_score}}
+                <br>
+                <progress value="{{ALdata.mean_score}}" max="100"></progress>
+                <ul>
+                    <li>Anilist Score (Average): {{ALdata.average_score}}/100</li>
+                    <li>Anilist Score (Mean): {{ALdata.mean_score}}/100</li>
+                </ul>
+                {{/if}}
+
+
+            </div>
+
+            <div class="col-sm-8">
+                <div id="sites">
+                    {{#each ALdata.external_links}}
+                        <p><a href="{{this.url}}">{{this.site}}</a></p>
+
+                    {{/each}}
+                </div>
+                <div id="synopsis">
+                    Synopsis:
+                    <p style="margin-left:20px; white-space: pre-wrap;">{{{MALdata.synopsis}}}</p>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+                <!-- Making a new comment -->
+            </div>
+            <div class = "row">
+                <div class="col-sm-8 logged-in">
+                    <form method="POST" action="/anime/{{KITdata.id}}/comments">
+                        <label for="comment">New Comment</label><br>
+                        <textarea class="form-control" name="comment" rows="10" /></textarea>
+                        <select class="form-control" name="rating">
+                            <option value=3 selected hidden>Rating Score</option>
+                            <option value=1>1 - Bad</option>
+                            <option value=2>2 - Meh</option>
+                            <option value=3>3 - Okay</option>
+                            <option value=4>4 - Pretty good</option>
+                            <option value=5>5 - GOAT</option>
+                        </select>
+                        <input type="hidden" class="form-control" name="animeId" value="{{ALdata.id}}">
+                        <p>
+                            <button style="float:left;" type="submit" class="btn btn-primary">Save Comment</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Comment section -->
+            <div class="row">
+                <div class="col-sm-8" style="padding-top: 100px;">
+                    <!--  Comments stuff with panels-->
+                    <h4>Comments</h4>
+                    {{#each comment}}
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-end">
+                            <!-- <h5 class="mb-1">List group item heading</h5> -->
+                            <small class="text-muted">{{this.rating}}/5</small>
+                        </div>
+                        <p class="mb-1">{{this.comment}}</p>
+                        <small class="text-muted">By: {{this.author.username}}</small>
+                        {{#if this.isMine}}
+                        <form method="POST" action="/anime/{{this.animeId}}/{{this._id}}?_method=DELETE">
+                            <button type="submit" class="btn btn-primary pull-right">Delete comment</button><br><br>
+                        </form>
+                        {{/if}}
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
