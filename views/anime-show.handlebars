@@ -1,10 +1,36 @@
 <!-- Image and basic information row
 Image on left; title and aliases on right-->
+
+<style>
+.infotabs {
+    display: flex;
+    list-style: none;
+}
+
+.infotabs li{
+    border: 1px solid grey;
+    margin: 5px;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.tab-info{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+}
+
+/*Put whatever we want to display by default*/
+#synopsis.tab-info{
+    display: block;
+}
+</style>
 <div class="row">
     <div class="col-sm-3">
         <img class="img-fluid" src="{{ALdata.image_url_lge}}"
         class="img-fluid" style="margin: 0 auto; display: block;">
-        <a href="{{ALdata.id}}/favorite">Favorite</a>
+        <a class="logged-in" href="{{ALdata.id}}/favorite">Favorite</a>
     </div>
 
     <div class="col-sm-8">
@@ -60,13 +86,19 @@ Image on left; title and aliases on right-->
             </div>
 
             <div class="col-sm-8">
-                <div id="sites">
+
+                <div>
+                    <ul class="infotabs" data-id="hello">
+                        <li data-id="synopsis">Synopsis</li>
+                        <li data-id="sites">Official Sites</li>
+                    </ul>
+                </div>
+                <div id="sites" class="tab-info">
                     {{#each ALdata.external_links}}
                         <p><a href="{{this.url}}">{{this.site}}</a></p>
-
                     {{/each}}
                 </div>
-                <div id="synopsis">
+                <div id="synopsis" class="tab-info">
                     Synopsis:
                     <p style="margin-left:20px; white-space: pre-wrap;">{{{MALdata.synopsis}}}</p>
                 </div>
@@ -131,3 +163,17 @@ Image on left; title and aliases on right-->
                 </div>
             </div>
         </div>
+
+<script>
+$('body').on('click', '.infotabs > *', (e) => {
+    // Need to get that data id and turn it into an id
+    let target = "#" + $(e.target).data('id')
+    $(".tab-info").hide()
+    $(target).show()
+
+
+    // console.log(e.data.value)
+    // console.log(e.data.data("id"))
+
+})
+</script>
