@@ -91,6 +91,10 @@ Image on left; title and aliases on right-->
                     <ul class="infotabs" data-id="hello">
                         <li data-id="synopsis">Synopsis</li>
                         <li data-id="sites">Official Sites</li>
+                        {{#if ALdata.youtube_id}}
+                        <li data-id="preview">Preview</li>
+                        {{/if}}
+
                     </ul>
                 </div>
                 <div id="sites" class="tab-info">
@@ -102,15 +106,12 @@ Image on left; title and aliases on right-->
                     Synopsis:
                     <p style="margin-left:20px; white-space: pre-wrap;">{{{MALdata.synopsis}}}</p>
                 </div>
-
-
-
-
-
-
-
-
-
+                <div id="preview" class="tab-info">
+                    {{#if ALdata.youtube_id}}
+                    <iframe src="http://www.youtube.com/embed/{{ALdata.youtube_id}}"
+                    frameborder="0" allowfullscreen></iframe>
+                    {{/if}}
+                </div>
 
 
 
