@@ -86,7 +86,13 @@ body.modal-open {
     z-index: auto;
 }
 
+.card-overlay{
+    display: none;
+}
+
 .card:hover > .card-overlay{
+    display: block;
+    color: white;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -226,6 +232,21 @@ body.modal-open {
     padding-left: 5px;
 }
 
+.tooltip-container{
+    display: none;
+}
+
+.tooltip-content{
+    position: absolute;
+    z-index: 1;
+    height: 315px;
+    width: 150px;
+    /*right: 50%;*/
+    background-color: black;
+    opacity: 0.5;
+    color: white;
+    padding: 5px;
+}
 /* ===================== */
 /* Individual shows! */
 /* ===================== */
@@ -267,4 +288,151 @@ progress{
         padding: 40px 0px;
     }
 
+}
+
+/* ===================== */
+/* Summary modals        */
+/* ===================== */
+
+.trailer-container {
+	position:relative;
+	padding-bottom: 56.25%;
+	padding-top:30px;
+	height:0;
+	overflow:hidden;
+}
+
+.trailer-container iframe{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.closemodal{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.closemodal:focus{
+    outline: none;
+}
+
+.closemodal:hover{
+    background-color: #dddddd;
+}
+/* Containing sequels/prequels*/
+.related{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    justify-content: space-between;
+}
+
+
+.clickable-list:hover{
+    background-color: #eeeeee;
+}
+
+.preview-list{
+    text-align: center;
+    display: flex;
+}
+
+.preview-list *{
+    flex-wrap: wrap;
+}
+
+.genre-list{
+    column-count: 2;
+    column-gap: 0px;
+    list-style: none;
+    padding: 0px;
+}
+
+.clickable-list {
+    /*border: 1px solid lightgrey;*/
+    margin: 5px;
+    padding: 5px 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+.clickable-list.prequel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    position: relative;
+    text-align: left;
+    width: 45%;
+}
+
+.clickable-list.sequel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    position: relative;
+    text-align: right;
+    width: 45%;
+}
+
+.clickable-list > p{
+    color: blue;
+}
+/* For prequel/sequel content to make use of arrows */
+.clickable-list.prequel > .rest{
+    grid-column: 2 / 7;
+    padding: 5px;
+}
+
+.clickable-list.sequel > .rest{
+    grid-column: 1 / 6;
+    padding: 5px;
+}
+
+.arrow-left {
+  grid-column: 1 / 2;
+  width: 100%;
+  margin-top: 20%;
+  margin-bottom: 20%;
+
+  height: 0;
+  border-top: 25px solid transparent;
+  border-right: 50px solid grey;
+  border-bottom: 25px solid transparent;
+}
+
+.arrow-right {
+    grid-column: 6 / 7;
+    width: 100%;
+    margin-top: 20%;
+    margin-bottom: 20%;
+
+    height: 0;
+    border-top: 25px solid transparent;
+    border-left: 50px solid grey;
+    border-bottom: 25px solid transparent;
+}
+
+@media (max-width: 769px){
+    .arrow-left{
+        border-top: 12.5px solid transparent;
+        border-right: 25px solid grey;
+        border-bottom: 12.5px solid transparent;
+    }
+    .arrow-right{
+        border-top: 12.5px solid transparent;
+        border-left: 25px solid grey;
+        border-bottom: 12.5px solid transparent;
+    }
+}
+
+.rest p{
+    margin: 2px;
 }

@@ -1,14 +1,24 @@
 {{#each anime}}
-<div class="flex-col mb-2 ml-2">
+<div class="flex-col mb-2 ml-2 card-container">
     <div class="card" data-id="{{this.id}}">
             <img class="card-img-top" src="{{this.image_url_lge}}" alt="Card image cap">
-            <div class="card-overlay"></div>
+            <div class="card-overlay">
+                <!-- I should put something here -->
+            </div>
             </img>
         <div class="card-footer">
             <p id="title" class="text-capitalize">
                 <em>{{this.title_english}}</em></p>
-            <p id="score">AL Score: <br>{{this.average_score}}%</p>
+            <p id="score">AL: <br>{{this.average_score}}%</p>
+            <!-- <p id="score2">MAL: </p> -->
         </div>
+
+    </div>
+</div>
+<div class="tooltip-container">
+    <div class="tooltip-content">
+        <p>Ep. {{this.airing.next_episode}} airs at:</p>
+        <p><div id="airing" data-date={{this.airing.time}}></div></p>
     </div>
 </div>
 {{/each}}

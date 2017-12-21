@@ -36,10 +36,10 @@ module.exports = function(app) {
         // Let's see if it's airing or not
         // If not, do the season and year normally
         if(req.params.season === 'airing'){
-            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=score-desc`
+            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true`
         }
         else{
-            url = `browse/anime?page=${page}&year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc`
+            url = `browse/anime?page=${page}&year=${year}&season=${season}&genres_exclude=hentai&sort=score-desc&airing_data=true`
         }
 
         if(req.query.q){
@@ -67,10 +67,10 @@ module.exports = function(app) {
         // Let's see if it's airing or not
         // If not, do the season and year normally
         if(req.params.season === 'airing'){
-            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=popularity-desc`
+            url = `browse/anime?page=${page}&status=currently+airing&genres_exclude=hentai&sort=popularity-desc&airing_data=true`
         }
         else{
-            url = `browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc`
+            url = `browse/anime?year=${year}&season=${season}&genres_exclude=hentai&sort=popularity-desc&airing_data=true`
         }
         if(req.query.q){
             url += "&genres=" + req.query.q

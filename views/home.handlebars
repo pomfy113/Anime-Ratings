@@ -145,9 +145,7 @@
 </span>
 <span class="loading"><img src="../../images/TamamoBall4.gif"><br>LOADING</span>
 <!--
-= * = * =
 Actual content below
-= * = * =
 -->
 
 <div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
@@ -171,6 +169,23 @@ var year = "2017";
 var season;
 var page = 1;
 
+$('.card-container').hover(function() {
+    console.log($(this).find(".card").data('id'))
+    $(this).next().show()
+    let next_airing = $(this).next().find("#airing").data('date')
+    $(this).next().find("#airing").html(moment(next_airing).calendar())
+    // console.log(moment(next_airing).format('ll'))
+    // console.log(moment(next_airing).fromNow())
+    // console.log(moment(next_airing).calendar())
+
+
+}, function() {
+    console.log("Left")
+    $(this).next().hide()
+})
+
+
+// Filter button
 $('body').on('click', '.genre-show', (e) => {
     $(".genre-filter").slideToggle()
 })

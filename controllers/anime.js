@@ -19,7 +19,7 @@ module.exports = function(app) {
     // Getting home
     app.get('/', (req, res) => {
         let bodytype = utils.checklog("home", req.user)
-        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc')
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
         .then((anime) => {
             res.render('home', {anime, bodytype, user: req.user});
         })
@@ -27,6 +27,15 @@ module.exports = function(app) {
     // Genre check
     app.get('/genres', (req, res) => {
         nani.get('genre_list').then((anime) => {
+            res.send(anime)
+        })
+    })
+    // Getting home
+    app.get('/test-home', (req, res) => {
+        let bodytype = utils.checklog("home", req.user)
+        nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
+        .then((anime) => {
+
             res.send(anime)
         })
     })

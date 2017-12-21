@@ -25,6 +25,24 @@ Image on left; title and aliases on right-->
 #synopsis.tab-info{
     display: block;
 }
+
+.show-ratings ul{
+    border: 1px solid grey;
+    list-style: none;
+    padding: 5px;
+    margin: -1px;
+}
+
+.show-ratings ul:first-of-type{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.show-ratings ul:last-of-type{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 </style>
 <div class="row">
     <div class="col-sm-3">
@@ -51,50 +69,42 @@ Image on left; title and aliases on right-->
     <!-- Info row
     Rating on left, synopsis on the right-->
     <div class="row">
-        <div class="col-sm-3">
-            <br>
+        <div class="col-sm-3 show-ratings">
             {{#if KITdata.averageRating}}
-            <progress value="{{KITdata.averageRating}}" max="100"></progress>
             <ul>
-                <li>Kitsu Score:   {{KITdata.averageRating}}/100</li>
+            <progress value="{{KITdata.averageRating}}" max="100"></progress>
+                <li>Kitsu Score:   {{KITdata.averageRating}} / 100</li>
                 <li>Kitsu Score Rank:      {{KITdata.ratingRank}}</li>
                 <li>Kitsu Popularity Rank: {{KITdata.popularityRank}}</li>
             </ul>
             {{/if}}
 
             {{#if MALdata}}
-            <br>
-
-            <progress value="{{MALdata.statistics.score.value}}" max="10"></progress>
             <ul>
+            <progress value="{{MALdata.statistics.score.value}}" max="10"></progress>
                 <li>MAL Score: {{MALdata.statistics.score.value}} / 10</li>
                 <li>MAL Score Ranking: {{MALdata.statistics.ranking}}
-                    <li>MAL Popularity: {{MALdata.statistics.popularity}}</li>
-                </ul>
-                {{/if}}
+                <li>MAL Popularity: {{MALdata.statistics.popularity}}</li>
+            </ul>
+            {{/if}}
 
-                {{#if ALdata.mean_score}}
-                <br>
-                <progress value="{{ALdata.mean_score}}" max="100"></progress>
-                <ul>
-                    <li>Anilist Score (Average): {{ALdata.average_score}}/100</li>
-                    <li>Anilist Score (Mean): {{ALdata.mean_score}}/100</li>
-                </ul>
-                {{/if}}
-
+            {{#if ALdata.mean_score}}
+            <ul>
+            <progress value="{{ALdata.mean_score}}" max="100"></progress>
+                <li>Anilist Score (Average): {{ALdata.average_score}} / 100</li>
+                <li>Anilist Score (Mean): {{ALdata.mean_score}}/100</li>
+            </ul>
+            {{/if}}
 
             </div>
-
             <div class="col-sm-8">
-
                 <div>
-                    <ul class="infotabs" data-id="hello">
+                    <ul class="infotabs">
                         <li data-id="synopsis">Synopsis</li>
                         <li data-id="sites">Official Sites</li>
                         {{#if ALdata.youtube_id}}
                         <li data-id="preview">Preview</li>
                         {{/if}}
-
                     </ul>
                 </div>
                 <div id="sites" class="tab-info">
@@ -108,8 +118,10 @@ Image on left; title and aliases on right-->
                 </div>
                 <div id="preview" class="tab-info">
                     {{#if ALdata.youtube_id}}
-                    <iframe src="http://www.youtube.com/embed/{{ALdata.youtube_id}}"
+                    <div class="trailer-container">
+                    <iframe id="trailer" src="http://www.youtube.com/embed/{{ALdata.youtube_id}}"
                     frameborder="0" allowfullscreen></iframe>
+                    </div>
                     {{/if}}
                 </div>
 
@@ -166,10 +178,21 @@ Image on left; title and aliases on right-->
         </div>
 
 <script>
+var video = $("iframe").attr("src");
+
 $('body').on('click', '.infotabs > *', (e) => {
     // Need to get that data id and turn it into an id
     let target = "#" + $(e.target).data('id')
     $(".tab-info").hide()
+    // For resetting video
+    if(target != "#preview"){
+        $("iframe").attr("src", "");
+    }
+    else{
+        $("iframe").attr("src", video);
+
+    }
+
     $(target).show()
 
 
