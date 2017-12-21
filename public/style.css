@@ -201,6 +201,14 @@ body.modal-open {
 
 }
 
+.card-footer #score2{
+    grid-column: 3 / 5;
+    grid-row: 6 / 8;
+    font: 10px Helvetica;
+    line-height: 10px;
+
+}
+
 .img-fluid{
     object-fit: contain;
 }

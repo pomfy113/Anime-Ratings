@@ -3,6 +3,8 @@ const client_secret = process.env.CLIENT_SECRET;
 const nani = require('nani').init(client_id, client_secret);
 // Utilities
 const utils = require('./utils')
+const Anime = require('malapi').Anime;
+
 
 // YES, THIS NEEDS ITS OWN JS
 module.exports = function(app) {
@@ -84,4 +86,11 @@ module.exports = function(app) {
             console.log(err, "Custom popularity + date error")
         })
     })
+
+    // app.get("/home-rating/title", (req, res) => {
+    //     let MALid = req.query.s
+    //     console.log(MALid)
+    //     let test = Anime.fromName(MALid)
+    //     test.then(newthing => res.send(newthing))
+    // })
 }
