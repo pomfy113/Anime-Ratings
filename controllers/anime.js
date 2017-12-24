@@ -24,6 +24,12 @@ module.exports = function(app) {
             res.render('home', {anime, bodytype, user: req.user});
         })
     })
+
+    app.get('/about', (req, res) => {
+        let bodytype = utils.checklog("about", req.user)
+        res.render('about', {bodytype, user: req.user});
+    })
+
     // Genre check
     app.get('/genres', (req, res) => {
         nani.get('genre_list').then((anime) => {
