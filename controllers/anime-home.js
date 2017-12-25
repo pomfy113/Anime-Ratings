@@ -34,7 +34,6 @@ module.exports = function(app) {
         let page = req.params.page
 
         let url;
-        console.log(season)
         // Let's see if it's airing or not
         // If not, do the season and year normally
         if(req.params.season === 'airing'){
@@ -65,7 +64,6 @@ module.exports = function(app) {
         let url;
         let page = req.params.page
 
-
         // Let's see if it's airing or not
         // If not, do the season and year normally
         if(req.params.season === 'airing'){
@@ -77,7 +75,6 @@ module.exports = function(app) {
         if(req.query.q){
             url += "&genres=" + req.query.q
         }
-        console.log(url)
 
         nani.get(url)
         .then((anime) => {
@@ -87,10 +84,14 @@ module.exports = function(app) {
         })
     })
 
-    // app.get("/home-rating/title", (req, res) => {
-    //     let MALid = req.query.s
-    //     console.log(MALid)
-    //     let test = Anime.fromName(MALid)
-    //     test.then(newthing => res.send(newthing))
-    // })
+    app.get('/getrating/MAL/:name', (req, res) => {
+        Anime.fromName(req.params.name).then((anime) =>{
+            let score = String((anime.statistics.score.value * 10).toPrecision(4))
+            res.send(score)
+        }).catch((err) => {
+            console.log(err, "issue with getting MAL data?")
+        })
+
+    })
+
 }

@@ -93,7 +93,9 @@ body.modal-open {
 .card:hover > .card-overlay{
     display: block;
     color: white;
+    padding: 10px;
     position: absolute;
+    font-size: 15px;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.25);
@@ -217,6 +219,10 @@ body.modal-open {
     padding: 10px 0px;
 }
 
+.overlay-scores{
+    padding-left: 10px;
+    list-style: none;
+}
 
 /* Loading error! */
 .loading-error{
