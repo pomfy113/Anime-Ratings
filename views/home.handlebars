@@ -64,10 +64,37 @@
         margin: 5px;
     }
 }
+
+.updates{
+    height: 100px;
+    overflow-y: scroll;
+    border: 1px solid grey;
+    border-radius: 20px;
+    /*min-width: 300px;*/
+    margin: 0 auto;
+    width: 80%;
+    padding: 10px;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
 </style>
 <script src="/js/home.js"></script>
 
 <div class="above-cards">
+    <div class="updates">
+        {{> changelog}}
+    </div>
+
     <div class="title-container">
         <h1>Currently Airing</h1>
         <h3>Sorted by score</h3>
