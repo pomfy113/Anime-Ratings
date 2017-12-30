@@ -6,7 +6,7 @@ var page = 1;
 // For the overlay; showing score AND date for now
 $('body').on('mouseenter', '.card-container', function() {
     // $(this).next().show()
-    let next_airing = $(this).find("#airing").data('date')
+    let next_airing = $(this).find("#airing-time").data('date')
     // $(this).find("#airing").html(moment(next_airing).calendar())
 
     // Let's get the time to be more exact
@@ -227,7 +227,6 @@ $('body').on('click', '#search', function(e) {
         type: 'GET'
     }).done((data) => {
         if(!data){
-            console.log(data)
             $('#home-container').html("<h1>Nothing here!</h1>")
             $('.loading').hide()
         }
@@ -299,7 +298,6 @@ function genrelist(){
     $('.genre-filter').find('input:checked').each(function () {
         genrelist += ($(this).attr('rel') + ",")
     });
-    console.log(genrelist.slice(0, -1))
     return genrelist.slice(0, -1)
 
 }
