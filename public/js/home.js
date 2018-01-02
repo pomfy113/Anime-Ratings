@@ -20,7 +20,7 @@ $('body').on('mouseenter', '.card-container', function() {
 
     let timeToAir = days+hours+minutes
 
-    $(this).find("#airing").html(timeToAir)
+    $(this).find("#airing-time").html(timeToAir)
 
 
     if(!$(this).find("#MALscore").html()){
