@@ -1,0 +1,22 @@
+<style>
+
+#MAL-container{
+    display: grid;
+    background-color: grey;
+    grid-template-rows: repeat(8, 12.5%);
+    grid-template-columns: repeat(8, 12.5%);
+    height: 150px;
+    width: 200px;
+}
+
+#MAL-title{
+    grid-column: 1/9;
+    grid-row: 1/2;
+}
+</style>
+{{#each anime.TV}}
+    <div id="MAL-container">
+        <h2 id="MAL-title">{{this.title}}</h2>
+        <img src="{{this.picture}}" height="100px" width="75px">
+    </div>
+{{/each}}

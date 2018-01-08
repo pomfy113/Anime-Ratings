@@ -7,9 +7,12 @@ const Anime = require('malapi').Anime;
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const nani = require('nani').init(client_id, client_secret);
+const malScraper = require('mal-scraper')
 // Comments
 const AnimeComment = require('../models/anime.js')
 const User = require('../models/user.js')
+
+
 
 // Utilities
 const utils = require('./utils')
@@ -85,6 +88,27 @@ module.exports = function(app) {
             res.send(cake)
         })
     })
+
+// ===================================
+
+    app.get('/alt-home', (req, res) => {
+        const year = 2018
+        const season = 'winter'
+
+        malScraper.getSeason(year, season)
+          .then((anime) => res.render("alt-home", {anime}))
+          .catch((err) => console.log(err))
+    })
+
+    app.get('/test-scraper', (req, res) => {
+        const year = 2018
+        const season = 'winter'
+
+        malScraper.getSeason(year, season)
+          .then((data) => res.send(data))
+          .catch((err) => console.log(err))
+    })
+
 
 
     // Search function
