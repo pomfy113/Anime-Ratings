@@ -4,7 +4,6 @@ $('#register').submit(function (e) {
   let username = $('#user-name').val();
   let password = $('#user-pass').val();
 
-  console.log(username, password)
 
   let data = {
       "username": username,
@@ -18,10 +17,9 @@ $('#register').submit(function (e) {
       window.setTimeout(hidewindow, 1000)
       $('#errorbox').css("opacity", "100")
       $('#errorbox').html(err.responseText)
-      console.log(err.responseText)
   })
 
   const hidewindow = function(){
-      $('#errorbox').animate({opacity: "0"}, 1000)
+      $('#errorbox').css("opacity", "0")
   }
 });

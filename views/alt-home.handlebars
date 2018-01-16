@@ -5,18 +5,33 @@
     background-color: grey;
     grid-template-rows: repeat(8, 12.5%);
     grid-template-columns: repeat(8, 12.5%);
-    height: 150px;
-    width: 200px;
+    height: 180px;
+    width: 220px;
+    margin: 10px;
+    padding: 10px;
 }
 
 #MAL-title{
     grid-column: 1/9;
-    grid-row: 1/2;
+    grid-row: 1/4;
+    font-size: 14px;
+    color: #111111;
+    line-height: 16px;
+    text-align: justify;
+    text-justify: distribute;
 }
+
+#MAL-image{
+    grid-column: 1/4;
+    grid-row: 4/9;
+}
+
 </style>
+<div class="d-flex flex-row flex-wrap justify-content-center">
 {{#each anime.TV}}
     <div id="MAL-container">
-        <h2 id="MAL-title">{{this.title}}</h2>
-        <img src="{{this.picture}}" height="100px" width="75px">
+        <span id="MAL-title">{{this.title}}</span>
+        <img id="MAL-image" src="{{this.picture}}" height="100px" width="75px">
     </div>
 {{/each}}
+</div>

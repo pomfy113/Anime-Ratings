@@ -66,12 +66,12 @@
 }
 
 .updates{
-    height: 100px;
+    height: 200px;
     overflow-y: scroll;
     border: 1px solid grey;
     border-radius: 4px 4px 4px 4px;
     margin: 0 auto;
-    width: 80%;
+    width: 100%;
     padding: 10px;
 }
 
@@ -92,14 +92,7 @@
 <script src="/js/home.js"></script>
 
 <div class="above-cards">
-    <div class="updates">
-        {{> changelog}}
-    </div>
 
-    <div class="title-container">
-        <h1>Currently Airing</h1>
-        <h3>Sorted by score</h3>
-    </div>
 
     <div class="loading-error alert alert-warning" role="alert">
     </div>
@@ -108,66 +101,76 @@
     Buttons for all the filtering
     = * = * =
 -->
-<div class="col button-container">
-    <div class="row">
+<div class="row">
+    <div class="col button-container">
+        <div class="row">
+            <div class="title-container">
+                <h1>Currently Airing</h1>
+                <h3>Sorted by score</h3>
+            </div>
+        </div>
+        <div class="row">
             <button class="btn btn-primary btn-lg" id="search">Search</button>
             <button type="button" class="btn btn-primary btn-lg" id="airing">Show Airing</button>
-    </div>
-    <div class="row">
-        <div class="btn-group" role="group">
 
-            <input type="text" placeholder="Year" value="2017" id="year-input" style="width: 65px; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" class="form-control" aria-describedby="current-year">
-            <button id="season-drop" value="airing" data-season="" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Season</button>
-            <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
-                <button class="dropdown-item" data-id="Spring">Spring</button>
-                <button class="dropdown-item" data-id="Summer">Summer</button>
-                <button class="dropdown-item" data-id="Fall">Fall</button>
-                <button class="dropdown-item" data-id="Winter">Winter</button>
+            <div class="btn-group" role="group">
+                <input type="text" placeholder="Year" value="2017" id="year-input" style="width: 65px; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" class="form-control" aria-describedby="current-year">
+                <button id="season-drop" value="airing" data-season="" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Season</button>
+                <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
+                    <button class="dropdown-item" data-id="Spring">Spring</button>
+                    <button class="dropdown-item" data-id="Summer">Summer</button>
+                    <button class="dropdown-item" data-id="Fall">Fall</button>
+                    <button class="dropdown-item" data-id="Winter">Winter</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary genre-show">Show Genres</button>
+                <button class="btn btn-secondary clear-all">Clear Genres</button>
+            </div>
+                <div class="genre-filter">
+                <ul>
+                    <li><label><input type="checkbox" rel="action" />Action</label></li>
+                    <li><label><input type="checkbox" rel="adventure" />Adventure</label></li>
+                    <li><label><input type="checkbox" rel="comedy" />Comedy</label></li>
+                    <li><label><input type="checkbox" rel="drama" />Drama</label></li>
+                    <li><label><input type="checkbox" rel="ecchi" />Ecchi</label></li>
+                    <li><label><input type="checkbox" rel="fantasy" />Fantasy</label></li>
+                    <li><label><input type="checkbox" rel="mahoushoujo" />Mahou Shoujo</label></li>
+                    <li><label><input type="checkbox" rel="mecha" />Mecha</label></li>
+                    <li><label><input type="checkbox" rel="music" />Music</label></li>
+                    <li><label><input type="checkbox" rel="mystery" />Mystery</label></li>
+                    <li><label><input type="checkbox" rel="psychological" />Psychological</label></li>
+                    <li><label><input type="checkbox" rel="romance" />Romance</label></li>
+                    <li><label><input type="checkbox" rel="sci-fi" />Sci-fi</label></li>
+                    <li><label><input type="checkbox" rel="sliceoflife" />Slice of Life</label></li>
+                    <li><label><input type="checkbox" rel="sports" />Sports</label></li>
+                    <li><label><input type="checkbox" rel="supernatural" />Supernatural</label></li>
+                    <li><label><input type="checkbox" rel="thriller" />Thriller</label></li>
+                </ul>
+            </div>
+
+            <div class="btn-group" role="group">
+                <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by:
+                </button>
+                <div class="dropdown-menu main-filters">
+                    <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
+                    <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
+                </div>
             </div>
         </div>
 
-    <!-- </div> -->
-    <!-- <div class="row"> -->
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-secondary genre-show">Show Genres</button>
-            <button class="btn btn-secondary clear-all">Clear Genres</button>
-        </div>
-            <div class="genre-filter">
-            <ul>
-                <li><label><input type="checkbox" rel="action" />Action</label></li>
-                <li><label><input type="checkbox" rel="adventure" />Adventure</label></li>
-                <li><label><input type="checkbox" rel="comedy" />Comedy</label></li>
-                <li><label><input type="checkbox" rel="drama" />Drama</label></li>
-                <li><label><input type="checkbox" rel="ecchi" />Ecchi</label></li>
-                <li><label><input type="checkbox" rel="fantasy" />Fantasy</label></li>
-                <li><label><input type="checkbox" rel="mahoushoujo" />Mahou Shoujo</label></li>
-                <li><label><input type="checkbox" rel="mecha" />Mecha</label></li>
-                <li><label><input type="checkbox" rel="music" />Music</label></li>
-                <li><label><input type="checkbox" rel="mystery" />Mystery</label></li>
-                <li><label><input type="checkbox" rel="psychological" />Psychological</label></li>
-                <li><label><input type="checkbox" rel="romance" />Romance</label></li>
-                <li><label><input type="checkbox" rel="sci-fi" />Sci-fi</label></li>
-                <li><label><input type="checkbox" rel="sliceoflife" />Slice of Life</label></li>
-                <li><label><input type="checkbox" rel="sports" />Sports</label></li>
-                <li><label><input type="checkbox" rel="supernatural" />Supernatural</label></li>
-                <li><label><input type="checkbox" rel="thriller" />Thriller</label></li>
-            </ul>
+    </div>
+    <div class="col">
+        <div class="updates">
+            {{> changelog}}
         </div>
     </div>
-    <div class="row">
-        <div class="btn-group" role="group">
-            <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort by:
-            </button>
-            <div class="dropdown-menu main-filters">
-                <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
-                <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
-            </div>
-        </div>
-    </div>
-
 </div>
+
 </div>
 <span class="loading-modal">
     <img src="../../images/TamamoBall4.gif"><p>LOADING</p>
