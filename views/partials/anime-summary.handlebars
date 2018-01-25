@@ -7,7 +7,9 @@
     <div class="related">
         {{#if prequel}}
             <div class="clickable-list prequel" id="prequel" data-id="{{prequel.id}}">
-                <div class="arrow-left"></div>
+                <div class="arrow-left1"></div>
+                <div class="arrow-left2"></div>
+
                 <div class="rest">Prequel: <p>{{prequel.title_english}}</p></div>
             </div>
             {{else}}
@@ -16,7 +18,8 @@
         {{#if sequel}}
             <div class="clickable-list sequel" id="sequel" data-id="{{sequel.id}}">
                 <div class="rest">Sequel: <p>{{sequel.title_english}}</p></div>
-                <div class="arrow-right"></div>
+                <div class="arrow-right1"></div>
+                <div class="arrow-right2"></div>
             </div>
             {{else}}
             <div style="display:hidden;"></div>

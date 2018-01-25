@@ -412,28 +412,55 @@ progress{
     padding: 5px;
 }
 
-.arrow-left {
-  grid-column: 1 / 2;
-  width: 100%;
-  margin-top: 20%;
-  margin-bottom: 20%;
+.arrow-left1 {
+    grid-column: 1 / 2;
+    width: 20%;
+    height: 50%;
+    background-color: grey;
+    transform: translate(-50%, 0%) rotate(45deg);
+    position: absolute;
+    left: 50%;
+    top: 16%;
 
-  height: 0;
-  border-top: 25px solid transparent;
-  border-right: 50px solid grey;
-  border-bottom: 25px solid transparent;
 }
 
-.arrow-right {
-    grid-column: 6 / 7;
-    width: 100%;
-    margin-top: 20%;
-    margin-bottom: 20%;
+.arrow-left2 {
+    grid-column: 1 / 2;
+    width: 20%;
+    height: 50%;
+    background-color: grey;
+    transform: translate(-50%, 0%) rotate(-45deg);
+    position: absolute;
+    left: 50%;
+    top: 40%;
 
-    height: 0;
-    border-top: 25px solid transparent;
-    border-left: 50px solid grey;
-    border-bottom: 25px solid transparent;
+}
+
+.arrow-right1 {
+    grid-column: 6 / 7;
+    width: 20%;
+    height: 50%;
+    background-color: grey;
+    transform: translate(-50%, 0%) rotate(-45deg);
+    position: absolute;
+    left: 50%;
+    top: 16%;
+
+}
+
+.arrow-right2 {
+    grid-column: 6 / 7;
+    width: 20%;
+    height: 50%;
+    background-color: grey;
+    transform: translate(-50%, 0%) rotate(45deg);
+    position: absolute;
+    left: 50%;
+    top: 40%;
+}
+
+.rest{
+    text-overflow: ellipsis;
 }
 
 @media (max-width: 769px){

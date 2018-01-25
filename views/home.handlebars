@@ -88,6 +88,11 @@
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
+.dropdown-toggle::after {
+    display:none !important;
+}
+
+
 </style>
 <script src="/js/home.js"></script>
 
@@ -101,6 +106,11 @@
     Buttons for all the filtering
     = * = * =
 -->
+<div class="row">
+    <div class="updates">
+        {{> changelog}}
+    </div>
+</div>
 <div class="row">
     <div class="col button-container">
         <div class="row">
@@ -124,8 +134,8 @@
                     <button class="dropdown-item" data-id="Winter">Winter</button>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        <!-- </div>
+        <div class="row"> -->
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary genre-show">Show Genres</button>
                 <button class="btn btn-secondary clear-all">Clear Genres</button>
@@ -153,22 +163,18 @@
             </div>
 
             <div class="btn-group" role="group">
-                <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle noCaret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by:
                 </button>
                 <div class="dropdown-menu main-filters">
-                    <button class="dropdown-item" data-id="score" id="sort-score">&#9660; Score</button>
-                    <button class="dropdown-item" data-id="popularity" id="sort-pop">&#9660; Popularity</button>
+                    <button class="dropdown-item" data-id="score" id="sort-score">Score &#9660;</button>
+                    <button class="dropdown-item" data-id="popularity" id="sort-pop">Popularity &#9660;</button>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col">
-        <div class="updates">
-            {{> changelog}}
-        </div>
-    </div>
+
 </div>
 
 </div>
