@@ -155,7 +155,7 @@ $('body').on('click', '.main-filters > *', function(e) {
             $('.title-container').children("h1").html(`${season}, ${year.substring(0,4)}`)
         }
         $('.title-container').children("h3").html(`Sorted by ${sorting}`)
-        $('#sort-drop').html(`&#9660; ${capitalize(sorting)}`)
+        $('#sort-drop').html(`${capitalize(sorting)} &#9660;`)
     }).fail(() => {
         console.log("Failed")
     });
@@ -190,7 +190,7 @@ $('body').on('click', '#airing', function(e) {
             showdata(data)
             $('.title-container').children("h1").html("Currently Airing")
             $('.title-container').children("h3").html("Sorted by score")
-            $('#sort-drop').html("&#9660; Score")
+            $('#sort-drop').html("Score &#9660")
         }
 
     }).fail(() => {
@@ -241,7 +241,7 @@ $('body').on('click', '#search', function(e) {
             $('.title-container').children("h1").html(`${season}, ${year.substring(0,4)}`)
         }
         $('.title-container').children("h3").html("Sorted by score")
-        $('#sort-drop').html("&#9660; Score")
+        $('#sort-drop').html("Score &#9660")
     }).fail(() => {
         console.log("Failed")
     });

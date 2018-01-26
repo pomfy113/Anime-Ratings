@@ -8,11 +8,11 @@ $('#register').submit(function (e) {
   let data = {
       "username": username,
       "password": password
-  }
+  };
 
   $.post('/register', data, function(data){
-      console.log('--------------------')
-      console.log("SUCCESS!")
+      console.log('--------------------');
+      console.log("SUCCESS!");
   }).catch((err) => {
       window.setTimeout(hidewindow, 1000)
       $('#errorbox').css("opacity", "100")

@@ -115,13 +115,14 @@
     <div class="col button-container">
         <div class="row">
             <div class="title-container">
-                <h1>Currently Airing</h1>
-                <h3>Sorted by score</h3>
+                <h1 style="font-size: 30px; margin-top: 10px;">Currently Airing</h1>
+                <h2 style="font-size: 20px;">Sorted by score</h2>
+                <button type="button" class="btn btn-primary btn-lg" id="airing">Show Currently Airing Anime</button>
+
             </div>
         </div>
         <div class="row">
             <button class="btn btn-primary btn-lg" id="search">Search</button>
-            <button type="button" class="btn btn-primary btn-lg" id="airing">Show Airing</button>
 
             <div class="btn-group" role="group">
                 <input type="text" placeholder="Year" value="2017" id="year-input" style="width: 65px; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" class="form-control" aria-describedby="current-year">
@@ -163,7 +164,7 @@
             </div>
 
             <div class="btn-group" role="group">
-                <button style="width: 150px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle noCaret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button style="width: 125px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle noCaret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by:
                 </button>
                 <div class="dropdown-menu main-filters">
