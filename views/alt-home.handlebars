@@ -1,37 +1,49 @@
 <style>
 
-#MAL-container{
+.MAL-container{
+    --imageHeight: 181px;
+    --imageWidth: 125px;
+    --textWidth: 150px;
+
     display: grid;
-    background-color: grey;
-    grid-template-rows: repeat(8, 12.5%);
-    grid-template-columns: repeat(8, 12.5%);
-    height: 180px;
-    width: 220px;
-    margin: 10px;
+    background-color: #EEE;
+    /* grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr); */
+    grid-template-rows: 3em var(--imageHeight);
+    grid-template-columns: var(--imageWidth) var(--textWidth);
+    height: calc(3em + var(--imageHeight));
+    width: calc(var(--imageWidth) + var(--textWidth));
+
+    box-sizing: content-box;
+    margin: 5px;
     padding: 10px;
+
+    border-radius: 10px;
 }
 
-#MAL-title{
-    grid-column: 1/9;
-    grid-row: 1/4;
+.MAL-title{
+    grid-column: 1/3;
+    grid-row: 1;
     font-size: 14px;
     color: #111111;
     line-height: 16px;
-    text-align: justify;
+    text-align: center;
     text-justify: distribute;
 }
 
-#MAL-image{
-    grid-column: 1/4;
-    grid-row: 4/9;
+.MAL-image{
+    height: var(--imageHeight);
+    width: var(--imageWidth);
+    grid-column: 1;
+    grid-row: 2;
 }
 
 </style>
 <div class="d-flex flex-row flex-wrap justify-content-center">
 {{#each anime.TV}}
-    <div id="MAL-container">
-        <span id="MAL-title">{{this.title}}</span>
-        <img id="MAL-image" src="{{this.picture}}" height="100px" width="75px">
+    <div class="MAL-container">
+        <span class="MAL-title">{{this.title}}</span>
+        <img class="MAL-image" src="{{this.picture}}">
     </div>
 {{/each}}
 </div>

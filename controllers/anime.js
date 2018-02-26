@@ -12,10 +12,8 @@ const malScraper = require('mal-scraper');
 const AnimeComment = require('../models/anime.js');
 const User = require('../models/user.js');
 
-
-
 // Utilities
-const utils = require('./utils')
+const utils = require('./utils');
 
 
 module.exports = function(app) {
@@ -26,6 +24,8 @@ module.exports = function(app) {
         .then((anime) => {
             res.render('home', {anime, bodytype, user: req.user});
         });
+
+
     });
 
     app.get('/about', (req, res) => {
@@ -33,12 +33,7 @@ module.exports = function(app) {
         res.render('about', {bodytype, user: req.user});
     });
 
-    // Genre check
-    app.get('/genres', (req, res) => {
-        nani.get('genre_list').then((anime) => {
-            res.send(anime);
-        });
-    });
+
     // Getting home
     app.get('/test-home', (req, res) => {
         let bodytype = utils.checklog("home", req.user);
@@ -50,9 +45,9 @@ module.exports = function(app) {
     // Debugging purposes
     app.get('/test-AL', function (req, res) {
         nani.get('anime/21699/page').then((anime) => {
-            res.send(anime)
-        })
-    })
+            res.send(anime);
+        });
+    });
     // Debugging purposes
     app.get('/test-MAL', function (req, res) {
         var test = Anime.fromName("Kono Subarashii Sekai ni Shukufuku wo! 2");
@@ -65,17 +60,16 @@ module.exports = function(app) {
     });
 
     app.get('/test-kitsu', function (req, res) {
-        var test = kitsuanime.searchAnime("Konosuba 2")
+        var test = kitsuanime.searchAnime("Konosuba 2");
         // var test = kitsuanime.getAnime('10941')
-
         test.then(newthing => res.send(newthing))
-    })
+    });
 
     app.get('/test-specific', function (req, res) {
         nani.get('anime/100684/page').then((anime) => {
             res.send(anime)
-        })
-    })
+        });
+    });
 
     app.get('/test-pages1', function (req, res) {
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc').then((anime) => {
@@ -116,23 +110,23 @@ module.exports = function(app) {
 
 
     // Search function
-    app.get('/search', function (req, res) {
-        let bodytype = utils.checklog("search", req.user)
-        // Use AL search
-        nani.get('anime/search/' + req.query.term).then((results) => {
-            // Replacing text in description
-                results.filter(function(result){
-                    if(result.description){
-                        result.description = result.description.replace(/\<br\>/g,"");
-                    }
-                })
-            res.render('anime-search', {results, bodytype})
-        }).catch((err) => {
-            console.log("Search failure")
-            console.log(err)
-            res.render('anime-search-failure', {bodytype, user: req.user})
-        })
-    })
+    // app.get('/search', function (req, res) {
+    //     let bodytype = utils.checklog("search", req.user)
+    //     // Use AL search
+    //     nani.get('anime/search/' + req.query.term).then((results) => {
+    //         // Replacing text in description
+    //             results.filter(function(result){
+    //                 if(result.description){
+    //                     result.description = result.description.replace(/\<br\>/g,"");
+    //                 }
+    //             })
+    //         res.render('anime-search', {results, bodytype})
+    //     }).catch((err) => {
+    //         console.log("Search failure")
+    //         console.log(err)
+    //         res.render('anime-search-failure', {bodytype, user: req.user})
+    //     })
+    // })
 
     // Grab an anime
     app.get('/anime/:anime_id', (req, res) => {
