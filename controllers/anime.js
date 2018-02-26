@@ -7,10 +7,10 @@ const Anime = require('malapi').Anime;
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const nani = require('nani').init(client_id, client_secret);
-const malScraper = require('mal-scraper')
+const malScraper = require('mal-scraper');
 // Comments
-const AnimeComment = require('../models/anime.js')
-const User = require('../models/user.js')
+const AnimeComment = require('../models/anime.js');
+const User = require('../models/user.js');
 
 
 
@@ -21,33 +21,32 @@ const utils = require('./utils')
 module.exports = function(app) {
     // Getting home
     app.get('/', (req, res) => {
-        let bodytype = utils.checklog("home", req.user)
+        let bodytype = utils.checklog("home", req.user);
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
         .then((anime) => {
             res.render('home', {anime, bodytype, user: req.user});
-        })
-    })
+        });
+    });
 
     app.get('/about', (req, res) => {
-        let bodytype = utils.checklog("about", req.user)
+        let bodytype = utils.checklog("about", req.user);
         res.render('about', {bodytype, user: req.user});
-    })
+    });
 
     // Genre check
     app.get('/genres', (req, res) => {
         nani.get('genre_list').then((anime) => {
-            res.send(anime)
-        })
-    })
+            res.send(anime);
+        });
+    });
     // Getting home
     app.get('/test-home', (req, res) => {
-        let bodytype = utils.checklog("home", req.user)
+        let bodytype = utils.checklog("home", req.user);
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
         .then((anime) => {
-
-            res.send(anime)
-        })
-    })
+            res.send(anime);
+        });
+    });
     // Debugging purposes
     app.get('/test-AL', function (req, res) {
         nani.get('anime/21699/page').then((anime) => {
@@ -56,9 +55,14 @@ module.exports = function(app) {
     })
     // Debugging purposes
     app.get('/test-MAL', function (req, res) {
-        var test = Anime.fromName("Kono Subarashii Sekai ni Shukufuku wo! 2")
-        test.then(newthing => res.send(newthing))
-    })
+        var test = Anime.fromName("Kono Subarashii Sekai ni Shukufuku wo! 2");
+        test.then(newthing => res.send(newthing));
+    });
+
+    app.get('/test-MAL-scrape', function (req, res) {
+        var test = malScraper.getSeason('2015', 'fall');
+        test.then(newthing => res.send(newthing));
+    });
 
     app.get('/test-kitsu', function (req, res) {
         var test = kitsuanime.searchAnime("Konosuba 2")
