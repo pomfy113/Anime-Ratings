@@ -38,12 +38,24 @@
     grid-row: 2;
 }
 
+.MAL-summary{
+    background-color: white;
+    font-size: 10px;
+    overflow-y: scroll;
+    padding: 5px;
+    grid-column: 2;
+    grid-row: 2;
+
+
+}
+
 </style>
 <div class="d-flex flex-row flex-wrap justify-content-center">
-{{#each anime.TV}}
+{{#each MAL.TV}}
     <div class="MAL-container">
         <span class="MAL-title">{{this.title}}</span>
         <img class="MAL-image" src="{{this.picture}}">
+        <div class="MAL-summary">{{this.synopsis}}</div>
     </div>
 {{/each}}
 </div>

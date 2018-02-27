@@ -62,50 +62,56 @@ module.exports = function(app) {
     app.get('/test-kitsu', function (req, res) {
         var test = kitsuanime.searchAnime("Konosuba 2");
         // var test = kitsuanime.getAnime('10941')
-        test.then(newthing => res.send(newthing))
+        test.then(newthing => res.send(newthing));
     });
 
     app.get('/test-specific', function (req, res) {
         nani.get('anime/100684/page').then((anime) => {
-            res.send(anime)
+            res.send(anime);
         });
     });
 
     app.get('/test-pages1', function (req, res) {
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc').then((anime) => {
-            res.send(anime[0])
-        })
-    })
+            res.send(anime[0]);
+        });
+    });
 
     app.get('/test-pages2', function (req, res) {
         let cake = nani.get('browse/anime?status=currently+airing&page1');
         let cake2 = nani.get('browse/anime?status=currently+airing&page2');
 
         Promise.all([cake]).then((cake) => {
-            console.log(cake)
-            res.send(cake)
-        })
-    })
+            console.log(cake);
+            res.send(cake);
+        });
+    });
 
+// ===================================
+// ===================================
 // ===================================
 
     app.get('/alt-home', (req, res) => {
-        const year = 2018
-        const season = 'winter'
-
+        const date = new Date();
+        const year = date.getFullYear();
+        const seasonList = ["winter", "spring", "summer", "fall"];
+        const season = seasonList[Math.floor(date.getMonth() / 3)];
+        
         malScraper.getSeason(year, season)
-          .then((anime) => res.render("alt-home", {anime}))
-          .catch((err) => console.log(err))
-    })
+          .then((anime) => res.render("alt-home", { MAL: anime}))
+          .catch((err) => console.log(err));
+    });
 
     app.get('/test-scraper', (req, res) => {
-        const year = 2018
-        const season = 'winter'
+        const date = new Date();
+        const year = date.getFullYear();
+        const seasonList = ["winter", "spring", "summer", "fall"];
+        const season = seasonList[Math.floor(date.getMonth() / 3)];
 
         malScraper.getSeason(year, season)
           .then((data) => res.send(data))
-          .catch((err) => console.log(err))
-    })
+          .catch((err) => console.log(err));
+    });
 
 
 
@@ -132,10 +138,10 @@ module.exports = function(app) {
     app.get('/anime/:anime_id', (req, res) => {
         nani.get(`anime/${req.params.anime_id}/page`).then((ALISTdata) => {
             // Title for grabbing info
-            const title = ALISTdata.title_english
+            const title = ALISTdata.title_english;
             // Grab data from other sites
-            const KITSUdata = kitsuanime.searchAnime(title)
-            const MALdata = Anime.fromName(title)
+            const KITSUdata = kitsuanime.searchAnime(title);
+            const MALdata = Anime.fromName(title);
             const comments = AnimeComment.find({ animeId : req.params.anime_id }).then((comments) => {
                     return comments.map(function(item){
                         if(req.user){
@@ -143,15 +149,12 @@ module.exports = function(app) {
                                 item.isMine = true;
                             }
                         }
-                        return item
-                    })
-
-                })
-            return Promise.all([KITSUdata, MALdata, ALISTdata, comments])
+                        return item;
+                    });
+                });
+            return Promise.all([KITSUdata, MALdata, ALISTdata, comments]);
         }).then((data) => {
-            let bodytype = utils.checklog("show", req.user)
-            console.log(data[3])
-
+            let bodytype = utils.checklog("show", req.user);
             res.render("anime-show", {
                 KITdata: data[0][0],  // Kitsuanime data
                 MALdata: data[1],    // MAL
@@ -159,33 +162,33 @@ module.exports = function(app) {
                 comment: data[3],   // Comments
                 bodytype,
                 user: req.user
-            })
+            });
         }).catch((err) => {
-            console.log("Fetch thing")
-            console.log(err)
-        })
+            console.log("Fetch thing");
+            console.log(err);
+        });
 
-    })
+    });
 
     //CREATE; comment for an anime
     app.post('/anime/:id/comments', (req, res) => {
         if(!req.user){
-            res.status(400).send()
+            res.status(400).send();
         }
 
-        let comment = new AnimeComment(req.body)
+        let comment = new AnimeComment(req.body);
 
         User.findById(req.user._id).then((user) => {
-            comment.author = user
-            return comment.save()
+            comment.author = user;
+            return comment.save();
         }).then(() => {
             // After finishing, redirect
-            res.redirect('/anime/'+ comment.animeId)
+            res.redirect('/anime/'+ comment.animeId);
         }).catch((err) => {
-            console.log(err.message, "Could not save post!")
-            res.send(err.message)
-        })
-    })
+            console.log(err.message, "Could not save post!");
+            res.send(err.message);
+        });
+    });
 
     //DELETE; comment for anime
     // app.delete('/anime/:id/:comment_id', (req, res) => {
@@ -200,4 +203,4 @@ module.exports = function(app) {
     // })
 
 
-}
+};
