@@ -4,7 +4,7 @@ const exphbs  = require('express-handlebars');
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser');
 // Used for authentication
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 // Mongoose
 const mongoose = require('mongoose');

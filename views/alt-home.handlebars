@@ -4,21 +4,25 @@
     --imageHeight: 181px;
     --imageWidth: 125px;
     --textWidth: 150px;
+    --titleHeight: 4em;
+    --backgroundColor: #EEE;
 
     display: grid;
-    background-color: #EEE;
+    background-color: var(--backgroundColor);
     /* grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr); */
-    grid-template-rows: 3em var(--imageHeight);
+    grid-template-rows: var(--titleHeight) var(--imageHeight);
     grid-template-columns: var(--imageWidth) var(--textWidth);
-    height: calc(3em + var(--imageHeight));
+
+    height: calc(var(--titleHeight) + var(--imageHeight));
     width: calc(var(--imageWidth) + var(--textWidth));
 
     box-sizing: content-box;
     margin: 5px;
-    padding: 10px;
+    padding: 10px 0;
 
     border-radius: 10px;
+    border: 1px solid lightgrey;
 }
 
 .MAL-title{
@@ -45,15 +49,46 @@
     padding: 5px;
     grid-column: 2;
     grid-row: 2;
-
+    border-left: 1px solid var(--backgroundColor);
 
 }
+
+/* Title stuff  */
+
+.MAL-name{
+    height: 2.5em;
+}
+
+.MAL-name h2{
+    font-size: 15px;
+}
+
+.MAL-title-data{
+    color: darkgrey;
+    font-size: 12px;
+}
+
+span.producer:after{
+    content: ', ';
+}
+
+span.producer:last-of-type:after {
+    content: '';
+}
+
 
 </style>
 <div class="d-flex flex-row flex-wrap justify-content-center">
 {{#each MAL.TV}}
     <div class="MAL-container">
-        <span class="MAL-title">{{this.title}}</span>
+        <div class="MAL-title">
+            <div class="MAL-name"><h2>{{this.title}}<h1></div>
+            <div class="MAL-title-data">
+                {{#each this.producers}}
+                    <span class="producer">{{this}}</span>
+                {{/each}} | {{this.nbEp}} eps | {{this.fromType}}
+            </div>
+        </div>
         <img class="MAL-image" src="{{this.picture}}">
         <div class="MAL-summary">{{this.synopsis}}</div>
     </div>

@@ -44,7 +44,6 @@ $('body').on('click', '.genre-show', (e) => {
     $(".genre-filter").slideToggle()
 })
 
-
 // Modals
 $('body').on('click', '.card', function(e) {
     let url = "/" + $(this).data('id')
