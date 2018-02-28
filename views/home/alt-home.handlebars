@@ -120,9 +120,9 @@ span.producer:last-of-type:after {
         <img class="MAL-image" src="{{this.picture}}">
         <div class="MAL-summary">
             <div class="MAL-buttons">
-                <div>Story</div>
-                <div>Score</div>
-                <div>Airing</div>
+                <div class="tab-story" data-title="{{this.title}}">Story</div>
+                <div class="tab-score" data-title="{{this.title}}">Score</div>
+                <div class="tab-airing" data-title="{{this.title}}">Airing</div>
             </div>
 
             <p>{{this.synopsis}}</p>
@@ -130,3 +130,5 @@ span.producer:last-of-type:after {
     </div>
 {{/each}}
 </div>
+
+<script src="/js/home/tabs.js"></script>

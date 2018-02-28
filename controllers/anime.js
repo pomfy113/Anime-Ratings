@@ -164,7 +164,7 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.render('alt-home', {MAL_TV: animeTV});
+              res.render('home/alt-home', {MAL_TV: animeTV});
           })
 
           .catch((err) => console.log(err));
