@@ -48,6 +48,59 @@ module.exports = function(app) {
             res.send(anime);
         });
     });
+
+    app.get('/test-new-AL', function (req, res) {
+        // nani.get('anime/21699/page').then((anime) => {
+        //     res.send(anime);
+        // });
+        var query = `
+        query ($season: MediaSeason) {
+          Media (type: ANIME, status: $status) {
+            title{
+                english
+                romaji
+            }
+          }
+        }
+        `;
+
+        var variables = {
+            season: 'fall 2017'
+        };
+
+
+        var url = 'https://graphql.anilist.co',
+        options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: query,
+                variables: variables
+            })
+        };
+
+        fetch(url, options).then(handleResponse)
+                           .then(handleData)
+                           .catch(handleError);
+
+           function handleResponse(response) {
+               return response.json().then(function (json) {
+                   return response.ok ? json : Promise.reject(json);
+               });
+           }
+
+           function handleData(data) {
+              res.send(data);
+           }
+
+           function handleError(error) {
+               console.error(error);
+           }
+    });
+
     // Debugging purposes
     app.get('/test-MAL', function (req, res) {
         var test = Anime.fromName("Kono Subarashii Sekai ni Shukufuku wo! 2");
@@ -96,9 +149,24 @@ module.exports = function(app) {
         const year = date.getFullYear();
         const seasonList = ["winter", "spring", "summer", "fall"];
         const season = seasonList[Math.floor(date.getMonth() / 3)];
-        
+
         malScraper.getSeason(year, season)
-          .then((anime) => res.render("alt-home", { MAL: anime}))
+          .then((data) => {
+              const animeTV = [];
+              for(let item in data.TV){
+                  if(data.TV[item].score === "N/A"){
+                      data.TV[item].score = "0"; // I'll need to revert this later
+                  }
+                  animeTV.push(data.TV[item]);
+              }
+
+              const sorted = animeTV.sort(function(a, b){
+                  return b.score - a.score;
+              });
+
+              res.render('alt-home', {MAL_TV: animeTV});
+          })
+
           .catch((err) => console.log(err));
     });
 
@@ -109,7 +177,21 @@ module.exports = function(app) {
         const season = seasonList[Math.floor(date.getMonth() / 3)];
 
         malScraper.getSeason(year, season)
-          .then((data) => res.send(data))
+          .then((data) => {
+              const anime = [];
+              for(let item in data.TV){
+                  if(data.TV[item].score === "N/A"){
+                      data.TV[item].score = "0"; // I'll need to revert this later
+                  }
+                  anime.push(data.TV[item]);
+              }
+
+              const sorted = anime.sort(function(a, b){
+                  return b.score - a.score;
+              });
+
+              res.send(sorted);
+          })
           .catch((err) => console.log(err));
     });
 

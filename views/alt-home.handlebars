@@ -3,7 +3,7 @@
 .MAL-container{
     --imageHeight: 181px;
     --imageWidth: 125px;
-    --textWidth: 150px;
+    --textWidth: 175px;
     --titleHeight: 4em;
     --backgroundColor: #EEE;
 
@@ -46,11 +46,15 @@
     background-color: white;
     font-size: 10px;
     overflow-y: scroll;
-    padding: 5px;
+    padding: 0px;
     grid-column: 2;
     grid-row: 2;
     border-left: 1px solid var(--backgroundColor);
 
+}
+
+.MAL-summary p{
+    padding: 5px;
 }
 
 /* Title stuff  */
@@ -76,10 +80,34 @@ span.producer:last-of-type:after {
     content: '';
 }
 
+/* Buttons */
+.MAL-buttons{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+
+}
+
+.MAL-buttons div{
+    width: calc(100%/3);
+    border-right: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    font-weight: 600;
+    text-align: center;
+}
+
+.MAL-buttons div:hover{
+    cursor: pointer;
+}
+
+.MAL-buttons div:last-of-type{
+    border-right: none;
+}
+
 
 </style>
 <div class="d-flex flex-row flex-wrap justify-content-center">
-{{#each MAL.TV}}
+{{#each MAL_TV}}
     <div class="MAL-container">
         <div class="MAL-title">
             <div class="MAL-name"><h2>{{this.title}}<h1></div>
@@ -90,7 +118,15 @@ span.producer:last-of-type:after {
             </div>
         </div>
         <img class="MAL-image" src="{{this.picture}}">
-        <div class="MAL-summary">{{this.synopsis}}</div>
+        <div class="MAL-summary">
+            <div class="MAL-buttons">
+                <div>Story</div>
+                <div>Score</div>
+                <div>Airing</div>
+            </div>
+
+            <p>{{this.synopsis}}</p>
+        </div>
     </div>
 {{/each}}
 </div>
