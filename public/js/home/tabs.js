@@ -102,8 +102,6 @@ function tabGet(title){
     }).catch((err) => {
         alert('An error has happened!')
     });
-
-
 }
 
 function tabScore(el, title){

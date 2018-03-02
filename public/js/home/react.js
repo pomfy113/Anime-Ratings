@@ -1,5 +1,9 @@
 // Due to handlebars, it's a bit of an oddity
-// const data = {{{MAL_TV}}}
+/*
+    const data = {{{MAL_TV}}}
+    ALfetch(title) handles fetching info from Anilist
+*/
+
 const genres = [
     "Action", "Adventure", "Cars", "Comedy", "Dementia",
     "Demons", "Mystery", "Drama", "Ecchi", "Fantasy", "Game",
@@ -44,41 +48,96 @@ class Genres extends React.Component {
 // ================================================================
 // ================================================================
 // ================================================================
+function SynopsisTab(props){
+    return (
+        <div className="content-synopsis">{props.MALinfo.title}</div>
+    )
+}
+
+function ScoreTab(props){
+    return (
+        <div className="content-score">
+            <p className="score-MAL">MAL: {props.MALinfo.score}</p>
+            <p className="score-AL">Anilist: {props.ALinfo.averageScore}</p>
+            <p className="score-KIT">Kitsu: LOADING</p>
+        </div>
+    )
+}
+
+function AiringTab(props){
+    const currentTime = moment().format('MMMM Do YYYY, h:mma');
+    const airingData = props.ALinfo.nextAiringEpisode
+    const episode = airingData.episode;
+    const relativeTime = moment(airingData.airingAt * 1000).fromNow();
+    return (
+        <div className="content-airing">
+            <p className="airing-day">
+                    As of {currentTime}, episode {episode} airs {relativeTime}.
+            </p>
+        </div>
+    )
+}
+
 
 class InfoBox extends React.Component {
+    constructor(props){
+        super(props)
+        this.MALinfo = this.props.anime;
+
+        this.state = {
+            ALinfo: null,
+            clicked: false,
+            tab: 'synopsis'
+        }
+    }
+
+    tabHandle(tab){
+        if(!this.state.clicked){
+            ALfetch(this.MALinfo.title).then((ALdata) => {
+                this.setState({ALinfo: ALdata, tab: tab})
+            });
+
+        }
+        else{
+            console.log("Already clicked!")
+        }
+
+
+    }
+
     render(){
+        let activeTab = <SynopsisTab MALinfo={this.MALinfo}/>;
+        if(this.state.ALinfo){
+            switch(this.state.tab){
+                case 'synopsis':
+                    activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
+                    break;
+                case 'score':
+                    activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
+                    break;
+                case 'airing':
+                    activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
+                    break;
+            }
+        }
+
         return(
             <div className="MAL-summary">
                 <div className="MAL-buttons">
-                    <div className="tab-synopsis">Story</div>
-                    <div className="tab-score">Score</div>
-                    <div className="tab-airing">Airing</div>
+                    <div className="tab-synopsis" onClick={() => this.tabHandle('synopsis')}>Story</div>
+                    <div className="tab-score" onClick={() => this.tabHandle('score')}>Score</div>
+                    <div className="tab-airing" onClick={() => this.tabHandle('airing')}>Airing</div>
                 </div>
                 <div className="MAL-content">
-                    <div className="content-synopsis">{this.props.anime.synopsis}</div>
-                    <div className="content-score">
-                        <p className="score-MAL">MAL: {this.props.anime.score}</p>
-                        <p className="score-AL">Anilist: LOADING</p>
-                        <p className="score-KIT">Kitsu: LOADING</p>
-                    </div>
-                    <div className="content-airing">
-                        <p className="airing-day">Loading!</p>
-                    </div>
+                    {activeTab}
                 </div>
-        </div>
+            </div>
         )
     }
 }
 
 
 class Card extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            tab: 'synopsis'
-        }
-    }
-
   render() {
       // const {title, picture, synopsis, score} = this.props.anime;
     return(
@@ -124,7 +183,7 @@ class App extends React.Component {
 
     return (
       <div className="Container">
-          <Genres allGenres = {this.genres} currentGenres = {this.state.genres}/>
+          <Genres allGenres={this.genres} currentGenres={this.state.genres}/>
           {invList}
       </div>
     );
