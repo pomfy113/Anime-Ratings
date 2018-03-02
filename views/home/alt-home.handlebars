@@ -104,6 +104,16 @@ span.producer:last-of-type:after {
     border-right: none;
 }
 
+/* Content */
+
+.content-score{
+    display: none;
+}
+
+.content-airing{
+    display: none;
+}
+
 
 </style>
 <div class="d-flex flex-row flex-wrap justify-content-center">
@@ -120,12 +130,23 @@ span.producer:last-of-type:after {
         <img class="MAL-image" src="{{this.picture}}">
         <div class="MAL-summary">
             <div class="MAL-buttons">
-                <div class="tab-story" data-title="{{this.title}}">Story</div>
-                <div class="tab-score" data-title="{{this.title}}">Score</div>
-                <div class="tab-airing" data-title="{{this.title}}">Airing</div>
+                <div class="tab-synopsis">Story</div>
+                <div class="tab-score">Score</div>
+                <div class="tab-airing">Airing</div>
+            </div>
+            <div class="MAL-content" data-title="{{this.title}}">
+                <div class="content-synopsis">{{this.synopsis}}</div>
+                <div class="content-score">
+                    <p class="score-MAL">MAL: {{this.score}}</p>
+                    <p class="score-AL">Anilist: LOADING</p>
+                    <p class="score-KIT">Kitsu: LOADING</p>
+                </div>
+                <div class="content-airing">
+                    <p class="current-time"></p>
+                    <p class="airing-day">Loading!</p>
+                </div>
             </div>
 
-            <p>{{this.synopsis}}</p>
         </div>
     </div>
 {{/each}}
