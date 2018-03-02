@@ -49,6 +49,10 @@ function tabGet(title){
         Media (search: $query, type: ANIME) {
             id
             averageScore
+            trailer{
+                id
+                site
+            }
             nextAiringEpisode {
               airingAt
               timeUntilAiring
@@ -93,6 +97,7 @@ function tabGet(title){
         return res.json()
     }).then((json) => {
         const data = json.data.Media
+        console.log(json.data.Media.trailer)
         return data
     }).catch((err) => {
         alert('An error has happened!')

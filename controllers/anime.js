@@ -164,11 +164,38 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.render('home/alt-home', {MAL_TV: animeTV});
+              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV)});
           })
 
           .catch((err) => console.log(err));
     });
+
+    app.get('/alt-home-old', (req, res) => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const seasonList = ["winter", "spring", "summer", "fall"];
+        const season = seasonList[Math.floor(date.getMonth() / 3)];
+
+        malScraper.getSeason(year, season)
+          .then((data) => {
+              const animeTV = [];
+              for(let item in data.TV){
+                  if(data.TV[item].score === "N/A"){
+                      data.TV[item].score = "0"; // I'll need to revert this later
+                  }
+                  animeTV.push(data.TV[item]);
+              }
+
+              const sorted = animeTV.sort(function(a, b){
+                  return b.score - a.score;
+              });
+
+              res.render('home/alt-homev1', {MAL_TV: animeTV});
+          })
+
+          .catch((err) => console.log(err));
+    });
+
 
     app.get('/test-scraper', (req, res) => {
         const date = new Date();
