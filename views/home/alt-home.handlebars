@@ -47,20 +47,49 @@
     grid-row: 2;
 }
 
-.MAL-summary{
+.MAL-info{
     background-color: white;
     font-size: 10px;
-    overflow-y: scroll;
     padding: 0px;
     grid-column: 2;
     grid-row: 2;
     border-left: 1px solid var(--backgroundColor);
-
 }
 
-.MAL-summary p{
-    padding: 5px;
-}
+    /* Buttons - infobox */
+    .MAL-buttons{
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+
+    }
+
+    .MAL-buttons div{
+        width: calc(100%/3);
+        border-right: 1px solid lightgrey;
+        border-bottom: 1px solid lightgrey;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .MAL-buttons div:hover{
+        cursor: pointer;
+    }
+
+    .MAL-buttons div:last-of-type{
+        border-right: none;
+    }
+
+    /* Box - infobox */
+    .MAL-infocontent{
+        display: block;
+        height: calc(100% - 2.5em);
+        overflow-y: scroll;
+    }
+
+    .MAL-infocontent p{
+        padding: 5px;
+    }
 
 /* Title stuff  */
 
@@ -91,30 +120,6 @@ span.producer:after{
 
 span.producer:last-of-type:after {
     content: '';
-}
-
-/* Buttons */
-.MAL-buttons{
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-
-}
-
-.MAL-buttons div{
-    width: calc(100%/3);
-    border-right: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
-    font-weight: 600;
-    text-align: center;
-}
-
-.MAL-buttons div:hover{
-    cursor: pointer;
-}
-
-.MAL-buttons div:last-of-type{
-    border-right: none;
 }
 
 

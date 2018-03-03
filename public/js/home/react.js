@@ -164,13 +164,13 @@ class InfoBox extends React.Component {
         }
 
         return(
-            <div className="MAL-summary">
+            <div className="MAL-info">
                 <div className="MAL-buttons">
                     <div className="tab-synopsis" onClick={() => this.tabHandle('synopsis')}>Story</div>
                     <div className="tab-score" onClick={() => this.tabHandle('score')}>Score</div>
                     <div className="tab-airing" onClick={() => this.tabHandle('airing')}>Airing</div>
                 </div>
-                <div className="MAL-content">
+                <div className="MAL-infocontent">
                     {activeTab}
                 </div>
             </div>
