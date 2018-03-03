@@ -86,8 +86,8 @@ function SynopsisTab(props){
 function ScoreTab(props){
     return (
         <div className="content-score">
-            <p className="score-MAL">MAL: {props.MALinfo.score}</p>
-            <p className="score-AL">Anilist: {props.ALinfo.averageScore}</p>
+            <p className="score-MAL">MyAnimeList: <br/>{props.MALinfo.score} out of 10</p>
+            <p className="score-AL">Anilist/Anichart: <br/>{props.ALinfo.averageScore} out of 100</p>
         </div>
     )
 }
@@ -181,12 +181,31 @@ class InfoBox extends React.Component {
 
 class Card extends React.Component {
     render() {
+        const producers = this.props.anime.producers.map((producer) => {
+            return (
+                <span key={`${this.props.anime.title}-${producer}`} className="producer">
+                    {producer}
+                </span>
+            )
+        })
+
+
         return(
             <div className="MAL-container">
                 <div className="MAL-title">
                     <div className="MAL-name"><h1>{this.props.anime.title}</h1></div>
                     <div className="MAL-title-data">
-                        <span className="producer"></span>
+                        <span className="MAL-producers">{producers}</span>
+                        |
+                        <span className="MAL-epnum">
+                            {this.props.anime.nbEp != "?" ?
+                                this.props.anime.nbEp + " eps"
+                                :
+                                "?"
+                            }
+                        </span>
+                        |
+                        <span className="MAL-source">{this.props.anime.fromType}</span>
                     </div>
                 </div>
                 <img className="MAL-image" src={this.props.anime.picture}></img>
