@@ -17,29 +17,58 @@ const genres = [
 
 // ================================================================
 
-function Category(props) {
+function Genre(props) {
     return(
-        <button>{props.value}</button>
+        <button className={`genreBtn ${props.isOn}`} onClick={props.onClick}>
+            {props.value}
+        </button>
+    )
+}
+
+function SpecialGenre(props) {
+    return(
+        <button className='genreBtn specialBtn' onClick={props.onClick}>
+            {props.value}
+        </button>
     )
 }
 
 
+
 class Genres extends React.Component {
     renderCategory(item, index) {
-        return <Category
+        return <Genre
             key={index}
             value={item}
+            isOn={this.props.currentGenres[index] ? "on" : "off" }
+            onClick={() => this.props.clickHandler(index)}
+        />
+    }
+
+    renderSpecial(item){
+        return <SpecialGenre
+            key={item}
+            value={item}
+            onClick={() => this.props.clickHandlerAll(item)}
         />
     }
 
     render(){
-        const buttons = this.props.allGenres.map((item, index) => {
+        const genreButtons = this.props.allGenres.map((item, index) => {
             return this.renderCategory(item, index)
         })
 
+        const specialButtons = [
+            this.renderSpecial("all"),
+            this.renderSpecial("none")
+        ]
+
+
         return (
             <div>
-                {buttons}
+                <div className="genre-container">{genreButtons}</div>
+                <div className="genre-special">{specialButtons}</div>
+
             </div>
         )
     }
@@ -163,28 +192,56 @@ class Card extends React.Component {
 class App extends React.Component {
     constructor(props){
         super(props)
-        this.genres = this.props.genres
+        this.genres = this.props.genres  // All genres
         this.state = {
             current: this.props.genres
         }
     }
 
+    genreShift(i){
+        console.log(i)
+        const current = this.state.current.slice();  // Slice to make a copy
+        // If it's in, nullify; otherwise, put it in as available again
+        current[i] = current[i] ? null : this.genres[i];
+
+        this.setState({
+            current: current
+        })
+    }
+
+    allShift(i){
+        switch(i){
+            case "all":
+                this.setState({ current: this.genres });
+                break;
+            case "none":
+                console.log("Got here")
+                this.setState({ current: [] })
+                break;
+        }
+    }
+
   render() {
       // All items
+      console.log(this.props.data[0])
       const invList = this.props.data.map((anime) =>{
-          return <Card key={anime.id} anime={anime}/>
+          return <Card key={anime.id} anime={anime} genres={anime.genres}/>
       })
 
       // // Post category filtering; uses state
       const filtered = invList.filter((item) => {
-          return this.state.current.includes(item.props.category);
+          return item.props.genres.some(genre => this.state.current.includes(genre));
       })
-
 
     return (
       <div className="Container">
-          <Genres allGenres={this.genres} currentGenres={this.state.genres}/>
-          {invList}
+          <Genres
+              allGenres={this.genres}
+              currentGenres={this.state.current}
+              clickHandler={(i) => this.genreShift(i)}
+              clickHandlerAll = {(i) => this.allShift(i)}
+          />
+          {filtered}
       </div>
     );
   }
