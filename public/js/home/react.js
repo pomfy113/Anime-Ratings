@@ -1,7 +1,7 @@
 // Due to handlebars, it's a bit of an oddity
 /*
-    const data = {{{MAL_TV}}}
-    ALfetch(title) handles fetching info from Anilist
+const data = {{{MAL_TV}}}
+ALfetch(title) handles fetching info from Anilist
 */
 
 const genres = [
@@ -20,7 +20,7 @@ const genres = [
 function Genre(props) {
     return(
         <button className={`genreBtn ${props.isOn}`} onClick={props.onClick}>
-            {props.value}
+            {props.text}
         </button>
     )
 }
@@ -28,7 +28,7 @@ function Genre(props) {
 function SpecialGenre(props) {
     return(
         <button className='genreBtn specialBtn' onClick={props.onClick}>
-            {props.value}
+            {props.text}
         </button>
     )
 }
@@ -39,7 +39,7 @@ class Genres extends React.Component {
     renderCategory(item, index) {
         return <Genre
             key={index}
-            value={item}
+            text={item}
             isOn={this.props.currentGenres[index] ? "on" : "off" }
             onClick={() => this.props.clickHandler(index)}
         />
@@ -48,7 +48,7 @@ class Genres extends React.Component {
     renderSpecial(item){
         return <SpecialGenre
             key={item}
-            value={item}
+            text={item === "all" ? "Select All" : "Deselect All"}
             onClick={() => this.props.clickHandlerAll(item)}
         />
     }
@@ -79,7 +79,7 @@ class Genres extends React.Component {
 // ================================================================
 function SynopsisTab(props){
     return (
-        <div className="content-synopsis">{props.MALinfo.title}</div>
+        <div className="content-synopsis">{props.MALinfo.synopsis}</div>
     )
 }
 
@@ -88,7 +88,6 @@ function ScoreTab(props){
         <div className="content-score">
             <p className="score-MAL">MAL: {props.MALinfo.score}</p>
             <p className="score-AL">Anilist: {props.ALinfo.averageScore}</p>
-            <p className="score-KIT">Kitsu: LOADING</p>
         </div>
     )
 }
@@ -96,13 +95,29 @@ function ScoreTab(props){
 function AiringTab(props){
     const currentTime = moment().format('MMMM Do YYYY, h:mma');
     const airingData = props.ALinfo.nextAiringEpisode
-    const episode = airingData.episode;
-    const relativeTime = moment(airingData.airingAt * 1000).fromNow();
+    let airingHTML;
+
+    if(airingData){
+        const episode = airingData.episode;
+        const relativeTime = moment(airingData.airingAt * 1000).fromNow();
+
+        airingHTML = (
+            <p className="airing-day">
+                As of {currentTime}, episode {episode} airs {relativeTime}.
+            </p>
+        )
+    }
+    else{
+        airingHTML = (
+            <p className="airing-day">
+                This anime isn't airing. :(
+            </p>
+        )
+    }
+
     return (
         <div className="content-airing">
-            <p className="airing-day">
-                    As of {currentTime}, episode {episode} airs {relativeTime}.
-            </p>
+            {airingHTML}
         </div>
     )
 }
@@ -123,14 +138,12 @@ class InfoBox extends React.Component {
     tabHandle(tab){
         if(!this.state.clicked){
             ALfetch(this.MALinfo.title).then((ALdata) => {
-                this.setState({ALinfo: ALdata, tab: tab})
+                this.setState({ALinfo: ALdata, tab: tab, clicked: true})
             });
-
         }
         else{
-            console.log("Already clicked!")
+            this.setState({tab: tab})
         }
-
 
     }
 
@@ -139,14 +152,14 @@ class InfoBox extends React.Component {
         if(this.state.ALinfo){
             switch(this.state.tab){
                 case 'synopsis':
-                    activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
-                    break;
+                activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
+                break;
                 case 'score':
-                    activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
-                    break;
+                activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
+                break;
                 case 'airing':
-                    activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
-                    break;
+                activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
+                break;
             }
         }
 
@@ -167,21 +180,20 @@ class InfoBox extends React.Component {
 
 
 class Card extends React.Component {
-  render() {
-      // const {title, picture, synopsis, score} = this.props.anime;
-    return(
-        <div className="MAL-container">
-            <div className="MAL-title">
-                <div className="MAL-name"><h1>{this.props.anime.title}</h1></div>
-                <div className="MAL-title-data">
-                    <span className="producer"></span>
+    render() {
+        return(
+            <div className="MAL-container">
+                <div className="MAL-title">
+                    <div className="MAL-name"><h1>{this.props.anime.title}</h1></div>
+                    <div className="MAL-title-data">
+                        <span className="producer"></span>
+                    </div>
                 </div>
+                <img className="MAL-image" src={this.props.anime.picture}></img>
+                <InfoBox anime={this.props.anime}/>
             </div>
-            <img className="MAL-image" src={this.props.anime.picture}></img>
-            <InfoBox anime={this.props.anime}/>
-        </div>
-    )
-  }
+        )
+    }
 }
 
 // ================================================================
@@ -194,13 +206,14 @@ class App extends React.Component {
         super(props)
         this.genres = this.props.genres  // All genres
         this.state = {
-            current: this.props.genres
+            current: this.props.genres   // Currently turned on genres
         }
     }
 
     genreShift(i){
-        console.log(i)
-        const current = this.state.current.slice();  // Slice to make a copy
+        // Switch individual genres on or off
+        const current = this.state.current.slice();
+
         // If it's in, nullify; otherwise, put it in as available again
         current[i] = current[i] ? null : this.genres[i];
 
@@ -210,41 +223,41 @@ class App extends React.Component {
     }
 
     allShift(i){
+        // Switch all on, or switch all off
         switch(i){
             case "all":
                 this.setState({ current: this.genres });
                 break;
             case "none":
-                console.log("Got here")
                 this.setState({ current: [] })
                 break;
         }
     }
 
-  render() {
-      // All items
-      console.log(this.props.data[0])
-      const invList = this.props.data.map((anime) =>{
-          return <Card key={anime.id} anime={anime} genres={anime.genres}/>
-      })
+    render() {
+        // All items
+        const invList = this.props.data.map((anime) =>{
+            return <Card key={anime.title} anime={anime} genres={anime.genres}/>
+        })
 
-      // // Post category filtering; uses state
-      const filtered = invList.filter((item) => {
-          return item.props.genres.some(genre => this.state.current.includes(genre));
-      })
+        // Post category filtering; uses state
+        const filtered = invList.filter((item) => {
+            return item.props.genres.some(genre => this.state.current.includes(genre));
+        })
 
-    return (
-      <div className="Container">
-          <Genres
-              allGenres={this.genres}
-              currentGenres={this.state.current}
-              clickHandler={(i) => this.genreShift(i)}
-              clickHandlerAll = {(i) => this.allShift(i)}
-          />
-          {filtered}
-      </div>
-    );
-  }
+        return (
+            <div key="container" className="Container">
+                <Genres
+                    key="genrebox"
+                    allGenres={this.genres}
+                    currentGenres={this.state.current}
+                    clickHandler={(i) => this.genreShift(i)}
+                    clickHandlerAll = {(i) => this.allShift(i)}
+                />
+                {filtered}
+            </div>
+        );
+    }
 }
 
 ReactDOM.render(
