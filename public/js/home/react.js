@@ -122,6 +122,20 @@ function AiringTab(props){
     )
 }
 
+function TrailerTab(props){
+    return (
+        <div className="content-trailer">
+            <iframe
+                type="text/html"
+                width="640"
+                height="360"
+                src={`http://www.youtube.com/embed/${props.ALinfo.trailer.id}`}
+                frameBorder="0"
+                allowFullScreen/>
+        </div>
+    )
+}
+
 
 class InfoBox extends React.Component {
     constructor(props){
@@ -138,6 +152,7 @@ class InfoBox extends React.Component {
     tabHandle(tab){
         if(!this.state.clicked){
             ALfetch(this.MALinfo.title).then((ALdata) => {
+                console.log(ALdata)
                 this.setState({ALinfo: ALdata, tab: tab, clicked: true})
             });
         }
@@ -152,14 +167,17 @@ class InfoBox extends React.Component {
         if(this.state.ALinfo){
             switch(this.state.tab){
                 case 'synopsis':
-                activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
-                break;
+                    activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
+                    break;
                 case 'score':
-                activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
-                break;
+                    activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
+                    break;
                 case 'airing':
-                activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
-                break;
+                    activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
+                    break;
+                case 'trailer':
+                    activeTab = <TrailerTab ALinfo={this.state.ALinfo}/>
+                    break;
             }
         }
 
@@ -169,6 +187,8 @@ class InfoBox extends React.Component {
                     <div className="tab-synopsis" onClick={() => this.tabHandle('synopsis')}>Story</div>
                     <div className="tab-score" onClick={() => this.tabHandle('score')}>Score</div>
                     <div className="tab-airing" onClick={() => this.tabHandle('airing')}>Airing</div>
+                    <div className="tab-trailer" onClick={() => this.tabHandle('trailer')}>Trailer</div>
+
                 </div>
                 <div className="MAL-infocontent">
                     {activeTab}
@@ -214,6 +234,24 @@ class Card extends React.Component {
         )
     }
 }
+// ================================================================
+// ================================================================
+// ================================================================
+// ================================================================
+
+function Modal(props){
+    return(
+        <div className="modal">
+            <div class="trailer-container">
+                <iframe src={`http://www.youtube.com/embed/${this.props.videoid}`}
+                frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    )
+}
+
+
 
 // ================================================================
 // ================================================================
