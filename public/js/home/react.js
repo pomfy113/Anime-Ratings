@@ -122,61 +122,47 @@ function AiringTab(props){
     )
 }
 
-function TrailerTab(props){
+function Trailer(props){
+    let url;
+
+    switch(props.vid.site){
+        case "dailymotion":
+            url = `http://www.${props.vid.site}.com/embed/video/${props.vid.id}`
+            break;
+        case "youtube":
+            url = `http://www.${props.vid.site}.com/embed/${props.vid.id}`
+            break;
+    }
+
     return (
         <div className="content-trailer">
             <iframe
-                type="text/html"
                 width="640"
                 height="360"
-                src={`http://www.youtube.com/embed/${props.ALinfo.trailer.id}`}
+                src={url}
                 frameBorder="0"
-                allowFullScreen/>
+                allowFullScreen>
+
+            </iframe>
         </div>
     )
 }
 
+// ================================================================
 
 class InfoBox extends React.Component {
-    constructor(props){
-        super(props)
-        this.MALinfo = this.props.anime;
-
-        this.state = {
-            ALinfo: null,
-            clicked: false,
-            tab: 'synopsis'
-        }
-    }
-
-    tabHandle(tab){
-        if(!this.state.clicked){
-            ALfetch(this.MALinfo.title).then((ALdata) => {
-                console.log(ALdata)
-                this.setState({ALinfo: ALdata, tab: tab, clicked: true})
-            });
-        }
-        else{
-            this.setState({tab: tab})
-        }
-
-    }
-
     render(){
-        let activeTab = <SynopsisTab MALinfo={this.MALinfo}/>;
-        if(this.state.ALinfo){
-            switch(this.state.tab){
+        let activeTab = <SynopsisTab MALinfo={this.props.MALinfo}/>;
+        if(this.props.ALinfo){
+            switch(this.props.tab){
                 case 'synopsis':
-                    activeTab = <SynopsisTab MALinfo={this.MALinfo}/>
+                    activeTab = <SynopsisTab MALinfo={this.props.MALinfo}/>
                     break;
                 case 'score':
-                    activeTab = <ScoreTab MALinfo={this.MALinfo} ALinfo={this.state.ALinfo}/>
+                    activeTab = <ScoreTab MALinfo={this.props.MALinfo} ALinfo={this.props.ALinfo}/>
                     break;
                 case 'airing':
-                    activeTab = <AiringTab ALinfo={this.state.ALinfo}/>
-                    break;
-                case 'trailer':
-                    activeTab = <TrailerTab ALinfo={this.state.ALinfo}/>
+                    activeTab = <AiringTab ALinfo={this.props.ALinfo}/>
                     break;
             }
         }
@@ -184,10 +170,10 @@ class InfoBox extends React.Component {
         return(
             <div className="MAL-info">
                 <div className="MAL-buttons">
-                    <div className="tab-synopsis" onClick={() => this.tabHandle('synopsis')}>Story</div>
-                    <div className="tab-score" onClick={() => this.tabHandle('score')}>Score</div>
-                    <div className="tab-airing" onClick={() => this.tabHandle('airing')}>Airing</div>
-                    <div className="tab-trailer" onClick={() => this.tabHandle('trailer')}>Trailer</div>
+                    <div className="tab-synopsis" onClick={() => this.props.tabHandle('synopsis')}>Story</div>
+                    <div className="tab-score" onClick={() => this.props.tabHandle('score')}>Score</div>
+                    <div className="tab-airing" onClick={() => this.props.tabHandle('airing')}>Airing</div>
+                    <div className="tab-trailer" onClick={() => this.props.tabHandle('trailer')}>Trailer</div>
 
                 </div>
                 <div className="MAL-infocontent">
@@ -200,36 +186,81 @@ class InfoBox extends React.Component {
 
 
 class Card extends React.Component {
+    constructor(props){
+        super(props)
+        this.MALinfo = this.props.anime;
+
+        this.state = {
+            ALinfo: null,
+            clicked: false,
+            tab: 'synopsis',
+            trailer: null,
+            showTrailer: false
+        }
+    }
+
+    grabALdata(tab){
+        return ALfetch(this.MALinfo.title).then((data) => {
+            this.setState({
+                ALinfo: data,
+                tab: tab,
+                clicked: true,
+                trailer: {id: data.trailer.id, site: data.trailer.site}
+            })
+        });
+    }
+
+    tabHandle(tab){
+        if(!this.state.clicked){
+            this.grabALdata(tab)
+        }
+        else{
+            this.setState({tab: tab})
+        }
+    }
+
+    trailerHandle(){
+        if(!this.state.clicked){
+            this.grabALdata(this.state.tab).then(() => {
+                this.setState({showTrailer: !this.state.showTrailer})
+            });
+        }
+        else{
+            this.setState({showTrailer: !this.state.showTrailer})
+        }
+
+    }
+
     render() {
-        const producers = this.props.anime.producers.map((producer) => {
+        const producers = this.MALinfo.producers.map((producer) => {
             return (
-                <span key={`${this.props.anime.title}-${producer}`} className="producer">
+                <span key={`${this.MALinfo.title}-${producer}`} className="producer">
                     {producer}
                 </span>
             )
         })
 
-
         return(
             <div className="MAL-container">
+                {this.state.showTrailer ? <Trailer vid={this.state.trailer}/> : null}
+                <button onClick={() => this.trailerHandle()}></button>
                 <div className="MAL-title">
-                    <div className="MAL-name"><h1>{this.props.anime.title}</h1></div>
+                    <div className="MAL-name"><h1>{this.MALinfo.title}</h1></div>
                     <div className="MAL-title-data">
                         <span className="MAL-producers">{producers}</span>
                         |
-                        <span className="MAL-epnum">
-                            {this.props.anime.nbEp != "?" ?
-                                this.props.anime.nbEp + " eps"
-                                :
-                                "?"
-                            }
-                        </span>
+                        <span className="MAL-epnum">{this.MALinfo.nbEp != "?" ? this.MALinfo.nbEp + " eps" : "?" }</span>
                         |
-                        <span className="MAL-source">{this.props.anime.fromType}</span>
+                        <span className="MAL-source">{this.MALinfo.fromType}</span>
                     </div>
                 </div>
-                <img className="MAL-image" src={this.props.anime.picture}></img>
-                <InfoBox anime={this.props.anime}/>
+                <img className="MAL-image" src={this.MALinfo.picture}></img>
+                <InfoBox
+                    MALinfo={this.MALinfo}
+                    ALinfo={this.state.ALinfo}
+                    tab={this.state.tab}
+                    tabHandle={(i) => this.tabHandle(i)}
+                />
             </div>
         )
     }
