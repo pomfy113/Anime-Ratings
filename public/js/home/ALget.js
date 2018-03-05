@@ -4,6 +4,7 @@ function ALfetch(title){
         Media (search: $query, type: ANIME) {
             id
             averageScore
+            meanScore
             trailer{
                 id
                 site
@@ -13,9 +14,28 @@ function ALfetch(title){
               timeUntilAiring
               episode
             }
+            characters{
+                edges {
+                  node {
+                    id
+                    name {
+                      first
+                      last
+                    }
+                  }
+                  role
+                  voiceActors {
+                    id
+                    name {
+                      first
+                      last
+                    }
+                  }
+              }
+            }
+
         }
     }`;
-
     // I needed to clean the title if it has 2nd; Anilist is quirky like that
     let cleanedTitle;
     if(title.search("2nd") !== -1){
@@ -52,7 +72,7 @@ function ALfetch(title){
         return res.json()
     }).then((json) => {
         const data = json.data.Media
-        console.log(json.data.Media.trailer)
+        console.log(data)
         return data
     }).catch((err) => {
         alert('An error has happened!')

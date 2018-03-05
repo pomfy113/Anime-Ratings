@@ -16,14 +16,14 @@
     background-color: var(--backgroundColor);
     /* grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr); */
-    grid-template-rows: var(--titleHeight) var(--imageHeight);
+    grid-template-rows: var(--titleHeight) var(--imageHeight) 2em;
     grid-template-columns: var(--imageWidth) var(--textWidth);
 
-    height: calc(var(--titleHeight) + var(--imageHeight));
+    height: calc(var(--titleHeight) + var(--imageHeight) + 2em);
     width: calc(var(--imageWidth) + var(--textWidth));
 
     box-sizing: content-box;
-    margin: 5px;
+    margin: 10px;
     padding: 10px 0;
 
     border-radius: 10px;
@@ -152,10 +152,7 @@ span.producer:last-of-type:after {
     border-radius: 15px;
     margin: 10px;
     font-size: 10px;
-
-
 }
-
 
 .content-trailer{
     background-color: white;
@@ -163,17 +160,26 @@ span.producer:last-of-type:after {
     left: 0;
     top: 0;
     grid-column: 1/3;
-    grid-row: 1/3;
-    /* left: calc(-1 * var(--imageWidth));
-    top: calc(-1 * var(--imageHeight));
-    transform: translate(0%, 50%); */
+    grid-row: 2/3;
+    text-align: center;
 }
 
 .content-trailer iframe{
-    height: calc(var(--titleHeight) + var(--imageHeight));
+    height: calc(var(--imageHeight));
     width: calc(var(--imageWidth) + var(--textWidth));
 }
 
+
+/* Footer */
+.MAL-footer{
+    grid-column: 1/3;
+    grid-row: 3/4;
+}
+
+.trailer-btn{
+    border-radius: 15px;
+    padding: 5px;
+}
 </style>
 <!-- <div class="d-flex flex-row flex-wrap justify-content-center">
 {{#each MAL_TV}}

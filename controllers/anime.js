@@ -118,6 +118,12 @@ module.exports = function(app) {
         test.then(newthing => res.send(newthing));
     });
 
+    app.get('/test-kitsu2', function (req, res) {
+        var test = kitsuanime.get("anime")
+        // var test = kitsuanime.getAnime('10941')
+        test.then(newthing => res.send(newthing));
+    });
+
     app.get('/test-specific', function (req, res) {
         nani.get('anime/100684/page').then((anime) => {
             res.send(anime);
@@ -221,6 +227,16 @@ module.exports = function(app) {
           })
           .catch((err) => console.log(err));
     });
+
+    app.get('/test-scraper-2', (req, res) => {
+
+        malScraper.getInfoFromName('Gintama.: Shirogane no Tamashii-hen').then((data) => {
+              res.send(data);
+          })
+          .catch((err) => console.log(err));
+    });
+
+
 
 
 

@@ -16,6 +16,8 @@ const genres = [
 ]
 
 // ================================================================
+//               All genre-button related stuff
+// ================================================================
 
 function Genre(props) {
     return(
@@ -37,6 +39,7 @@ function SpecialGenre(props) {
 
 class Genres extends React.Component {
     renderCategory(item, index) {
+        // Every genre; can be turned on or off
         return <Genre
             key={index}
             text={item}
@@ -46,6 +49,7 @@ class Genres extends React.Component {
     }
 
     renderSpecial(item){
+        // For the all or none buttons
         return <SpecialGenre
             key={item}
             text={item === "all" ? "Select All" : "Deselect All"}
@@ -63,19 +67,16 @@ class Genres extends React.Component {
             this.renderSpecial("none")
         ]
 
-
         return (
             <div>
                 <div className="genre-container">{genreButtons}</div>
                 <div className="genre-special">{specialButtons}</div>
-
             </div>
         )
     }
 }
 // ================================================================
-// ================================================================
-// ================================================================
+//              Tab-related items
 // ================================================================
 function SynopsisTab(props){
     return (
@@ -100,25 +101,29 @@ function AiringTab(props){
     if(airingData){
         const episode = airingData.episode;
         const relativeTime = moment(airingData.airingAt * 1000).fromNow();
+        const exactDay = moment(airingData.airingAt * 1000).format('MMMM Do YYYY, h:mma');
+
 
         airingHTML = (
-            <p className="airing-day">
-                As of {currentTime}, episode {episode} airs {relativeTime}.
-            </p>
+            <div className="airing-day">
+                <p>As of {currentTime}, episode {episode} airs {relativeTime}.</p>
+                <p>Exact airing time: <br/>{exactDay}</p>
+            </div>
         )
     }
     else{
-        airingHTML = (
-            <p className="airing-day">
-                This anime isn't airing. :(
-            </p>
+        airingHTML = (<p className="airing-day">This anime isn't airing. :(</p>
         )
     }
 
     return (
-        <div className="content-airing">
-            {airingHTML}
-        </div>
+        <div className="content-airing">{airingHTML}</div>
+    )
+}
+
+function CharactersTab(props){
+    return (
+        <div className="content-synopsis">{props.MALinfo.synopsis}</div>
     )
 }
 
@@ -132,6 +137,9 @@ function Trailer(props){
         case "youtube":
             url = `http://www.${props.vid.site}.com/embed/${props.vid.id}`
             break;
+        case null:
+            return (<div className="content-trailer">No trailer available.</div>)
+
     }
 
     return (
@@ -160,9 +168,12 @@ class InfoBox extends React.Component {
                     break;
                 case 'score':
                     activeTab = <ScoreTab MALinfo={this.props.MALinfo} ALinfo={this.props.ALinfo}/>
-                    break;
+                    break;ers
                 case 'airing':
                     activeTab = <AiringTab ALinfo={this.props.ALinfo}/>
+                    break;
+                case 'characters':
+                    activeTab = <CharactersTab ALinfo={this.props.ALinfo}/>
                     break;
             }
         }
@@ -173,7 +184,7 @@ class InfoBox extends React.Component {
                     <div className="tab-synopsis" onClick={() => this.props.tabHandle('synopsis')}>Story</div>
                     <div className="tab-score" onClick={() => this.props.tabHandle('score')}>Score</div>
                     <div className="tab-airing" onClick={() => this.props.tabHandle('airing')}>Airing</div>
-                    <div className="tab-trailer" onClick={() => this.props.tabHandle('trailer')}>Trailer</div>
+                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Trailer</div>
 
                 </div>
                 <div className="MAL-infocontent">
@@ -188,9 +199,9 @@ class InfoBox extends React.Component {
 class Card extends React.Component {
     constructor(props){
         super(props)
-        this.MALinfo = this.props.anime;
 
         this.state = {
+            MALinfo: this.props.anime,
             ALinfo: null,
             clicked: false,
             tab: 'synopsis',
@@ -200,12 +211,14 @@ class Card extends React.Component {
     }
 
     grabALdata(tab){
-        return ALfetch(this.MALinfo.title).then((data) => {
+        return ALfetch(this.state.MALinfo.title).then((data) => {
             this.setState({
                 ALinfo: data,
                 tab: tab,
                 clicked: true,
-                trailer: {id: data.trailer.id, site: data.trailer.site}
+                trailer: {
+                    id: data.trailer ? data.trailer.id : null,
+                    site: data.trailer ? data.trailer.site : null}
             })
         });
     }
@@ -213,6 +226,7 @@ class Card extends React.Component {
     tabHandle(tab){
         if(!this.state.clicked){
             this.grabALdata(tab)
+            console.log(this.state.ALinfo)
         }
         else{
             this.setState({tab: tab})
@@ -232,9 +246,9 @@ class Card extends React.Component {
     }
 
     render() {
-        const producers = this.MALinfo.producers.map((producer) => {
+        const producers = this.state.MALinfo.producers.map((producer) => {
             return (
-                <span key={`${this.MALinfo.title}-${producer}`} className="producer">
+                <span key={`${this.state.MALinfo.title}-${producer}`} className="producer">
                     {producer}
                 </span>
             )
@@ -243,24 +257,26 @@ class Card extends React.Component {
         return(
             <div className="MAL-container">
                 {this.state.showTrailer ? <Trailer vid={this.state.trailer}/> : null}
-                <button onClick={() => this.trailerHandle()}></button>
                 <div className="MAL-title">
-                    <div className="MAL-name"><h1>{this.MALinfo.title}</h1></div>
+                    <div className="MAL-name"><h1>{this.state.MALinfo.title}</h1></div>
                     <div className="MAL-title-data">
                         <span className="MAL-producers">{producers}</span>
                         |
-                        <span className="MAL-epnum">{this.MALinfo.nbEp != "?" ? this.MALinfo.nbEp + " eps" : "?" }</span>
+                        <span className="MAL-epnum">{this.state.MALinfo.nbEp != "?" ? this.state.MALinfo.nbEp + " eps" : "?" }</span>
                         |
-                        <span className="MAL-source">{this.MALinfo.fromType}</span>
+                        <span className="MAL-source">{this.state.MALinfo.fromType}</span>
                     </div>
                 </div>
-                <img className="MAL-image" src={this.MALinfo.picture}></img>
+                <img className="MAL-image" src={this.state.MALinfo.picture}></img>
                 <InfoBox
-                    MALinfo={this.MALinfo}
+                    MALinfo={this.state.MALinfo}
                     ALinfo={this.state.ALinfo}
                     tab={this.state.tab}
                     tabHandle={(i) => this.tabHandle(i)}
                 />
+                <div className="MAL-footer">
+                    <button className="trailer-btn" onClick={() => this.trailerHandle()}>Toggle Trailer</button>
+                </div>
             </div>
         )
     }
