@@ -82,14 +82,12 @@
 
     /* Box - infobox */
     .MAL-infocontent{
+        padding: 5px;
         display: block;
         height: calc(100% - 2.5em);
         overflow-y: scroll;
     }
 
-    .MAL-infocontent p{
-        padding: 5px;
-    }
 
 /* Title stuff  */
 
@@ -120,12 +118,6 @@ span.producer:after{
 
 span.producer:last-of-type:after {
     content: '';
-}
-
-
-/* Content */
-.content-synopsis{
-    padding: 5px 10px;
 }
 
 /* Genre buttons */
@@ -174,12 +166,46 @@ span.producer:last-of-type:after {
 .MAL-footer{
     grid-column: 1/3;
     grid-row: 3/4;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
 }
 
 .trailer-btn{
     border-radius: 15px;
     padding: 5px;
 }
+
+/* Character formatting */
+.character{
+    margin-bottom: 10px;
+}
+
+.character p{
+    margin: 0px;
+    padding: 1px;
+}
+
+/* Episode formatting */
+.episode{
+    margin-bottom: 10px;
+}
+.episode h1{
+    font-size: 14px;
+}
+
+.episode p{
+    margin: 0px;
+    padding: 1px 0px 0px 10px;
+}
+
+.episode .title{
+    font-weight: bold;
+    padding-left: 5px;
+}
+
 </style>
 <!-- <div class="d-flex flex-row flex-wrap justify-content-center">
 {{#each MAL_TV}}
@@ -228,4 +254,6 @@ span.producer:last-of-type:after {
 <!-- <script src="/js/home/tabs.js"></script> -->
 <script>const data = {{{MAL_TV}}}</script>
 <script src="/js/home/ALget.js"></script>
+<script src="/js/home/MALget.js"></script>
+
 <script type="text/babel" src="/js/home/react.js"></script>

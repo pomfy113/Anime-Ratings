@@ -15,10 +15,13 @@ const genres = [
     "Psychological", "Thriller", "Seinen", "Josei"
 ]
 
+// Just every genre
+
 // ================================================================
 //               All genre-button related stuff
 // ================================================================
 
+// Regular genres
 function Genre(props) {
     return(
         <button className={`genreBtn ${props.isOn}`} onClick={props.onClick}>
@@ -27,6 +30,7 @@ function Genre(props) {
     )
 }
 
+// For the "All" and "None" or any future bits
 function SpecialGenre(props) {
     return(
         <button className='genreBtn specialBtn' onClick={props.onClick}>
@@ -35,11 +39,21 @@ function SpecialGenre(props) {
     )
 }
 
-
-
 class Genres extends React.Component {
+    constructor(props){
+        super(props)
+        // Set up a button for all genres and special buttons
+        this.genreButtons = this.props.allGenres.map((item, index) => {
+            return this.renderCategory(item, index)
+        })
+
+        this.specialButtons = [
+            this.renderSpecial("all"),
+            this.renderSpecial("none")
+        ]
+    }
+
     renderCategory(item, index) {
-        // Every genre; can be turned on or off
         return <Genre
             key={index}
             text={item}
@@ -49,7 +63,6 @@ class Genres extends React.Component {
     }
 
     renderSpecial(item){
-        // For the all or none buttons
         return <SpecialGenre
             key={item}
             text={item === "all" ? "Select All" : "Deselect All"}
@@ -58,19 +71,10 @@ class Genres extends React.Component {
     }
 
     render(){
-        const genreButtons = this.props.allGenres.map((item, index) => {
-            return this.renderCategory(item, index)
-        })
-
-        const specialButtons = [
-            this.renderSpecial("all"),
-            this.renderSpecial("none")
-        ]
-
         return (
             <div>
-                <div className="genre-container">{genreButtons}</div>
-                <div className="genre-special">{specialButtons}</div>
+                <div className="genre-container">{this.genreButtons}</div>
+                <div className="genre-special">{this.specialButtons}</div>
             </div>
         )
     }
@@ -84,15 +88,6 @@ function SynopsisTab(props){
     )
 }
 
-function ScoreTab(props){
-    return (
-        <div className="content-score">
-            <p className="score-MAL">MyAnimeList: <br/>{props.MALinfo.score} out of 10</p>
-            <p className="score-AL">Anilist/Anichart: <br/>{props.ALinfo.averageScore} out of 100</p>
-        </div>
-    )
-}
-
 function AiringTab(props){
     const currentTime = moment().format('MMMM Do YYYY, h:mma');
     const airingData = props.ALinfo.nextAiringEpisode
@@ -100,20 +95,24 @@ function AiringTab(props){
 
     if(airingData){
         const episode = airingData.episode;
-        const relativeTime = moment(airingData.airingAt * 1000).fromNow();
-        const exactDay = moment(airingData.airingAt * 1000).format('MMMM Do YYYY, h:mma');
+        const airAt = new Date(airingData.airingAt * 1000)
+        const relativeTime = moment(airAt).fromNow();
+        const exactDay = moment(airAt).format('MMMM Do YYYY, h:mma');
 
+        const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
+        const airingDay = day[airAt.getDay()] + "day"
+        const airingHour = moment(airAt).format('h:mma')
 
         airingHTML = (
             <div className="airing-day">
                 <p>As of {currentTime}, episode {episode} airs {relativeTime}.</p>
                 <p>Exact airing time: <br/>{exactDay}</p>
+                <p>Airs every {airingDay} at {airingHour}</p>
             </div>
         )
     }
     else{
-        airingHTML = (<p className="airing-day">This anime isn't airing. :(</p>
-        )
+        airingHTML = (<p className="airing-day">This anime isn't airing. :(</p>)
     }
 
     return (
@@ -122,9 +121,52 @@ function AiringTab(props){
 }
 
 function CharactersTab(props){
-    return (
-        <div className="content-synopsis">{props.MALinfo.synopsis}</div>
-    )
+    if(props.characters){
+        const chars = props.characters.map((character, index) => {
+            return(
+                <div key={`${character.name}-${index}`} className="character">
+                    <p><a href={character.link}>{character.name}</a></p>
+                    <p>Seiyuu: <a href={character.seiyuu.link}>{character.seiyuu.name}</a></p>
+                    <p>{character.role} Character</p>
+                </div>
+            )
+        })
+
+        return (
+            <div className="content-characters">{chars}</div>
+        )
+    }
+    else{
+        return(<p>Loading!</p>)
+    }
+
+}
+
+function EpisodesTab(props){
+    if(props.episodes){
+        const eps = props.episodes.map((episode, index) => {
+            return (
+                <div key={`${episode.epNumber}-episode`} className="episode">
+                    <h1>Episode {episode.epNumber}</h1>
+                    <p className="title">{episode.title}</p>
+                    <p className="airing">Aired {episode.aired}</p>
+                    <p className="discussion"><a href={episode.discussionLink}>MyAnimeList Thread</a></p>
+                </div>
+            )
+        })
+
+        return (
+            <div className="content-episodes">
+                {eps.length > 0 ? eps
+                :
+                "MAL doesn't appear to have any data on these episodes! Sorry :("}
+            </div>
+        )
+    }
+    else{
+        return(<p>Loading!</p>)
+    }
+
 }
 
 function Trailer(props){
@@ -166,14 +208,14 @@ class InfoBox extends React.Component {
                 case 'synopsis':
                     activeTab = <SynopsisTab MALinfo={this.props.MALinfo}/>
                     break;
-                case 'score':
-                    activeTab = <ScoreTab MALinfo={this.props.MALinfo} ALinfo={this.props.ALinfo}/>
-                    break;
                 case 'airing':
                     activeTab = <AiringTab ALinfo={this.props.ALinfo}/>
                     break;
                 case 'characters':
-                    activeTab = <CharactersTab ALinfo={this.props.ALinfo}/>
+                    activeTab = <CharactersTab characters={this.props.characters}/>
+                    break;
+                case 'episodes':
+                    activeTab = <EpisodesTab episodes={this.props.episodes}/>
                     break;
             }
         }
@@ -182,9 +224,10 @@ class InfoBox extends React.Component {
             <div className="MAL-info">
                 <div className="MAL-buttons">
                     <div className="tab-synopsis" onClick={() => this.props.tabHandle('synopsis')}>Story</div>
-                    <div className="tab-score" onClick={() => this.props.tabHandle('score')}>Score</div>
                     <div className="tab-airing" onClick={() => this.props.tabHandle('airing')}>Airing</div>
-                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Trailer</div>
+                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Characters</div>
+                    <div className="tab-episodes" onClick={() => this.props.tabHandle('episodes')}>Episodes</div>
+
 
                 </div>
                 <div className="MAL-infocontent">
@@ -202,20 +245,23 @@ class Card extends React.Component {
 
         this.state = {
             MALinfo: this.props.anime,
+            episodes: null,
+            characters: null,
+            // MAL info
             ALinfo: null,
             clicked: false,
+            // See if AL info tabs clicked
             tab: 'synopsis',
             trailer: null,
             showTrailer: false
+
         }
     }
 
-    grabALdata(tab){
+    grabALdata(){
         return ALfetch(this.state.MALinfo.title).then((data) => {
             this.setState({
                 ALinfo: data,
-                tab: tab,
-                clicked: true,
                 trailer: {
                     id: data.trailer ? data.trailer.id : null,
                     site: data.trailer ? data.trailer.site : null}
@@ -223,10 +269,25 @@ class Card extends React.Component {
         });
     }
 
+    grabMALdata(){
+        return MALfetch(this.state.MALinfo.link).then((data) => {
+            this.setState({
+                characters: data[0],
+                episodes: data[1]
+            })
+        })
+    }
+
     tabHandle(tab){
         if(!this.state.clicked){
-            this.grabALdata(tab)
-            console.log(this.state.ALinfo)
+            // this.grabALdata(tab)
+            this.grabALdata();
+            this.grabMALdata();
+
+            this.setState({
+                tab: tab,
+                clicked: true
+            })
         }
         else{
             this.setState({tab: tab})
@@ -272,10 +333,13 @@ class Card extends React.Component {
                     MALinfo={this.state.MALinfo}
                     ALinfo={this.state.ALinfo}
                     tab={this.state.tab}
+                    episodes={this.state.episodes}
+                    characters={this.state.characters}
                     tabHandle={(i) => this.tabHandle(i)}
                 />
                 <div className="MAL-footer">
                     <button className="trailer-btn" onClick={() => this.trailerHandle()}>Toggle Trailer</button>
+                    <div>{this.state.MALinfo.score}</div>
                 </div>
             </div>
         )
@@ -312,6 +376,11 @@ class App extends React.Component {
         this.state = {
             current: this.props.genres   // Currently turned on genres
         }
+
+        // All items
+        this.fullList = this.props.data.map((anime) =>{
+            return <Card key={anime.title} anime={anime} genres={anime.genres}/>
+        })
     }
 
     genreShift(i){
@@ -339,13 +408,8 @@ class App extends React.Component {
     }
 
     render() {
-        // All items
-        const invList = this.props.data.map((anime) =>{
-            return <Card key={anime.title} anime={anime} genres={anime.genres}/>
-        })
-
         // Post category filtering; uses state
-        const filtered = invList.filter((item) => {
+        const filtered = this.fullList.filter((item) => {
             return item.props.genres.some(genre => this.state.current.includes(genre));
         })
 

@@ -1,6 +1,6 @@
-function MALfetch(title){
-    $.ajax({
-        url: `/MALscrape?url=${title}`,
+function MALfetch(url){
+    return $.ajax({
+        url: `/MALscrape?url=${url}`,
         type: 'GET'
     }).done((data) => {
         return data
