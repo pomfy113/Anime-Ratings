@@ -158,11 +158,18 @@ module.exports = function(app) {
 
         malScraper.getSeason(year, season)
           .then((data) => {
-              const animeTV = [];
+              let animeTV = [];
+              let biggerpic;
+              
               for(let item in data.TV){
+                  biggerpic = data.TV[item].picture.replace('r/167x242/', '');
+
                   if(data.TV[item].score === "N/A"){
                       data.TV[item].score = "0"; // I'll need to revert this later
                   }
+
+                  data.TV[item].picture = biggerpic;
+
                   animeTV.push(data.TV[item]);
               }
 

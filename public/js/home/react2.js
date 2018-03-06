@@ -303,15 +303,13 @@ class Card extends React.Component {
     }
 
     render() {
-        // const producers = this.state.MALinfo.producers.map((producer) => {
-        //     return (
-        //         <span key={`${this.state.MALinfo.title}-${producer}`} className="producer">
-        //             {producer}
-        //         </span>
-        //     )
-        // })
-
-        const producers = this.state.MALinfo.producers.join(', ')
+        const producers = this.state.MALinfo.producers.map((producer) => {
+            return (
+                <span key={`${this.state.MALinfo.title}-${producer}`} className="producer">
+                    {producer}
+                </span>
+            )
+        })
 
         const genres = this.state.MALinfo.genres.map((genre) => {
             return (
@@ -322,11 +320,32 @@ class Card extends React.Component {
         })
 
         return(
-            <div className="anime-container" style={{backgroundImage: `url(${this.state.MALinfo.picture})`}}>
-                <div className="anime-footer">
-                    <div className="anime-title">{this.state.MALinfo.title}</div>
-                    <div className="anime-score">{this.state.MALinfo.score}</div>
-                    <div className="anime-studio">{producers}</div>
+            <div className="MAL-container">
+                {this.state.showTrailer ? <Trailer vid={this.state.trailer}/> : null}
+                <div className="MAL-title">
+                    <div className="MAL-name"><h1>{this.state.MALinfo.title}</h1></div>
+                    <div className="MAL-title-data">
+                        <span className="MAL-producers">{producers}</span>
+                        |
+                        <span className="MAL-epnum">{this.state.MALinfo.nbEp != "?" ? this.state.MALinfo.nbEp + " eps" : "?" }</span>
+                        |
+                        <span className="MAL-source">{this.state.MALinfo.fromType}</span>
+                    </div>
+                    <div className="MAL-genres">{genres}</div>
+
+                </div>
+                <img className="MAL-image" src={this.state.MALinfo.picture}></img>
+                <InfoBox
+                    MALinfo={this.state.MALinfo}
+                    ALinfo={this.state.ALinfo}
+                    tab={this.state.tab}
+                    episodes={this.state.episodes}
+                    characters={this.state.characters}
+                    tabHandle={(i) => this.tabHandle(i)}
+                />
+                <div className="MAL-footer">
+                    <button className="trailer-btn" onClick={() => this.trailerHandle()}>Toggle Trailer</button>
+                    <div className="footer-score">Rating: {this.state.MALinfo.score}</div>
                 </div>
             </div>
         )
