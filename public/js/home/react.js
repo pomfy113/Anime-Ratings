@@ -101,9 +101,9 @@ function AiringTab(props){
 
         airingHTML = (
             <div className="airing-day">
-                <p>As of {currentTime}, episode {episode} airs {relativeTime}.</p>
-                <p>Exact airing time: <br/>{exactDay}</p>
-                <p>Airs every {airingDay} at {airingHour}</p>
+                <p>Exact airing time: <br/><b>{exactDay}</b></p>
+                <p>As of {currentTime}, episode {episode} airs <b>{relativeTime}</b>.</p>
+                <p>Airs every <b>{airingDay} at {airingHour}</b></p>
             </div>
         )
     }
@@ -221,8 +221,8 @@ class InfoBox extends React.Component {
                 <div className="MAL-buttons">
                     <div className="tab-synopsis" onClick={() => this.props.tabHandle('synopsis')}>Story</div>
                     <div className="tab-airing" onClick={() => this.props.tabHandle('airing')}>Airing</div>
-                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Characters</div>
-                    <div className="tab-episodes" onClick={() => this.props.tabHandle('episodes')}>Episodes</div>
+                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Cast</div>
+                    <div className="tab-episodes" onClick={() => this.props.tabHandle('episodes')}>Eps.</div>
 
 
                 </div>
@@ -345,7 +345,7 @@ class Card extends React.Component {
                 />
                 <div className="MAL-footer">
                     <button className="trailer-btn" onClick={() => this.trailerHandle()}>Toggle Trailer</button>
-                    <div className="footer-score">{this.state.MALinfo.score}</div>
+                    <div className="footer-score">Rating: {this.state.MALinfo.score}</div>
                 </div>
             </div>
         )

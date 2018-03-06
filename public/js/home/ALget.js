@@ -72,7 +72,6 @@ function ALfetch(title){
         return res.json()
     }).then((json) => {
         const data = json.data.Media
-        console.log(data)
         return data
     }).catch((err) => {
         alert('An error has happened!')
