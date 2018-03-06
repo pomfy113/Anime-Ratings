@@ -30,8 +30,8 @@ app.set('view engine', 'handlebars');
 app.use(cookieParser());
 
 // Database
-mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist', {useMongoClient: true});
+// mongoose.Promise = global.Promise
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ouranimelist', {useMongoClient: true});
 
 // // Authorization
 let checkAuth = (req, res, next) => {

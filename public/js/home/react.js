@@ -40,19 +40,6 @@ function SpecialGenre(props) {
 }
 
 class Genres extends React.Component {
-    constructor(props){
-        super(props)
-        // Set up a button for all genres and special buttons
-        this.genreButtons = this.props.allGenres.map((item, index) => {
-            return this.renderCategory(item, index)
-        })
-
-        this.specialButtons = [
-            this.renderSpecial("all"),
-            this.renderSpecial("none")
-        ]
-    }
-
     renderCategory(item, index) {
         return <Genre
             key={index}
@@ -71,10 +58,19 @@ class Genres extends React.Component {
     }
 
     render(){
+        const genreButtons = this.props.allGenres.map((item, index) => {
+            return this.renderCategory(item, index)
+        })
+
+        const specialButtons = [
+            this.renderSpecial("all"),
+            this.renderSpecial("none")
+        ]
+
         return (
             <div>
-                <div className="genre-container">{this.genreButtons}</div>
-                <div className="genre-special">{this.specialButtons}</div>
+                <div className="genre-container">{genreButtons}</div>
+                <div className="genre-special">{specialButtons}</div>
             </div>
         )
     }
@@ -384,7 +380,8 @@ class App extends React.Component {
         super(props)
         this.genres = this.props.genres  // All genres
         this.state = {
-            current: this.props.genres   // Currently turned on genres
+            current: this.props.genres,   // Currently turned on genres
+            showGenres: false
         }
 
         // All items
@@ -423,15 +420,23 @@ class App extends React.Component {
             return item.props.genres.some(genre => this.state.current.includes(genre));
         })
 
+        const genres =
+            <Genres
+                key="genrebox"
+                allGenres={this.genres}
+                currentGenres={this.state.current}
+                clickHandler={(i) => this.genreShift(i)}
+                clickHandlerAll = {(i) => this.allShift(i)}
+            />
+
         return (
             <div key="container" className="Container">
-                <Genres
-                    key="genrebox"
-                    allGenres={this.genres}
-                    currentGenres={this.state.current}
-                    clickHandler={(i) => this.genreShift(i)}
-                    clickHandlerAll = {(i) => this.allShift(i)}
-                />
+                <div className="btnCont">
+                    <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
+                        Toggle Genre Filter
+                    </button>
+                    {this.state.showGenres ? genres : null}
+                </div>
                 {filtered}
             </div>
         );
