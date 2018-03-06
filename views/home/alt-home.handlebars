@@ -9,22 +9,23 @@
     --imageHeight: 193px;
     --imageWidth: 133px;
     --textWidth: 175px;
-    --titleHeight: 4em;
+    --titleHeight: 5em;
+    --footerHeight: 3em;
     --backgroundColor: #EEE;
 
     display: grid;
     background-color: var(--backgroundColor);
     /* grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr); */
-    grid-template-rows: var(--titleHeight) var(--imageHeight) 2em;
+    grid-template-rows: var(--titleHeight) var(--imageHeight) var(--footerHeight);
     grid-template-columns: var(--imageWidth) var(--textWidth);
 
-    height: calc(var(--titleHeight) + var(--imageHeight) + 2em);
+    height: calc(var(--titleHeight) + var(--imageHeight) + var(--footerHeight));
     width: calc(var(--imageWidth) + var(--textWidth));
 
     box-sizing: content-box;
     margin: 10px;
-    padding: 10px 0;
+    padding: 1em 0 0 0;
 
     border-radius: 10px;
     border: 1px solid lightgrey;
@@ -91,18 +92,19 @@
 
 /* Title stuff  */
 
-.MAL-name{
+/* .MAL-name{
     height: 2.5em;
-}
+} */
 
 .MAL-name h1{
     font-size: 15px;
+    height: 2em;
+    margin-bottom: 1em;
 }
 
 .MAL-title-data{
     color: darkgrey;
     font-size: 12px;
-    height: 2em;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -118,6 +120,13 @@ span.producer:after{
 
 span.producer:last-of-type:after {
     content: '';
+}
+
+.MAL-genres{
+    color: darkgrey;
+    font-size: 10px;
+    margin-bottom: 1em;
+    overflow-x: hidden;
 }
 
 /* Genre buttons */
@@ -171,11 +180,18 @@ span.producer:last-of-type:after {
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
+    padding: .5em;
 }
 
 .trailer-btn{
     border-radius: 15px;
     padding: 5px;
+    font-size: 10px;
+    width: 75px;
+}
+
+.footer-score{
+    padding: 3px;
 }
 
 /* Character formatting */
@@ -194,6 +210,7 @@ span.producer:last-of-type:after {
 }
 .episode h1{
     font-size: 14px;
+    margin: 2px;
 }
 
 .episode p{

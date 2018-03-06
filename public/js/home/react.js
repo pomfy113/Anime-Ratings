@@ -315,6 +315,14 @@ class Card extends React.Component {
             )
         })
 
+        const genres = this.state.MALinfo.genres.map((genre) => {
+            return (
+                <span key={`${this.state.MALinfo.title}-${genre}`} className="producer">
+                    {genre}
+                </span>
+            )
+        })
+
         return(
             <div className="MAL-container">
                 {this.state.showTrailer ? <Trailer vid={this.state.trailer}/> : null}
@@ -327,6 +335,8 @@ class Card extends React.Component {
                         |
                         <span className="MAL-source">{this.state.MALinfo.fromType}</span>
                     </div>
+                    <div className="MAL-genres">{genres}</div>
+
                 </div>
                 <img className="MAL-image" src={this.state.MALinfo.picture}></img>
                 <InfoBox
@@ -339,7 +349,7 @@ class Card extends React.Component {
                 />
                 <div className="MAL-footer">
                     <button className="trailer-btn" onClick={() => this.trailerHandle()}>Toggle Trailer</button>
-                    <div>{this.state.MALinfo.score}</div>
+                    <div className="footer-score">{this.state.MALinfo.score}</div>
                 </div>
             </div>
         )
