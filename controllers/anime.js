@@ -236,6 +236,22 @@ module.exports = function(app) {
           .catch((err) => console.log(err));
     });
 
+    app.get('/MALscrape', (req, res) => {
+        // You shouldn't get here normally
+        const malData = malScraper.getInfoFromURL(req.query.url).then((data) => {
+            return malScraper.getEpisodesList({
+                name: data.title,
+                id: data.id
+            }).then((epList) => {
+                console.log(epList)
+                return [epList, data]
+            })
+
+        }).then((data) => {
+            res.send(data)
+        }).catch((err) => console.log(err));
+
+    });
 
 
 

@@ -168,7 +168,7 @@ class InfoBox extends React.Component {
                     break;
                 case 'score':
                     activeTab = <ScoreTab MALinfo={this.props.MALinfo} ALinfo={this.props.ALinfo}/>
-                    break;ers
+                    break;
                 case 'airing':
                     activeTab = <AiringTab ALinfo={this.props.ALinfo}/>
                     break;
