@@ -238,6 +238,7 @@ class InfoBox extends React.Component {
 class Card extends React.Component {
     constructor(props){
         super(props)
+        this.producers = this.props.anime.producers.join(', ')
 
         this.state = {
             MALinfo: this.props.anime,
@@ -250,7 +251,6 @@ class Card extends React.Component {
             tab: 'synopsis',
             trailer: null,
             showTrailer: false
-
         }
     }
 
@@ -303,8 +303,6 @@ class Card extends React.Component {
     }
 
     render() {
-        const producers = this.state.MALinfo.producers.join(', ')
-
         const genres = this.state.MALinfo.genres.map((genre) => {
             return (
                 <span key={`${this.state.MALinfo.title}-${genre}`} className="producer">
@@ -316,12 +314,12 @@ class Card extends React.Component {
         return(
             <div className="anime-container"
                 style={{backgroundImage: `url(${this.state.MALinfo.picture})`}}
-                onClick={() => this.props.handleModal(this.state.MALinfo.title)}
+                onClick={() => this.props.handleModal(this.state.MALinfo)}
                 >
                 <div className="anime-footer">
                     <div className="anime-title">{this.state.MALinfo.title}</div>
                     <div className="anime-score">{this.state.MALinfo.score}</div>
-                    <div className="anime-studio">{producers}</div>
+                    <div className="anime-studio">{this.producers}</div>
                 </div>
             </div>
         )
@@ -332,12 +330,42 @@ class Card extends React.Component {
 // ================================================================
 // ================================================================
 
+function ModalBar(props){
+    const producers =props.data.producers.join(', ')
+
+    return(
+        <div className="window-bar">
+            <img src={props.data.picture}></img>
+
+            <table className="bar-data">
+                <tbody>
+                    <tr>
+                        <th>Studio:</th><th>{producers}</th>
+                    </tr>
+                    <tr>
+                        <th>Source:</th><th>{props.data.fromType}</th>
+                    </tr>
+                    <tr>
+                        <th>Eps:</th><th>{props.data.nbEp}</th>
+                    </tr>
+                    <tr>
+                        <th>Score:</th><th>{props.data.score}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    )
+
+}
+
 class Modal extends React.Component {
     render(){
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
-                    Testing! {this.props.data}
+                    <h1 className="window-title">{this.props.data.title}</h1>
+                    <ModalBar data={this.props.data}/>
+                    <Details/>
                 </div>
             </div>
         )
