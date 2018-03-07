@@ -4,6 +4,10 @@ const data = {{{MAL_TV}}}
 ALfetch(title) handles fetching info from Anilist
 */
 
+
+// ================================================================
+//               All genre-button related stuff
+// ================================================================
 const genres = [
     "Action", "Adventure", "Cars", "Comedy", "Dementia",
     "Demons", "Mystery", "Drama", "Ecchi", "Fantasy", "Game",
@@ -14,12 +18,6 @@ const genres = [
     "Harem", "Slice of Life", "Supernatural", "Military", "Police",
     "Psychological", "Thriller", "Seinen", "Josei"
 ]
-
-// Just every genre
-
-// ================================================================
-//               All genre-button related stuff
-// ================================================================
 
 // Regular genres
 function Genre(props) {
@@ -75,250 +73,23 @@ class Genres extends React.Component {
         )
     }
 }
-// ================================================================
-//              Tab-related items
-// ================================================================
-function SynopsisTab(props){
-    return (
-        <div className="content-synopsis">{props.MALinfo.synopsis}</div>
-    )
-}
-
-function AiringTab(props){
-    const currentTime = moment().format('MMMM Do YYYY, h:mma');
-    const airingData = props.ALinfo.nextAiringEpisode
-    let airingHTML;
-
-    if(airingData){
-        const episode = airingData.episode;
-        const airAt = new Date(airingData.airingAt * 1000)
-        const relativeTime = moment(airAt).fromNow();
-        const exactDay = moment(airAt).format('MMMM Do YYYY, h:mma');
-
-        const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
-        const airingDay = day[airAt.getDay()] + "day"
-        const airingHour = moment(airAt).format('h:mma')
-
-        airingHTML = (
-            <div className="airing-day">
-                <p>Exact airing time: <br/><b>{exactDay}</b></p>
-                <p>As of {currentTime}, episode {episode} airs <b>{relativeTime}</b>.</p>
-                <p>Airs every <b>{airingDay} at {airingHour}</b></p>
-            </div>
-        )
-    }
-    else{
-        airingHTML = (<p className="airing-day">This anime isn't airing. :(</p>)
-    }
-
-    return (
-        <div className="content-airing">{airingHTML}</div>
-    )
-}
-
-function CharactersTab(props){
-    if(props.characters){
-        const chars = props.characters.map((character, index) => {
-            return(
-                <div key={`${character.name}-${index}`} className="character">
-                    <p><a href={character.link}>{character.name}</a></p>
-                    <p>Seiyuu: <a href={character.seiyuu.link}>{character.seiyuu.name}</a></p>
-                    <p>{character.role} Character</p>
-                </div>
-            )
-        })
-
-        return (
-            <div className="content-characters">{chars}</div>
-        )
-    }
-    else{
-        return(<p>Loading!</p>)
-    }
-
-}
-
-function EpisodesTab(props){
-    if(props.episodes){
-        const eps = props.episodes.map((episode, index) => {
-            return (
-                <div key={`${episode.epNumber}-episode`} className="episode">
-                    <h1>Episode {episode.epNumber}</h1>
-                    <p className="title">{episode.title}</p>
-                    <p className="airing">Aired {episode.aired}</p>
-                    <p className="discussion"><a href={episode.discussionLink}>MyAnimeList Thread</a></p>
-                </div>
-            )
-        })
-
-        return (
-            <div className="content-episodes">
-                {eps.length > 0 ? eps
-                :
-                "MAL doesn't appear to have any data on these episodes! Sorry :("}
-            </div>
-        )
-    }
-    else{
-        return(<p>Loading!</p>)
-    }
-
-}
-
-function Trailer(props){
-    let url;
-
-    switch(props.vid.site){
-        case "dailymotion":
-            url = `http://www.${props.vid.site}.com/embed/video/${props.vid.id}`
-            break;
-        case "youtube":
-            url = `http://www.${props.vid.site}.com/embed/${props.vid.id}`
-            break;
-        case null:
-            return (<div className="content-trailer">No trailer available.</div>)
-
-    }
-
-    return (
-        <div className="content-trailer">
-            <iframe
-                width="640"
-                height="360"
-                src={url}
-                frameBorder="0"
-                allowFullScreen>
-
-            </iframe>
-        </div>
-    )
-}
 
 // ================================================================
-
-class InfoBox extends React.Component {
-    render(){
-        let activeTab = <SynopsisTab MALinfo={this.props.MALinfo}/>;
-        if(this.props.ALinfo){
-            switch(this.props.tab){
-                case 'synopsis':
-                    activeTab = <SynopsisTab MALinfo={this.props.MALinfo}/>
-                    break;
-                case 'airing':
-                    activeTab = <AiringTab ALinfo={this.props.ALinfo}/>
-                    break;
-                case 'characters':
-                    activeTab = <CharactersTab characters={this.props.characters}/>
-                    break;
-                case 'episodes':
-                    activeTab = <EpisodesTab episodes={this.props.episodes}/>
-                    break;
-            }
-        }
-
-        return(
-            <div className="MAL-info">
-                <div className="MAL-buttons">
-                    <div className="tab-synopsis" onClick={() => this.props.tabHandle('synopsis')}>Story</div>
-                    <div className="tab-airing" onClick={() => this.props.tabHandle('airing')}>Airing</div>
-                    <div className="tab-characters" onClick={() => this.props.tabHandle('characters')}>Cast</div>
-                    <div className="tab-episodes" onClick={() => this.props.tabHandle('episodes')}>Eps.</div>
-
-
-                </div>
-                <div className="MAL-infocontent">
-                    {activeTab}
-                </div>
-            </div>
-        )
-    }
-}
-
-
 class Card extends React.Component {
     constructor(props){
         super(props)
         this.producers = this.props.anime.producers.join(', ')
-
-        this.state = {
-            MALinfo: this.props.anime,
-            episodes: null,
-            characters: null,
-            // MAL info
-            ALinfo: null,
-            clicked: false,
-            // See if AL info tabs clicked
-            tab: 'synopsis',
-            trailer: null,
-            showTrailer: false
-        }
-    }
-
-    grabALdata(){
-        return ALfetch(this.state.MALinfo.title).then((data) => {
-            this.setState({
-                ALinfo: data,
-                trailer: {
-                    id: data.trailer ? data.trailer.id : null,
-                    site: data.trailer ? data.trailer.site : null}
-            })
-        });
-    }
-
-    grabMALdata(){
-        return MALfetch(this.state.MALinfo.link).then((data) => {
-            this.setState({
-                characters: data[0],
-                episodes: data[1]
-            })
-        })
-    }
-
-    tabHandle(tab){
-        if(!this.state.clicked){
-            // this.grabALdata(tab)
-            this.grabALdata();
-            this.grabMALdata();
-
-            this.setState({
-                tab: tab,
-                clicked: true
-            })
-        }
-        else{
-            this.setState({tab: tab})
-        }
-    }
-
-    trailerHandle(){
-        if(!this.state.clicked){
-            this.grabALdata(this.state.tab).then(() => {
-                this.setState({showTrailer: !this.state.showTrailer})
-            });
-        }
-        else{
-            this.setState({showTrailer: !this.state.showTrailer})
-        }
-
     }
 
     render() {
-        const genres = this.state.MALinfo.genres.map((genre) => {
-            return (
-                <span key={`${this.state.MALinfo.title}-${genre}`} className="producer">
-                    {genre}
-                </span>
-            )
-        })
-
         return(
             <div className="anime-container"
-                style={{backgroundImage: `url(${this.state.MALinfo.picture})`}}
-                onClick={() => this.props.handleModal(this.state.MALinfo)}
+                style={{backgroundImage: `url(${this.props.anime.picture})`}}
+                onClick={() => this.props.handleModal(this.props.anime)}
                 >
                 <div className="anime-footer">
-                    <div className="anime-title">{this.state.MALinfo.title}</div>
-                    <div className="anime-score">{this.state.MALinfo.score}</div>
+                    <div className="anime-title">{this.props.anime.title}</div>
+                    <div className="anime-score">{this.props.anime.score}</div>
                     <div className="anime-studio">{this.producers}</div>
                 </div>
             </div>
@@ -330,12 +101,64 @@ class Card extends React.Component {
 // ================================================================
 // ================================================================
 
+function AiringData(data){
+    if(!data){
+        return null;
+    }
+
+    const airingData = data.nextAiringEpisode;
+
+    if(!airingData){
+        return "N/A"
+    }
+
+    const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
+    const episode = airingData.episode;
+    const airAt = new Date(airingData.airingAt * 1000)
+
+    const relativeTime = moment(airAt).fromNow();
+    const exactDay = moment(airAt).format('MMMM Do, YYYY');
+    const airingDay = day[airAt.getDay()] + "day"
+    const airingHour = moment(airAt).format('h:mma')
+
+    return {
+        exactDay: exactDay,
+        airingDay: airingDay,
+        airingHour: airingHour,
+        relativeTime: relativeTime
+    }
+
+
+}
+
+
 function ModalBar(props){
-    const producers =props.data.producers.join(', ')
+    const producers = props.MALdata.producers.join(', ')
+    // The airing time is a nightmare
+    const airingData = AiringData(props.ALdata)
+
+    let airingDisplay;
+
+    switch(airingData){
+        case null:
+            airingDisplay = "Loading!";
+            break;
+        case "N/A":
+            airingDisplay = "Currently not airing :c";
+            break;
+        default:
+            airingDisplay =
+                <div className="bar-data-airing">
+                    <div>{airingData.exactDay}</div>
+                    <div>{airingData.airingHour}, {airingData.airingDay}s</div>
+                    <div>Airs {airingData.relativeTime}</div>
+                </div>
+            break;
+    }
 
     return(
         <div className="window-bar">
-            <img src={props.data.picture}></img>
+            <img src={props.MALdata.picture}></img>
 
             <table className="bar-data">
                 <tbody>
@@ -343,13 +166,19 @@ function ModalBar(props){
                         <th>Studio:</th><th>{producers}</th>
                     </tr>
                     <tr>
-                        <th>Source:</th><th>{props.data.fromType}</th>
+                        <th>Source:</th><th>{props.MALdata.fromType}</th>
                     </tr>
                     <tr>
-                        <th>Eps:</th><th>{props.data.nbEp}</th>
+                        <th>Eps:</th><th>{props.MALdata.nbEp}</th>
                     </tr>
                     <tr>
-                        <th>Score:</th><th>{props.data.score}</th>
+                        <th>MAL Score:</th><th>{props.MALdata.score}/10</th>
+                    </tr>
+                    <tr>
+                        <th>AL Score:</th><th>{props.ALdata ? props.ALdata.meanScore : "Loading!"}</th>
+                    </tr>
+                    <tr>
+                        <th>Airing:</th><th>{airingDisplay}</th>
                     </tr>
                 </tbody>
             </table>
@@ -358,14 +187,57 @@ function ModalBar(props){
 
 }
 
+function Details(props){
+    // <button onClick={() => props.handleTab()}>Test</button>
+
+    return(
+        <div className="modal-details">
+            <div className="tab-bar">
+                <div className="tab-synopsis" onClick={() => props.tabHandle('synopsis', null)}>Story</div>
+                <div className="tab-characters" onClick={() => props.tabHandle('characters', 'MAL')}>Cast</div>
+                <div className="tab-episodes" onClick={() => props.tabHandle('episodes', 'MAL')}>Eps.</div>
+            </div>
+        </div>
+    )
+}
+
 class Modal extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.MALdata = this.props.data
+        this.grabALData()
+
+        this.state = {
+            tab: 'synopsis',
+            ALdata: null,
+            MALepisodes: null,
+            MALcharacters: null
+        }
+
+    }
+    // This is heavy. Get this ONLY when necessary
+    grabMALData(info){
+
+    }
+
+    // Should hit this immediately; rather lightweight
+    grabALData(){
+        ALfetch(this.MALdata.title).then((data) => {
+            this.setState({
+                ALdata: data
+            })
+
+        });
+    }
+
     render(){
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
-                    <ModalBar data={this.props.data}/>
-                    <Details/>
+                    <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
+                    <Details handleTab={(tab, info) => this.grabData(tab, info)}/>
                 </div>
             </div>
         )
@@ -399,20 +271,22 @@ class App extends React.Component {
         })
     }
 
-    genreShift(i){
-        // Switch individual genres on or off
-        const current = this.state.current.slice();
+    // * * * * * * * * * * * * * * * * * * * * * * * *
+    // Genre switches
+    // * * * * * * * * * * * * * * * * * * * * * * * *
 
-        // If it's in, nullify; otherwise, put it in as available again
-        current[i] = current[i] ? null : this.genres[i];
+    // Switch individual genres on or off
+    genreShift(i){
+        const current = this.state.current.slice();
+        current[i] = current[i] ? null : this.genres[i];  // Toggle
 
         this.setState({
             current: current
         })
     }
 
+    // Switch all
     allShift(i){
-        // Switch all on, or switch all off
         switch(i){
             case "all":
                 this.setState({ current: this.genres });
@@ -422,6 +296,10 @@ class App extends React.Component {
                 break;
         }
     }
+
+    // * * * * * * * * * * * * * * * * * * * * * * * *
+    // Modal switches
+    // * * * * * * * * * * * * * * * * * * * * * * * *
 
     showModal(data){
         document.body.style.overflow = "hidden"
@@ -450,9 +328,13 @@ class App extends React.Component {
                 clickHandlerAll = {(i) => this.allShift(i)}
             />
 
+        const modal = this.state.modal
+                        ? <Modal data={this.state.modal} handleClick={(i) => this.hideModal(i)}/>
+                        : null;
+
         return (
             <div key="container" className="Container">
-                {this.state.modal ? <Modal data={this.state.modal} handleClick={(i) => this.hideModal(i)}/> : null}
+                {modal}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
                         Toggle Genre Filter

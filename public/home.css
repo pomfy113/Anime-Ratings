@@ -26,12 +26,14 @@ button{
     --footerHeight: 3em;
     --backgroundColor: #EEE;
 
+    --rowHeight: 60px;
+
     display: grid;
     background-color: var(--backgroundColor);
     /* grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr); */
 
-    grid-template-rows: 4fr 55px;
+    grid-template-rows: 4fr var(--rowHeight);
     /* grid-template-columns: var(--imageWidth) var(--textWidth); */
 
     /* height: calc(var(--titleHeight) + var(--imageHeight));
@@ -41,7 +43,7 @@ button{
     width: var(--imageWidth);
 
     box-sizing: content-box;
-    margin: 5px;
+    margin: 10px;
     padding: 0px;
     background-size: cover;
 
@@ -52,7 +54,7 @@ button{
 .anime-footer{
     display: grid;
     grid-row: 2;
-    grid-template-rows: 28px 22px;
+    grid-template-rows: 1fr 1fr;
     grid-template-columns: 2fr 1fr;
     padding: 0px 5px;
 

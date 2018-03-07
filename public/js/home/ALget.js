@@ -2,8 +2,6 @@ function ALfetch(title){
     var query = `
     query ($query: String) {
         Media (search: $query, type: ANIME) {
-            id
-            averageScore
             meanScore
             trailer{
                 id
@@ -14,26 +12,6 @@ function ALfetch(title){
               timeUntilAiring
               episode
             }
-            characters{
-                edges {
-                  node {
-                    id
-                    name {
-                      first
-                      last
-                    }
-                  }
-                  role
-                  voiceActors {
-                    id
-                    name {
-                      first
-                      last
-                    }
-                  }
-              }
-            }
-
         }
     }`;
     // I needed to clean the title if it has 2nd; Anilist is quirky like that
