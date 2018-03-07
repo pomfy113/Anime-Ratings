@@ -31,7 +31,7 @@ button{
     /* grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr); */
 
-    grid-template-rows: 4fr 4em;
+    grid-template-rows: 4fr 55px;
     /* grid-template-columns: var(--imageWidth) var(--textWidth); */
 
     /* height: calc(var(--titleHeight) + var(--imageHeight));
@@ -52,12 +52,12 @@ button{
 .anime-footer{
     display: grid;
     grid-row: 2;
-    grid-template-rows: 35px 20px;
+    grid-template-rows: 28px 20px;
     grid-template-columns: 2fr 1fr;
     padding: 5px;
 
     color: #FFF;
-    background: linear-gradient(to top, #00000088, #00000088,  #00000066, #00000000);
+    background: linear-gradient(to top, #00000099, #00000099,  #00000077, #00000000);
 
 }
 .anime-title{
@@ -87,6 +87,7 @@ button{
     font-size: 10px;
     line-height: 10px;
     align-items: flex-end;
+    overflow:
 }
 
 .MAL-image{
@@ -137,6 +138,24 @@ button{
         overflow-y: scroll;
     }
 
+/* Modal */
+
+
+.window-container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #000000AA;
+}
+
+.window-content{
+    width: 80%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 50%);
+    background-color: white;
+}
 
 /* Title stuff  */
 

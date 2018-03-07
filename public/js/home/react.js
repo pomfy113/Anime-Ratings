@@ -303,14 +303,6 @@ class Card extends React.Component {
     }
 
     render() {
-        // const producers = this.state.MALinfo.producers.map((producer) => {
-        //     return (
-        //         <span key={`${this.state.MALinfo.title}-${producer}`} className="producer">
-        //             {producer}
-        //         </span>
-        //     )
-        // })
-
         const producers = this.state.MALinfo.producers.join(', ')
 
         const genres = this.state.MALinfo.genres.map((genre) => {
@@ -322,7 +314,10 @@ class Card extends React.Component {
         })
 
         return(
-            <div className="anime-container" style={{backgroundImage: `url(${this.state.MALinfo.picture})`}}>
+            <div className="anime-container"
+                style={{backgroundImage: `url(${this.state.MALinfo.picture})`}}
+                onClick={() => this.props.handleModal(this.state.MALinfo.title)}
+                >
                 <div className="anime-footer">
                     <div className="anime-title">{this.state.MALinfo.title}</div>
                     <div className="anime-score">{this.state.MALinfo.score}</div>
@@ -337,16 +332,16 @@ class Card extends React.Component {
 // ================================================================
 // ================================================================
 
-function Modal(props){
-    return(
-        <div className="modal">
-            <div class="trailer-container">
-                <iframe src={`http://www.youtube.com/embed/${this.props.videoid}`}
-                frameborder="0" allowfullscreen></iframe>
+class Modal extends React.Component {
+    render(){
+        return(
+            <div onClick={(i) => this.props.handleClick(i)} className="window-container">
+                <div className="window-content">
+                    Testing! {this.props.data}
+                </div>
             </div>
-        </div>
-
-    )
+        )
+    }
 }
 
 
@@ -362,12 +357,17 @@ class App extends React.Component {
         this.genres = this.props.genres  // All genres
         this.state = {
             current: this.props.genres,   // Currently turned on genres
-            showGenres: false
+            showGenres: false,
+            modal: null
         }
 
         // All items
         this.fullList = this.props.data.map((anime) =>{
-            return <Card key={anime.title} anime={anime} genres={anime.genres}/>
+            return <Card
+                key={anime.title}
+                anime={anime}
+                genres={anime.genres}
+                handleModal={(i) => this.showModal(i)}/>
         })
     }
 
@@ -395,6 +395,18 @@ class App extends React.Component {
         }
     }
 
+    showModal(data){
+        document.body.style.overflow = "hidden"
+        this.setState({modal: data})
+    }
+
+    hideModal(event){
+        if(event.target.className === 'window-container'){
+            document.body.style.overflow = "initial"
+            this.setState({modal: null})
+        }
+    }
+
     render() {
         // Post category filtering; uses state
         const filtered = this.fullList.filter((item) => {
@@ -412,6 +424,7 @@ class App extends React.Component {
 
         return (
             <div key="container" className="Container">
+                {this.state.modal ? <Modal data={this.state.modal} handleClick={(i) => this.hideModal(i)}/> : null}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
                         Toggle Genre Filter
