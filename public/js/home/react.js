@@ -122,6 +122,7 @@ function AiringData(data){
     const airingHour = moment(airAt).format('h:mma')
 
     return {
+        episode: episode,
         exactDay: exactDay,
         airingDay: airingDay,
         airingHour: airingHour,
@@ -149,9 +150,9 @@ function ModalBar(props){
         default:
             airingDisplay =
                 <div className="bar-data-airing">
+                    <div>Ep. {airingData.episode} {airingData.relativeTime}</div>
                     <div>{airingData.exactDay}</div>
                     <div>{airingData.airingHour}, {airingData.airingDay}s</div>
-                    <div>Airs {airingData.relativeTime}</div>
                 </div>
             break;
     }
@@ -172,10 +173,11 @@ function ModalBar(props){
                         <th>Eps:</th><th>{props.MALdata.nbEp}</th>
                     </tr>
                     <tr>
-                        <th>MAL Score:</th><th>{props.MALdata.score}/10</th>
-                    </tr>
-                    <tr>
-                        <th>AL Score:</th><th>{props.ALdata ? props.ALdata.meanScore : "Loading!"}</th>
+                        <th>Score:</th><th>
+                            <div>MAL - {props.MALdata.score} / 10.0</div>
+                            <div>Ani - {props.ALdata ? props.ALdata.meanScore : "?"} / 100</div>
+
+                        </th>
                     </tr>
                     <tr>
                         <th>Airing:</th><th>{airingDisplay}</th>
@@ -187,16 +189,25 @@ function ModalBar(props){
 
 }
 
-function Details(props){
-    // <button onClick={() => props.handleTab()}>Test</button>
+function Synopsis(props){
+    return(
+        <div className="content content-synopsis">
+            {props.data.synopsis}
+        </div>
+    )
+}
 
+
+function Details(props){
     return(
         <div className="window-details">
             <div className="window-tabs">
-                <div className="tab-synopsis" onClick={() => props.tabHandle('synopsis', null)}>Story</div>
-                <div className="tab-characters" onClick={() => props.tabHandle('characters', 'MAL')}>Cast</div>
-                <div className="tab-episodes" onClick={() => props.tabHandle('episodes', 'MAL')}>Eps.</div>
+                <div className="tab-synopsis" onClick={() => props.handleTab('Summary', null)}>Story</div>
+                <div className="tab-characters" onClick={() => props.handleTab('Cast', 'MAL')}>Cast</div>
+                <div className="tab-episodes" onClick={() => props.handleTab('Episodes', 'MAL')}>Eps.</div>
             </div>
+            {props.currentTab}
+
         </div>
     )
 }
@@ -209,35 +220,68 @@ class Modal extends React.Component {
         this.grabALData()
 
         this.state = {
-            tab: 'synopsis',
+            tab: 'Summary',
             ALdata: null,
+            // Just for checking if MAL got stuff received
+            MALgot: false,
             MALepisodes: null,
             MALcharacters: null
         }
 
     }
     // This is heavy. Get this ONLY when necessary
-    grabMALData(info){
+    grabMALData(){
+        return MALfetch(this.MALdata.link).then((data) => {
+            this.setState({
+                characters: data
+            })
 
+            console.log(this.state.characters)
+        })
     }
 
     // Should hit this immediately; rather lightweight
     grabALData(){
-        ALfetch(this.MALdata.title).then((data) => {
+        return ALfetch(this.MALdata.title).then((data) => {
             this.setState({
                 ALdata: data
             })
-
         });
     }
 
+    tabSwitch(tab, info){
+        if(this.state.MALgot === false && info === 'MAL'){
+            this.grabMALData().then(() => {
+                this.setState({tab: tab, MALgot: true})
+            })
+        }
+        else{
+            this.setState({tab: tab})
+        }
+    }
+
     render(){
+        let currentTab;
+        switch(this.state.tab){
+            case "Summary":
+                currentTab = <Synopsis data={this.MALdata}/>
+                break;
+            case "Cast":
+                break;
+            case "Episodes":
+                break;
+            default:
+                currentTab = <div>?</div>
+                break;
+        }
+
+
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
-                    <Details handleTab={(tab, info) => this.grabData(tab, info)}/>
+                    <Details currentTab={currentTab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                 </div>
             </div>
         )

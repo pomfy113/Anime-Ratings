@@ -1,7 +1,7 @@
 .window-container{
     --titleSize: 35px;
     --titleMargin: 1em;
-    position: absolute;
+    position: fixed;
     height: 100%;
     width: 100%;
     background-color: #000000AA;
@@ -40,17 +40,34 @@
         width: 100%;
     }
 
+    .bar-data th{
+        padding: 5px;
+    }
+
+    .bar-data th:first-child{
+        width: 35%;
+    }
+
+
     .bar-data tr:not(:last-child){
         padding: 7.5px 5px;
         border-bottom: 1px solid #ddd;
     }
 
-    .bar-data-airing div{
-        margin: 5px 0px;
+    .bar-data div{
+        margin: 2px 0px;
     }
 
 .window-tabs{
     width: 100%;
     display: inline-flex;
     justify-content: space-around;
+}
+
+.content{
+    padding: 10px;
+}
+
+.content-synopsis{
+    white-space: pre-line;
 }
