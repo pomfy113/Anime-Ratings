@@ -191,8 +191,8 @@ function Details(props){
     // <button onClick={() => props.handleTab()}>Test</button>
 
     return(
-        <div className="modal-details">
-            <div className="tab-bar">
+        <div className="window-details">
+            <div className="window-tabs">
                 <div className="tab-synopsis" onClick={() => props.tabHandle('synopsis', null)}>Story</div>
                 <div className="tab-characters" onClick={() => props.tabHandle('characters', 'MAL')}>Cast</div>
                 <div className="tab-episodes" onClick={() => props.tabHandle('episodes', 'MAL')}>Eps.</div>
