@@ -403,8 +403,6 @@ class App extends React.Component {
     showModal(data){
         document.body.style.overflow = "hidden"
         this.setState({modal: data})
-        document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
-
     }
 
     handleWindowPress(ev){
