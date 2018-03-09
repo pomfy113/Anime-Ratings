@@ -1,8 +1,36 @@
+.header{
+    display: flex;
+    width: 90%;
+    background-color: #343a40;
+    margin: 0 5% 20px 5%;
+    padding: 20px 30px;
+    border-radius: 0px 0px 25px 25px;
+    flex-direction: column;
+
+}
+
+.header-name{
+    font-size: 30px;
+    font-weight: 800;
+    color: #FFF;
+    box-shadow: #2222BB;
+}
+
+.header-sub{
+    color: #DDD;
+    font-style: italic;
+    padding-left: 5px;
+}
+
+
+
+/* React stuff */
 .Container{
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 0px 5%;
 }
 
 button{

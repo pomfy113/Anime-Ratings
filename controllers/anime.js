@@ -18,7 +18,7 @@ const utils = require('./utils');
 
 module.exports = function(app) {
     // Getting home
-    app.get('/', (req, res) => {
+    app.get('old-home/', (req, res) => {
         let bodytype = utils.checklog("home", req.user);
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
         .then((anime) => {
@@ -150,7 +150,7 @@ module.exports = function(app) {
 // ===================================
 // ===================================
 
-    app.get('/alt-home', (req, res) => {
+    app.get('/', (req, res) => {
         const date = new Date();
         const year = date.getFullYear();
         const seasonList = ["winter", "spring", "summer", "fall"];
@@ -160,7 +160,7 @@ module.exports = function(app) {
           .then((data) => {
               let animeTV = [];
               let biggerpic;
-              
+
               for(let item in data.TV){
                   biggerpic = data.TV[item].picture.replace('r/167x242/', '');
 

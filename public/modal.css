@@ -5,6 +5,8 @@
     height: 100%;
     width: 100%;
     background-color: #000000AA;
+    left: 0%;
+    top: 0%;
 }
 
 .window-content{
@@ -36,6 +38,8 @@
     grid-row: 2;
     grid-column: 1;
     border: 1px solid lightgrey;
+    min-width: 225px; /* the image width */
+    overflow-y: scroll;
 }
     .bar-data{
         font-size: 13px;
@@ -65,6 +69,11 @@
     display: inline-flex;
     justify-content: space-around;
     border-bottom: 1px solid lightgrey;
+    /* Want to make it stick to the top */
+    position: sticky;
+    top: 0;
+    background-color: white;
+
 }
 
     .window-tabs div{

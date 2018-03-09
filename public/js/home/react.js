@@ -266,6 +266,15 @@ class Modal extends React.Component {
         }
 
     }
+
+    componentDidMount(){
+      document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+    }
+
+    componentWillUnmount(){
+      document.removeEventListener("keydown", (ev) => this.props.handleKey(ev));
+    }
+
     // This is heavy. Get this ONLY when necessary
     grabMALData(){
         return MALfetch(this.MALdata.link).then((data) => {
@@ -394,14 +403,24 @@ class App extends React.Component {
     showModal(data){
         document.body.style.overflow = "hidden"
         this.setState({modal: data})
+        document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+
     }
 
-    hideModal(event){
-        if(event.target.className === 'window-container'){
-            document.body.style.overflow = "initial"
-            this.setState({modal: null})
-        }
+    handleWindowPress(ev){
+        ev.target.className === 'window-container' ? this.hideModal() : null;
     }
+
+    handleKeyPress(ev){
+        ev.key === 'Escape' ? this.hideModal() : null;
+    }
+
+    hideModal(){
+        this.setState({modal: null})
+        document.body.style.overflow = "initial"
+    }
+
+
 
     render() {
         // Post category filtering; uses state
@@ -419,7 +438,10 @@ class App extends React.Component {
             />
 
         const modal = this.state.modal
-                        ? <Modal data={this.state.modal} handleClick={(i) => this.hideModal(i)}/>
+                        ? <Modal data={this.state.modal}
+                            handleClick={(ev) => this.handleWindowPress(ev)}
+                            handleKey={(ev) => this.handleKeyPress(ev)}
+                            />
                         : null;
 
         return (
