@@ -13,10 +13,12 @@
     grid-template-rows: calc(var(--titleSize) + var(--titleMargin)) 3fr;
     grid-template-columns: 1fr 5fr;
 
-    width: 80%;
-    left: 50%;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
+
+    height: 80%;
+    width: 80%;
 
     background-color: white;
     padding: 20px;
@@ -62,6 +64,28 @@
     width: 100%;
     display: inline-flex;
     justify-content: space-around;
+    border-bottom: 1px solid lightgrey;
+}
+
+    .window-tabs div{
+        width: 100px;
+        border-top: 1px solid lightgrey;
+        border-left: 1px solid lightgrey;
+        border-right: 1px solid lightgrey;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .window-tabs div:hover{
+        background-color: #2222BB;
+        color: #DDD;
+        box-shadow: black;
+    }
+
+
+.window-details{
+    background-color: white;
+    overflow-y: scroll;
 }
 
 .content{
@@ -71,3 +95,60 @@
 .content-synopsis{
     white-space: pre-line;
 }
+
+.content-cast {
+    --portraitWidth: 32px;
+    --portraitHeight: 44px;
+
+}
+
+    .content-cast .character-data{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+    }
+
+    .content-cast .character-data:not(:last-of-type){
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .content-cast .character{
+        display: grid;
+        text-align: left;
+        grid-template-areas:
+            'img name'
+            'img sec';
+    }
+
+    .content-cast .actor{
+        display: grid;
+        text-align: right;
+        grid-template-areas:
+            'name img'
+            'sec img';
+    }
+
+    .content-cast a{
+        width: 100%;
+    }
+
+
+        .content-cast img{
+            grid-area: img;
+            display: flex;
+            align-self: center;
+            width: var(--portraitWidth);
+            height: var(--portraitHeight);
+            margin: 5px 10px;
+        }
+
+        .content-cast .name{
+            grid-area: name;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .content-cast .secondary{
+            grid-area: sec;
+            font-size: 12px;
+        }

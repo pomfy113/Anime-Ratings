@@ -197,6 +197,37 @@ function Synopsis(props){
     )
 }
 
+function Cast(props){
+    const characters = props.characters.map((char) => {
+        const actors = char.voice_actor.map((actor) => {
+            return(
+                <div key={`${actor.name}`} className="actor">
+                    <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
+                    <div className="actor-language secondary">{actor.language}</div>
+                    <img className="actor-image" src={actor.image_url}/>
+                </div>
+            )
+        })
+
+        return(
+            <div key={`${char.name}`} className="character-data">
+                <div className="character">
+                    <div className="character-name name"><a href={char.url}>{char.name}</a></div>
+                    <div className="character-role secondary">{char.role}</div>
+                    <img className="character-image" src={char.image_url}/>
+                </div>
+                <div className="actors">{actors}</div>
+            </div>
+        )
+    })
+
+    return(
+        <div className="content content-cast">
+            {characters}
+        </div>
+    )
+}
+
 
 function Details(props){
     return(
@@ -224,8 +255,14 @@ class Modal extends React.Component {
             ALdata: null,
             // Just for checking if MAL got stuff received
             MALgot: false,
+            MALcastDetails: {
+                MALcharacters: null,
+                MALstaff: null,
+                MALthemes: null
+            },
             MALepisodes: null,
-            MALcharacters: null
+
+
         }
 
     }
@@ -233,7 +270,11 @@ class Modal extends React.Component {
     grabMALData(){
         return MALfetch(this.MALdata.link).then((data) => {
             this.setState({
-                characters: data
+                MALcastDetails: {
+                    characters: data.character,
+                    staff: data.staff,
+                    themes: [data.opening_theme, data.ending_theme]
+                }
             })
 
             console.log(this.state.characters)
@@ -267,6 +308,11 @@ class Modal extends React.Component {
                 currentTab = <Synopsis data={this.MALdata}/>
                 break;
             case "Cast":
+                currentTab = <Cast
+                    characters={this.state.MALcastDetails.characters}
+                    staff={this.state.MALcastDetails.staff}
+                    themes={this.state.MALcastDetails.themes}
+                />
                 break;
             case "Episodes":
                 break;
