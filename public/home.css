@@ -1,6 +1,25 @@
-body{
-    -ms-overflow-style: -ms-autohiding-scrollbar;
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
 
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.0);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(100,100,100,0.8);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(0,0,0,0.0);
 }
 
 .header{
@@ -179,7 +198,7 @@ button{
         padding: 5px;
         display: block;
         height: calc(100% - 2.5em);
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
 /* Modal */

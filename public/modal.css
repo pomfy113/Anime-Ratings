@@ -11,20 +11,23 @@
 }
 
 .window-content{
+    --animeImageWidth: 225px;
     position: relative;
     display: grid;
     grid-template-rows: calc(var(--titleSize) + var(--titleMargin)) 3fr;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: minmax(var(--animeImageWidth), 1fr) minmax(30em, 40em);
 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
     height: 85%;
-    width: 80%;
+    width: fit-content;
 
     background-color: white;
     padding: 20px;
+
+    justify-content: center;
 }
 
 .window-title{
@@ -36,12 +39,17 @@
 }
 
 .window-bar{
+    display: flex;
+    flex-flow: column;
     grid-row: 2;
     grid-column: 1;
-    min-width: 225px; /* the image width */
-    overflow-y: scroll;
+    min-width: var(--animeImageWidth); /* the image width */
+    overflow-y: auto;
     margin-top: 1.5rem;
 }
+    .window-bar img{
+        align-self: center;
+    }
     .bar-data{
         font-size: 13px;
         width: 100%;
@@ -96,7 +104,7 @@
 
 .window-details{
     background-color: white;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-left: 15px;
 }
 
