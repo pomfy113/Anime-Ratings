@@ -134,7 +134,10 @@ function AiringData(data){
 
 
 function ModalBar(props){
-    const producers = props.MALdata.producers.join(', ')
+    const producers = props.MALdata.studios ?
+        props.MALdata.studios.join(', ') :
+        props.MALdata.producers.join(', ');
+
     // The airing time is a nightmare
     const airingData = AiringData(props.ALdata)
 
@@ -167,10 +170,10 @@ function ModalBar(props){
                         <th>Studio:</th><th>{producers}</th>
                     </tr>
                     <tr>
-                        <th>Source:</th><th>{props.MALdata.fromType}</th>
+                        <th>Source:</th><th>{props.MALdata.fromType || props.MALdata.source}</th>
                     </tr>
                     <tr>
-                        <th>Eps:</th><th>{props.MALdata.nbEp}</th>
+                        <th>Eps:</th><th>{props.MALdata.nbEp || props.MALdata.episodes}</th>
                     </tr>
                     <tr>
                         <th>Score:</th><th>
@@ -192,7 +195,7 @@ function ModalBar(props){
 function Synopsis(props){
     return(
         <div className="content content-synopsis">
-            {props.data.synopsis}
+            {props.synopsis}
         </div>
     )
 }
@@ -228,6 +231,31 @@ function Cast(props){
     )
 }
 
+function Related(props){
+    console.log(props.related)
+
+    let prequels;
+
+    if(props.related.Prequel){
+        console.log("I made it in?")
+
+        prequels = props.related.Prequel.map((anime) => {
+            return(
+                <div className="related-prequel">
+                    <a onClick={() => props.changeModal(anime.url)}>{anime.title}</a>
+                </div>
+            )
+        })
+    }
+
+    return(
+        <div className="content content-related">
+            {prequels}
+        </div>
+    )
+}
+
+// Textbox
 
 function Details(props){
     return(
@@ -236,6 +264,8 @@ function Details(props){
                 <div className="tab-synopsis" onClick={() => props.handleTab('Summary', null)}>Story</div>
                 <div className="tab-characters" onClick={() => props.handleTab('Cast', 'MAL')}>Cast</div>
                 <div className="tab-episodes" onClick={() => props.handleTab('Episodes', 'MAL')}>Eps.</div>
+                <div className="tab-related" onClick={() => props.handleTab('Related', 'MAL')}>Related</div>
+
             </div>
             {props.currentTab}
 
@@ -261,8 +291,7 @@ class Modal extends React.Component {
                 MALthemes: null
             },
             MALepisodes: null,
-
-
+            MALrelated: null
         }
 
     }
@@ -277,13 +306,14 @@ class Modal extends React.Component {
 
     // This is heavy. Get this ONLY when necessary
     grabMALData(){
-        return MALfetch(this.MALdata.link).then((data) => {
+        return MALfetch(this.MALdata.link || this.MALdata.id).then((data) => {
             this.setState({
                 MALcastDetails: {
                     characters: data.character,
                     staff: data.staff,
-                    themes: [data.opening_theme, data.ending_theme]
-                }
+                    themes: [data.opening_theme, data.ending_theme],
+                },
+                MALrelated: data.related
             })
 
             console.log(this.state.characters)
@@ -314,7 +344,7 @@ class Modal extends React.Component {
         let currentTab;
         switch(this.state.tab){
             case "Summary":
-                currentTab = <Synopsis data={this.MALdata}/>
+                currentTab = <Synopsis synopsis={this.MALdata.synopsis}/>
                 break;
             case "Cast":
                 currentTab = <Cast
@@ -324,6 +354,11 @@ class Modal extends React.Component {
                 />
                 break;
             case "Episodes":
+                break;
+            case "Related":
+                currentTab = <Related
+                    related={this.state.MALrelated}
+                    changeModal={(data) => this.props.newModal(data)}/>
                 break;
             default:
                 currentTab = <div>?</div>
@@ -400,9 +435,15 @@ class App extends React.Component {
     // Modal switches
     // * * * * * * * * * * * * * * * * * * * * * * * *
 
+    changeModal(url){
+        this.hideModal()
+        simpleFetch(url).then(data => this.showModal(data))
+    }
+
     showModal(data){
         document.body.style.overflow = "hidden"
         this.setState({modal: data})
+
     }
 
     handleWindowPress(ev){
@@ -439,6 +480,7 @@ class App extends React.Component {
                         ? <Modal data={this.state.modal}
                             handleClick={(ev) => this.handleWindowPress(ev)}
                             handleKey={(ev) => this.handleKeyPress(ev)}
+                            newModal={(ev) => this.changeModal(ev)}
                             />
                         : null;
 

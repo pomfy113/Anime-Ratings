@@ -15,7 +15,7 @@
     position: relative;
     display: grid;
     grid-template-rows: calc(var(--titleSize) + var(--titleMargin)) 3fr;
-    grid-template-columns: minmax(var(--animeImageWidth), 1fr) minmax(30em, 40em);
+    grid-template-columns: var(--animeImageWidth) minmax(30em, 40em);
 
     top: 50%;
     left: 50%;

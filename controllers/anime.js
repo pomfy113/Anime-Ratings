@@ -275,6 +275,13 @@ module.exports = function(app) {
 
     });
 
+    app.get('/simpleMALscrape', (req, res) =>{
+        malScraper.getInfoFromURL(req.query.url).then((data) =>{
+            console.log(data)
+            res.send(data);
+        }).catch((err) => console.log(err))
+    })
+
 
 
 

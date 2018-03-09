@@ -1,14 +1,5 @@
-function MALfetch(url){
-    // return $.ajax({
-    //     url: `/MALscrape?url=${url}`,
-    //     type: 'GET'
-    // }).done((data) => {
-    //     return data
-    // }).fail(() => {
-    //     console.log("Failed")
-    // });
-
-    const id = url.split('/')[4]
+function MALfetch(info){
+    const id = typeof info === 'number' ? info : info.split('/')[4]
     const api = `http://api.jikan.me/anime/${id}/characters_staff`
 
     const options = {
@@ -23,7 +14,15 @@ function MALfetch(url){
         console.log(err)
         alert('An error has happened!')
     });
+}
 
-
-
+function simpleFetch(url){
+    return $.ajax({
+        url: `/simpleMALscrape?url=${url}`,
+        type: 'GET'
+    }).done((data) => {
+        return data
+    }).fail(() => {
+        console.log("Failed")
+    });
 }
