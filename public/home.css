@@ -1,3 +1,8 @@
+body{
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+}
+
 .header{
     display: flex;
     width: 100%;
