@@ -311,8 +311,9 @@ function Synopsis(props){
 function Cast(props){
     const characters = props.characters.map((char) => {
         const actors = char.voice_actor.map((actor) => {
+            // API pls.
             return(
-                <div key={`${actor.name}`} className="actor">
+                <div key={`${actor.name.replace("&#039;", "'")}`} className="actor">
                     <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
                     <div className="actor-language secondary">{actor.language}</div>
                     <img className="actor-image" src={actor.image_url}/>
@@ -346,7 +347,6 @@ function Related(props){
         // First let's grab everything inside this type of relation
         const reltype = props.related[type].map((anime, index) => {
             // ... and style the individual rows
-
             // Note: dammit, the API sends me apostrophe ASCII codes
             return(
                 <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}

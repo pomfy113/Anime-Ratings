@@ -135,6 +135,7 @@
     .content-cast .character{
         display: grid;
         text-align: left;
+        grid-auto-columns: 1fr var(--portraitWidth);
         grid-template-areas:
             'img name'
             'img sec';
@@ -143,6 +144,7 @@
     .content-cast .actor{
         display: grid;
         text-align: right;
+        grid-auto-columns: 1fr var(--portraitWidth);
         grid-template-areas:
             'name img'
             'sec img';
@@ -185,6 +187,7 @@
     }
 
     .content-related .related-anime{
+        padding: 10px;
         padding-left: 20px;
         font-size: 18px;
         font-weight: 600;
