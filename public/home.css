@@ -116,6 +116,9 @@ button{
     grid-template-columns: 2fr 1fr;
     padding: 2.5px 5px;
     color: #FFF;
+    background: -moz-linear-gradient(to top, #00000099, #00000099,  #00000077, #00000000);
+    background: -webkit-linear-gradient(to top, #00000099, #00000099,  #00000077, #00000000);
+    background: -o-linear-gradient(to top, #00000099, #00000099,  #00000077, #00000000);
     background: linear-gradient(to top, #00000099, #00000099,  #00000077, #00000000);
 
 }
