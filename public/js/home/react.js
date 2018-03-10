@@ -214,7 +214,8 @@ class Modal extends React.Component {
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
-                    <Details currentTab={currentTab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
+                    <Tabs handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
+                    <Details currentTab={currentTab}/>
                 </div>
             </div>
         )
@@ -320,15 +321,18 @@ function ModalBar(props){
 function Details(props){
     return(
         <div className="window-details">
-            <div className="window-tabs">
-                <div className="tab-synopsis" onClick={() => props.handleTab('synopsis', null)}>Story</div>
-                <div className="tab-characters" onClick={() => props.handleTab('cast', 'MAL')}>Cast</div>
-                <div className="tab-episodes" onClick={() => props.handleTab('episodes', 'MAL')}>Eps.</div>
-                <div className="tab-related" onClick={() => props.handleTab('related', 'MAL')}>Related</div>
-
-            </div>
             {props.currentTab}
+        </div>
+    )
+}
 
+function Tabs(props){
+    return(
+        <div className="window-tabs">
+            <div className="tab-synopsis" onClick={() => props.handleTab('synopsis', null)}>Story</div>
+            <div className="tab-characters" onClick={() => props.handleTab('cast', 'MAL')}>Cast</div>
+            <div className="tab-episodes" onClick={() => props.handleTab('episodes', 'MAL')}>Eps.</div>
+            <div className="tab-related" onClick={() => props.handleTab('related', 'MAL')}>Related</div>
         </div>
     )
 }
@@ -386,7 +390,7 @@ function Related(props){
                 <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}
                     onClick={anime.type === 'anime'
                         ? () => props.changeModal(anime.url)
-                        : () => window.location.href = anime.url}>
+                        : () => location.href = `${anime.url}`}>
                     <div className="related-anime-title">
                         {anime.title.replace("&#039;", "\'")}
                     </div>
