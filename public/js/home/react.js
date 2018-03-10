@@ -350,12 +350,14 @@ function Related(props){
             // Note: dammit, the API sends me apostrophe ASCII codes
             return(
                 <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}
-                    onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null }>
+                    onClick={anime.type === 'anime'
+                        ? () => props.changeModal(anime.url)
+                        : () => window.location.href = anime.url}>
                     <div className="related-anime-title">
                         {anime.title.replace("&#039;", "\'")}
                     </div>
                     <div className="related-anime-type">
-                        {anime.type.toUpperCase()}
+                        {anime.type === 'anime' ? anime.type.toUpperCase() : 'MANGA/NOVEL (external link)'}
                     </div>
                 </div>
             )

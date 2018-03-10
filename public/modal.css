@@ -196,9 +196,6 @@
         padding-left: 20px;
         font-size: 18px;
         font-weight: 600;
-    }
-
-    .content-related .anime.related-anime{
         color: #0000AA;
     }
 
@@ -207,7 +204,7 @@
     }
 
 
-    .content-related .anime.related-anime:hover{
+    .content-related .related-anime:hover{
         cursor: pointer;
         background-color: #DDD;
     }
