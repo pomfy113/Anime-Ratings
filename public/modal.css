@@ -122,13 +122,13 @@
 
 }
 
-    .content-cast .character-data{
+    .content-cast .content-character{
         display: flex;
         justify-content: space-between;
         padding: 5px;
     }
 
-    .content-cast .character-data:not(:last-of-type){
+    .content-cast .content-character:not(:last-of-type){
         border-bottom: 1px solid lightgrey;
     }
 
@@ -172,3 +172,38 @@
             grid-area: sec;
             font-size: 12px;
         }
+
+.content-related{
+
+}
+    .content-related .related-category{
+        margin-bottom: 24px;
+    }
+
+    .content-related .related-category-title{
+        font-size: 20px;
+    }
+
+    .content-related .related-anime{
+        padding-left: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .content-related .anime.related-anime{
+        color: #0000AA;
+    }
+
+    .content-related .related-anime:not(:last-of-type){
+        border-bottom: 1px solid lightgrey;
+    }
+
+
+    .content-related .anime.related-anime:hover{
+        cursor: pointer;
+        background-color: #DDD;
+    }
+
+    .content-related .related-anime-type{
+        font-size: 10px;
+    }

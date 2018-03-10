@@ -75,6 +75,7 @@ class Genres extends React.Component {
 }
 
 // ================================================================
+
 class Card extends React.Component {
     constructor(props){
         super(props)
@@ -100,178 +101,6 @@ class Card extends React.Component {
 // ================================================================
 // ================================================================
 // ================================================================
-
-function AiringData(data){
-    if(!data){
-        return null;
-    }
-
-    const airingData = data.nextAiringEpisode;
-
-    if(!airingData){
-        return "N/A"
-    }
-
-    const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
-    const episode = airingData.episode;
-    const airAt = new Date(airingData.airingAt * 1000)
-
-    const relativeTime = moment(airAt).fromNow();
-    const exactDay = moment(airAt).format('MMMM Do, YYYY');
-    const airingDay = day[airAt.getDay()] + "day"
-    const airingHour = moment(airAt).format('h:mma')
-
-    return {
-        episode: episode,
-        exactDay: exactDay,
-        airingDay: airingDay,
-        airingHour: airingHour,
-        relativeTime: relativeTime
-    }
-
-
-}
-
-
-function ModalBar(props){
-    const producers = props.MALdata.studios ?
-        props.MALdata.studios.join(', ') :
-        props.MALdata.producers.join(', ');
-
-    // The airing time is a nightmare
-    const airingData = AiringData(props.ALdata)
-
-    let airingDisplay;
-
-    switch(airingData){
-        case null:
-            airingDisplay = "Loading!";
-            break;
-        case "N/A":
-            airingDisplay = "Currently not airing :c";
-            break;
-        default:
-            airingDisplay =
-                <div className="bar-data-airing">
-                    <div>Ep. {airingData.episode} {airingData.relativeTime}</div>
-                    <div>{airingData.exactDay}</div>
-                    <div>{airingData.airingHour}, {airingData.airingDay}s</div>
-                </div>
-            break;
-    }
-
-    return(
-        <div className="window-bar">
-            <img src={props.MALdata.picture}></img>
-
-            <table className="bar-data">
-                <tbody>
-                    <tr>
-                        <th>Studio:</th><th>{producers}</th>
-                    </tr>
-                    <tr>
-                        <th>Source:</th><th>{props.MALdata.fromType || props.MALdata.source}</th>
-                    </tr>
-                    <tr>
-                        <th>Eps:</th><th>{props.MALdata.nbEp || props.MALdata.episodes}</th>
-                    </tr>
-                    <tr>
-                        <th>Score:</th><th>
-                            <div>MAL - {props.MALdata.score} / 10.0</div>
-                            <div>Ani - {props.ALdata ? props.ALdata.meanScore : "?"} / 100</div>
-
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Airing:</th><th>{airingDisplay}</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    )
-
-}
-
-function Synopsis(props){
-    return(
-        <div className="content content-synopsis">
-            {props.synopsis}
-        </div>
-    )
-}
-
-function Cast(props){
-    const characters = props.characters.map((char) => {
-        const actors = char.voice_actor.map((actor) => {
-            return(
-                <div key={`${actor.name}`} className="actor">
-                    <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
-                    <div className="actor-language secondary">{actor.language}</div>
-                    <img className="actor-image" src={actor.image_url}/>
-                </div>
-            )
-        })
-
-        return(
-            <div key={`${char.name}`} className="character-data">
-                <div className="character">
-                    <div className="character-name name"><a href={char.url}>{char.name}</a></div>
-                    <div className="character-role secondary">{char.role}</div>
-                    <img className="character-image" src={char.image_url}/>
-                </div>
-                <div className="actors">{actors}</div>
-            </div>
-        )
-    })
-
-    return(
-        <div className="content content-cast">
-            {characters}
-        </div>
-    )
-}
-
-function Related(props){
-    console.log(props.related)
-
-    let prequels;
-
-    if(props.related.Prequel){
-        console.log("I made it in?")
-
-        prequels = props.related.Prequel.map((anime) => {
-            return(
-                <div className="related-prequel">
-                    <a onClick={() => props.changeModal(anime.url)}>{anime.title}</a>
-                </div>
-            )
-        })
-    }
-
-    return(
-        <div className="content content-related">
-            {prequels}
-        </div>
-    )
-}
-
-// Textbox
-
-function Details(props){
-    return(
-        <div className="window-details">
-            <div className="window-tabs">
-                <div className="tab-synopsis" onClick={() => props.handleTab('Summary', null)}>Story</div>
-                <div className="tab-characters" onClick={() => props.handleTab('Cast', 'MAL')}>Cast</div>
-                <div className="tab-episodes" onClick={() => props.handleTab('Episodes', 'MAL')}>Eps.</div>
-                <div className="tab-related" onClick={() => props.handleTab('Related', 'MAL')}>Related</div>
-
-            </div>
-            {props.currentTab}
-
-        </div>
-    )
-}
 
 class Modal extends React.Component {
     constructor(props){
@@ -379,6 +208,195 @@ class Modal extends React.Component {
 }
 
 
+function AiringData(data){
+    if(!data){
+        return null;
+    }
+
+    const airingData = data.nextAiringEpisode;
+
+    if(!airingData){
+        return "N/A"
+    }
+
+    const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
+    const episode = airingData.episode;
+    const airAt = new Date(airingData.airingAt * 1000)
+
+    const relativeTime = moment(airAt).fromNow();
+    const exactDay = moment(airAt).format('MMMM Do, YYYY');
+    const airingDay = day[airAt.getDay()] + "day"
+    const airingHour = moment(airAt).format('h:mma')
+
+    return {
+        episode: episode,
+        exactDay: exactDay,
+        airingDay: airingDay,
+        airingHour: airingHour,
+        relativeTime: relativeTime
+    }
+
+}
+
+
+function ModalBar(props){
+    const producers = props.MALdata.studios ?
+        props.MALdata.studios.join(', ') :
+        props.MALdata.producers.join(', ');
+
+    // The airing time is a nightmare
+    const airingData = AiringData(props.ALdata)
+
+    let airingDisplay;
+
+    switch(airingData){
+        case null:
+            airingData && props.ALdata
+                ? airingDisplay = "Loading!"
+                : airingDisplay = "Anilist data not found!"
+            break;
+        case "N/A":
+            airingDisplay = "Currently not airing :c";
+            break;
+        default:
+            airingDisplay =
+                <div className="bar-data-airing">
+                    <div>Ep. {airingData.episode} {airingData.relativeTime}</div>
+                    <div>{airingData.exactDay}</div>
+                    <div>{airingData.airingHour}, {airingData.airingDay}s</div>
+                </div>
+            break;
+    }
+
+    return(
+        <div className="window-bar">
+            <img src={props.MALdata.picture}></img>
+
+            <table className="bar-data">
+                <tbody>
+                    <tr>
+                        <th>Studio:</th><th>{producers}</th>
+                    </tr>
+                    <tr>
+                        <th>Source:</th><th>{props.MALdata.fromType || props.MALdata.source}</th>
+                    </tr>
+                    <tr>
+                        <th>Eps:</th><th>{props.MALdata.nbEp || props.MALdata.episodes}</th>
+                    </tr>
+                    <tr>
+                        <th>Score:</th><th>
+                            <div>MAL - {props.MALdata.score} / 10.0</div>
+                            <div>Ani - {props.ALdata ? props.ALdata.meanScore : "?"} / 100</div>
+
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Airing:</th><th>{airingDisplay}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    )
+
+}
+
+function Synopsis(props){
+    return(
+        <div className="content content-synopsis">
+            {props.synopsis}
+        </div>
+    )
+}
+
+function Cast(props){
+    const characters = props.characters.map((char) => {
+        const actors = char.voice_actor.map((actor) => {
+            return(
+                <div key={`${actor.name}`} className="actor">
+                    <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
+                    <div className="actor-language secondary">{actor.language}</div>
+                    <img className="actor-image" src={actor.image_url}/>
+                </div>
+            )
+        })
+
+        return(
+            <div key={`${char.name}`} className="content content-character">
+                <div className="character">
+                    <div className="character-name name"><a href={char.url}>{char.name}</a></div>
+                    <div className="character-role secondary">{char.role}</div>
+                    <img className="character-image" src={char.image_url}/>
+                </div>
+                <div className="actors">{actors}</div>
+            </div>
+        )
+    })
+
+    return(
+        <div className="content content-cast">
+            {characters}
+        </div>
+    )
+}
+
+function Related(props){
+    let relationships = [];
+
+    for(let type in props.related){
+        // First let's grab everything inside this type of relation
+        const reltype = props.related[type].map((anime, index) => {
+            // ... and style the individual rows
+
+            // Note: dammit, the API sends me apostrophe ASCII codes
+            return(
+                <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}
+                    onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null }>
+                    <div className="related-anime-title">
+                        {anime.title.replace("&#039;", "\'")}
+                    </div>
+                    <div className="related-anime-type">
+                        {anime.type.toUpperCase()}
+                    </div>
+                </div>
+            )
+        });
+        // Now let's actually put it into the list of relationships
+        relationships.push(
+            (<div key={type} className="related-category">
+                <h1 className="related-category-title">{type}</h1>
+                {reltype}
+            </div>)
+        )
+    }
+
+
+    return(
+        <div className="content content-related">
+            {relationships}
+        </div>
+    )
+}
+
+// Textbox
+
+function Details(props){
+    return(
+        <div className="window-details">
+            <div className="window-tabs">
+                <div className="tab-synopsis" onClick={() => props.handleTab('Summary', null)}>Story</div>
+                <div className="tab-characters" onClick={() => props.handleTab('Cast', 'MAL')}>Cast</div>
+                <div className="tab-episodes" onClick={() => props.handleTab('Episodes', 'MAL')}>Eps.</div>
+                <div className="tab-related" onClick={() => props.handleTab('Related', 'MAL')}>Related</div>
+
+            </div>
+            {props.currentTab}
+
+        </div>
+    )
+}
+
+
+
 
 // ================================================================
 // ================================================================
@@ -458,8 +476,6 @@ class App extends React.Component {
         this.setState({modal: null})
         document.body.style.overflow = "initial"
     }
-
-
 
     render() {
         // Post category filtering; uses state
