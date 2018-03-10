@@ -15,7 +15,7 @@
     position: relative;
     display: grid;
     grid-template-rows: calc(var(--titleSize) + var(--titleMargin)) 3fr;
-    grid-template-columns: var(--animeImageWidth) minmax(30em, 40em);
+    grid-template-columns: var(--animeImageWidth) minmax(30em, 50em);
 
     top: 50%;
     left: 50%;
@@ -140,7 +140,7 @@
     .content-cast .character{
         display: grid;
         text-align: left;
-        grid-auto-columns: 1fr var(--portraitWidth);
+        grid-auto-columns: 1fr calc(var(--portraitWidth) + 20px);
         grid-template-areas:
             'img name'
             'img sec';
@@ -149,7 +149,7 @@
     .content-cast .actor{
         display: grid;
         text-align: right;
-        grid-auto-columns: 1fr var(--portraitWidth);
+        grid-auto-columns: 1fr calc(var(--portraitWidth) + 20px);
         grid-template-areas:
             'name img'
             'sec img';

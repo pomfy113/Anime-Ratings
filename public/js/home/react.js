@@ -110,16 +110,13 @@ class Modal extends React.Component {
         this.grabALData()
 
         this.state = {
-            tab: 'Summary',
+            tab: 'synopsis',
             ALdata: null,
             // Just for checking if MAL got stuff received
             MALgot: false,
-            MALcastDetails: {
-                MALcharacters: null,
-                MALstaff: null,
-                MALthemes: null
-            },
+            MALcast: null,
             MALepisodes: null,
+            MALthemes: null,
             MALrelated: null
         }
 
@@ -134,19 +131,32 @@ class Modal extends React.Component {
     }
 
     // This is heavy. Get this ONLY when necessary
-    grabMALData(){
-        return MALfetch(this.MALdata.link || this.MALdata.id).then((data) => {
-            this.setState({
-                MALcastDetails: {
-                    characters: data.character,
-                    staff: data.staff,
-                    themes: [data.opening_theme, data.ending_theme],
-                },
-                MALrelated: data.related
-            })
+    grabMALData(tab){
+        switch(tab){
+            case 'related':
+            case 'cast':
+                return MALfetchCAST(this.MALdata.link || this.MALdata.id).then((data) => {
+                    this.setState({
+                        MALcast: {
+                            characters: data.character,
+                            staff: data.staff
+                        },
+                        MALthemes: [data.opening_theme, data.ending_theme],
+                        MALrelated: data.related
+                    })
+                })
+                break;
+            case 'episodes':
+                return MALfetchEP(this.MALdata.link || this.MALdata.id).then((data) => {
+                    this.setState({
+                        MALepisodes: data.episode,
+                        MALthemes: [data.opening_theme, data.ending_theme],
+                        MALrelated: data.related
+                    })
+                })
+                break;
+        }
 
-            console.log(this.state.characters)
-        })
     }
 
     // Should hit this immediately; rather lightweight
@@ -159,9 +169,9 @@ class Modal extends React.Component {
     }
 
     tabSwitch(tab, info){
-        if(this.state.MALgot === false && info === 'MAL'){
-            this.grabMALData().then(() => {
-                this.setState({tab: tab, MALgot: true})
+        if(this.state[`MAL${tab}`] === null){
+            this.grabMALData(tab).then(() => {
+                this.setState({tab: tab})
             })
         }
         else{
@@ -172,19 +182,23 @@ class Modal extends React.Component {
     render(){
         let currentTab;
         switch(this.state.tab){
-            case "Summary":
+            case "synopsis":
                 currentTab = <Synopsis synopsis={this.MALdata.synopsis}/>
                 break;
-            case "Cast":
+            case "cast":
                 currentTab = <Cast
-                    characters={this.state.MALcastDetails.characters}
-                    staff={this.state.MALcastDetails.staff}
-                    themes={this.state.MALcastDetails.themes}
+                    characters={this.state.MALcast.characters}
+                    staff={this.state.MALcast.staff}
+                    themes={this.state.MALcast.themes}
                 />
                 break;
-            case "Episodes":
+            case "episodes":
+                currentTab = <Episodes
+                    episodes={this.state.MALepisodes}
+
+                />
                 break;
-            case "Related":
+            case "related":
                 currentTab = <Related
                     related={this.state.MALrelated}
                     changeModal={(data) => this.props.newModal(data)}/>
@@ -275,23 +289,23 @@ function ModalBar(props){
             <table className="bar-data">
                 <tbody>
                     <tr>
-                        <th>Studio:</th><th>{producers}</th>
+                        <td>Studio:</td><td>{producers}</td>
                     </tr>
                     <tr>
-                        <th>Source:</th><th>{props.MALdata.fromType || props.MALdata.source}</th>
+                        <td>Source:</td><td>{props.MALdata.fromType || props.MALdata.source}</td>
                     </tr>
                     <tr>
-                        <th>Eps:</th><th>{props.MALdata.nbEp || props.MALdata.episodes}</th>
+                        <td>Eps:</td><td>{props.MALdata.nbEp || props.MALdata.episodes}</td>
                     </tr>
                     <tr>
-                        <th>Score:</th><th>
+                        <td>Score:</td><td>
                             <div>MAL - {props.MALdata.score} / 10.0</div>
                             <div>Ani - {props.ALdata ? props.ALdata.meanScore : "?"} / 100</div>
 
-                        </th>
+                        </td>
                     </tr>
                     <tr>
-                        <th>Airing:</th><th>{airingDisplay}</th>
+                        <td>Airing:</td><td>{airingDisplay}</td>
                     </tr>
                 </tbody>
             </table>
@@ -299,6 +313,26 @@ function ModalBar(props){
     )
 
 }
+// * * * * * * * * * *
+// * * * Textbox * * *
+// * * * * * * * * * *
+
+function Details(props){
+    return(
+        <div className="window-details">
+            <div className="window-tabs">
+                <div className="tab-synopsis" onClick={() => props.handleTab('synopsis', null)}>Story</div>
+                <div className="tab-characters" onClick={() => props.handleTab('cast', 'MAL')}>Cast</div>
+                <div className="tab-episodes" onClick={() => props.handleTab('episodes', 'MAL')}>Eps.</div>
+                <div className="tab-related" onClick={() => props.handleTab('related', 'MAL')}>Related</div>
+
+            </div>
+            {props.currentTab}
+
+        </div>
+    )
+}
+
 
 function Synopsis(props){
     return(
@@ -379,23 +413,45 @@ function Related(props){
     )
 }
 
-// Textbox
 
-function Details(props){
+function Episodes(props){
+    const episodes = props.episodes.map((ep) => {
+        return(
+            <tr>
+                <td>{ep.id}</td>
+                <td>
+                    <p>{ep.title}</p>
+                    <p>{ep.title_japanese}</p>
+                </td>
+                <td>{ep.aired}</td>
+                <td>{ep.filler ? 'Y' : 'N'}</td>
+                <td>{ep.recap ? 'Y' : 'N'}</td>
+                <td><a href={ep.video_url}>LINK</a></td>
+                <td><a href={ep.forum_url}>LINK</a></td>
+            </tr>
+        )
+    })
+
     return(
-        <div className="window-details">
-            <div className="window-tabs">
-                <div className="tab-synopsis" onClick={() => props.handleTab('Summary', null)}>Story</div>
-                <div className="tab-characters" onClick={() => props.handleTab('Cast', 'MAL')}>Cast</div>
-                <div className="tab-episodes" onClick={() => props.handleTab('Episodes', 'MAL')}>Eps.</div>
-                <div className="tab-related" onClick={() => props.handleTab('Related', 'MAL')}>Related</div>
-
-            </div>
-            {props.currentTab}
-
+        <div>
+            <table className="content content-episodes">
+                <tbody>
+                    <tr>
+                        <th>Ep. #</th>
+                        <th>Title</th>
+                        <th>Air Date</th>
+                        <th>Filler?</th>
+                        <th>Recap?</th>
+                        <th>Video (MAL)</th>
+                        <th>Forum (MAL)</th>
+                    </tr>
+                    {episodes}
+                </tbody>
+            </table>
         </div>
     )
 }
+
 
 
 
