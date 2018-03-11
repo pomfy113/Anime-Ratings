@@ -4,6 +4,10 @@ const data = {{{MAL_TV}}}
 ALfetch(title) handles fetching info from Anilist
 */
 
+localStorage.clear();
+
+// DEBUGGING
+
 
 // ================================================================
 //               All genre-button related stuff
@@ -106,11 +110,9 @@ class Modal extends React.Component {
     constructor(props){
         super(props)
 
-        this.MALdata = this.props.data
-        this.grabALData()
-
         this.state = {
             tab: 'synopsis',
+            MALdata: this.props.data,
             ALdata: null,
             // Just for checking if MAL got stuff received
             MALgot: false,
@@ -119,6 +121,8 @@ class Modal extends React.Component {
             MALthemes: null,
             MALrelated: null
         }
+
+        this.grabALData()
 
     }
 
@@ -130,12 +134,33 @@ class Modal extends React.Component {
       document.removeEventListener("keydown", (ev) => this.props.handleKey(ev));
     }
 
+    // Should hit this immediately; rather lightweight
+    grabALData(){
+        const animeID = this.state.MALdata.link.split('/')[4];    // MAL Id
+
+        if(localStorage[animeID]){
+            console.log("I'm in!")
+            console.log(JSON.parse(localStorage.getItem(animeID)))
+
+            return this.setState(JSON.parse(localStorage.getItem(animeID)));
+        }
+        else{
+            return ALfetch(this.state.MALdata.title).then((data) => {
+                this.setState({
+                    ALdata: data
+                })
+                localStorage.setItem(animeID, JSON.stringify(this.state))
+            });
+        }
+
+    }
+
     // This is heavy. Get this ONLY when necessary
     grabMALData(tab){
         switch(tab){
             case 'related':
             case 'cast':
-                return MALfetchCAST(this.MALdata.link || this.MALdata.id).then((data) => {
+                return MALfetchCAST(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
                     this.setState({
                         MALcast: {
                             characters: data.character,
@@ -147,7 +172,7 @@ class Modal extends React.Component {
                 })
                 break;
             case 'episodes':
-                return MALfetchEP(this.MALdata.link || this.MALdata.id).then((data) => {
+                return MALfetchEP(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
                     this.setState({
                         MALepisodes: data.episode,
                         MALthemes: [data.opening_theme, data.ending_theme],
@@ -156,15 +181,6 @@ class Modal extends React.Component {
                 })
                 break;
         }
-    }
-
-    // Should hit this immediately; rather lightweight
-    grabALData(){
-        return ALfetch(this.MALdata.title).then((data) => {
-            this.setState({
-                ALdata: data
-            })
-        });
     }
 
     tabSwitch(tab, info){
@@ -182,7 +198,7 @@ class Modal extends React.Component {
         let currentTab;
         switch(this.state.tab){
             case "synopsis":
-                currentTab = <Synopsis synopsis={this.MALdata.synopsis}/>
+                currentTab = <Synopsis synopsis={this.state.MALdata.synopsis}/>
                 break;
             case "cast":
                 currentTab = <Cast

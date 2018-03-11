@@ -1,10 +1,7 @@
 console.log("Hello!")
 
-localStorage.setItem('test', JSON.stringify({word: "Hello there"}));
+localStorage.setItem(15513, JSON.stringify({word: "Hello there"}));
 
-console.log(localStorage.getItem('test'))
-console.log(JSON.parse(localStorage.getItem('test')).word, 1)
-console.log(JSON.parse(localStorage.test).word)
-console.log(localStorage.test.word)
-console.log(localStorage.fish)
-console.log(!localStorage.fish)
+console.log(localStorage.getItem(15513))
+console.log(JSON.parse(localStorage.getItem(15513)).word, 1)
+console.log(JSON.parse(localStorage[15513]).word)
