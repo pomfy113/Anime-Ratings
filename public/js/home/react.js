@@ -156,7 +156,6 @@ class Modal extends React.Component {
                 })
                 break;
         }
-
     }
 
     // Should hit this immediately; rather lightweight

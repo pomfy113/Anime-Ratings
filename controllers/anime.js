@@ -282,6 +282,11 @@ module.exports = function(app) {
     })
 
 
+    app.get('/localtest', (req, res) =>{
+        res.render('about')
+    })
+
+
 
 
 
