@@ -3,10 +3,10 @@
 const data = {{{MAL_TV}}}
 ALfetch(title) handles fetching info from Anilist
 */
-
-localStorage.clear();
-
 // DEBUGGING
+
+// localStorage.clear();
+
 
 
 // ================================================================
@@ -109,25 +109,36 @@ class Card extends React.Component {
 class Modal extends React.Component {
     constructor(props){
         super(props)
-
         this.state = {
+            id: this.props.data.id || this.props.data.link.split('/')[4],
             tab: 'synopsis',
             MALdata: this.props.data,
             ALdata: null,
             // Just for checking if MAL got stuff received
-            MALgot: false,
             MALcast: null,
             MALepisodes: null,
             MALthemes: null,
             MALrelated: null
         }
+    }
 
-        this.grabALData()
+    componentWillMount(){
 
     }
 
     componentDidMount(){
       document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+
+      if(localStorage[this.state.id]){
+          let loadstate = JSON.parse(localStorage.getItem(this.state.id));
+          loadstate.tab = 'synopsis';
+          this.setState(loadstate);
+      }
+      else{
+          this.grabALData(this.state.MALdata.title, this.state.id).then(() => {
+              localStorage.setItem(this.state.id, JSON.stringify(this.state))
+          })
+      }
     }
 
     componentWillUnmount(){
@@ -135,23 +146,12 @@ class Modal extends React.Component {
     }
 
     // Should hit this immediately; rather lightweight
-    grabALData(){
-        const animeID = this.state.MALdata.link.split('/')[4];    // MAL Id
-
-        if(localStorage[animeID]){
-            console.log("I'm in!")
-            console.log(JSON.parse(localStorage.getItem(animeID)))
-
-            return this.setState(JSON.parse(localStorage.getItem(animeID)));
-        }
-        else{
-            return ALfetch(this.state.MALdata.title).then((data) => {
-                this.setState({
-                    ALdata: data
-                })
-                localStorage.setItem(animeID, JSON.stringify(this.state))
-            });
-        }
+    grabALData(title, animeID){
+        return ALfetch(title).then((data) => {
+            this.setState({
+                ALdata: data
+            })
+        });
 
     }
 
@@ -181,11 +181,13 @@ class Modal extends React.Component {
                 })
                 break;
         }
+
     }
 
     tabSwitch(tab, info){
         if(this.state[`MAL${tab}`] === null){
             this.grabMALData(tab).then(() => {
+                localStorage.setItem(this.state.id, JSON.stringify(this.state))
                 this.setState({tab: tab})
             })
         }
