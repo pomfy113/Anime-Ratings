@@ -143,7 +143,7 @@
     .content-cast .character{
         display: grid;
         text-align: left;
-        grid-auto-columns: 1fr calc(var(--portraitWidth) + 20px);
+        grid-auto-columns: calc(var(--portraitWidth) + 20px) 1fr;
         grid-template-areas:
             'img name'
             'img sec';

@@ -436,6 +436,9 @@ function Related(props){
 
 
 function Episodes(props){
+    if(!props.episode){
+        return (<p>No episode data available from MAL</p>)
+    }
     const episodes = props.episodes.map((ep) => {
         return(
             <tr>
