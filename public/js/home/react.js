@@ -405,7 +405,8 @@ function Related(props){
             // Note: dammit, the API sends me apostrophe ASCII codes
             return(
                 <a href={anime.type === 'manga' ? anime.url : null}
-                onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null}>
+                onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null}
+                className="related-cont">
                     <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}>
                         <div className="related-anime-title">
                             {anime.title.replace("&#039;", "\'")}
@@ -444,9 +445,11 @@ function Episodes(props){
             <tr key={ep.id} className="ep-row">
                 <td className="eptable-id">{ep.id}</td>
                 <td className="eptable-title">
-                    <p className="eptitle-eng"><a href={ep.video_url}>
+                    <p className="eptitle-eng">
+                        <a href={ep.video_url}>
                         {ep.title.replace("&#039;", "'")}
-                    </a></p>
+                        </a>
+                    </p>
                     <p className="eptitle-jpn">{ep.title_japanese}</p>
                 </td>
                 <td className="eptable-air">{ep.aired}</td>

@@ -118,11 +118,12 @@
 }
 
 .content{
-    padding: 10px;
+    padding-left: 10px;
 }
 
 .content-synopsis{
     white-space: pre-line;
+    padding-top: 10px;
 }
 
 .content-cast {
@@ -189,7 +190,7 @@
         }
 
 .content-related{
-
+    padding-top: 10px;
 }
     .content-related .related-category{
         margin-bottom: 24px;
@@ -205,11 +206,12 @@
         font-size: 18px;
         font-weight: 600;
         color: var(--linkcolor);
+        border-bottom: 1px solid lightgrey;
+
     }
 
-    .content-related .related-anime:not(:last-of-type){
-        border-bottom: 1px solid lightgrey;
-    }
+    /* .content-related .related-cont:not(:last-of-type){
+    } */
 
 
     .content-related .related-anime:hover{
@@ -223,7 +225,6 @@
 
 
 .content-episodes{
-    padding: 0px 0px 0px 10px;
 }
     .content-episodes{
         font-size: 14px;
