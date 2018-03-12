@@ -404,17 +404,17 @@ function Related(props){
             // ... and style the individual rows
             // Note: dammit, the API sends me apostrophe ASCII codes
             return(
-                <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}
-                    onClick={anime.type === 'anime'
-                        ? () => props.changeModal(anime.url)
-                        : () => location.href = `${anime.url}`}>
-                    <div className="related-anime-title">
-                        {anime.title.replace("&#039;", "\'")}
+                <a href={anime.type === 'manga' ? anime.url : null}
+                onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null}>
+                    <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}>
+                        <div className="related-anime-title">
+                            {anime.title.replace("&#039;", "\'")}
+                        </div>
+                        <div className="related-anime-type">
+                            {anime.type === 'anime' ? anime.type.toUpperCase() : 'MANGA/NOVEL (external link)'}
+                        </div>
                     </div>
-                    <div className="related-anime-type">
-                        {anime.type === 'anime' ? anime.type.toUpperCase() : 'MANGA/NOVEL (external link)'}
-                    </div>
-                </div>
+                </a>
             )
         });
         // Now let's actually put it into the list of relationships
@@ -436,7 +436,7 @@ function Related(props){
 
 
 function Episodes(props){
-    if(!props.episodes){
+    if(!props.episodes || !props.episodes.length){
         return (<p>No episode data available </p>)
     }
     const episodes = props.episodes.map((ep) => {

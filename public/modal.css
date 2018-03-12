@@ -52,7 +52,6 @@
     grid-column: 1;
     min-width: var(--animeImageWidth); /* the image width */
     overflow-y: auto;
-    margin-top: 1.5rem;
 }
     .window-bar img{
         align-self: center;
@@ -136,6 +135,10 @@
         display: flex;
         justify-content: space-between;
         padding: 5px;
+    }
+
+    .content-cast .content-character:nth-child(odd){
+        background-color: #f8f8f8;
     }
 
     .content-cast .content-character:not(:last-of-type){
@@ -223,9 +226,19 @@
     padding: 0px 0px 0px 10px;
 }
     .content-episodes{
-        border-collapse: separate;
-        border-spacing: 4px 2px;
         font-size: 14px;
+    }
+
+    .content-episodes tr{
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .content-episodes tr:nth-child(odd) {
+        background-color: #f8f8f8;
+    }
+
+    .content-episodes tr:first-child{
+        background-color: #f0f0f0;
     }
 
     .content-episodes th{
@@ -233,11 +246,18 @@
         padding: 0px 5px;
     }
 
+
+    .content-episodes td{
+        padding: 3px;
+    }
+
+
+
     .content-episodes .eptable-title *{
         margin-bottom: .5em;
     }
 
-    .content-episodes .eptitle-eng a{
+    .content-episodes .eptitle-eng a[href]{
         font-weight: 600;
         color: var(--linkcolor);
     }
