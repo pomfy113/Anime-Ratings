@@ -1,6 +1,8 @@
 .window-container{
     --titleSize: 35px;
     --titleMargin: 1em;
+    --linkcolor: #0000AA;
+
     position: fixed;
     height: 100%;
     width: 100%;
@@ -199,7 +201,7 @@
         padding-left: 20px;
         font-size: 18px;
         font-weight: 600;
-        color: #0000AA;
+        color: var(--linkcolor);
     }
 
     .content-related .related-anime:not(:last-of-type){
@@ -214,4 +216,36 @@
 
     .content-related .related-anime-type{
         font-size: 10px;
+    }
+
+
+.content-episodes{
+    padding: 0px 0px 0px 10px;
+}
+    .content-episodes{
+        border-collapse: separate;
+        border-spacing: 4px 2px;
+        font-size: 14px;
+    }
+
+    .content-episodes th{
+        text-align: center;
+        padding: 0px 5px;
+    }
+
+    .content-episodes .eptable-title *{
+        margin-bottom: .5em;
+    }
+
+    .content-episodes .eptitle-eng a{
+        font-weight: 600;
+        color: var(--linkcolor);
+    }
+
+    .content-episodes .eptable-air{
+        white-space: nowrap;
+    }
+
+    .content-episodes .eptable-recap, .eptable-recap, .eptable-forum{
+        text-align: center;
     }

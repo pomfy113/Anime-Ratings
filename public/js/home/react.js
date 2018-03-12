@@ -365,10 +365,10 @@ function Synopsis(props){
 
 function Cast(props){
     const characters = props.characters.map((char) => {
-        const actors = char.voice_actor.map((actor) => {
+        const actors = char.voice_actor.map((actor, index) => {
             // API pls.
             return(
-                <div key={`${actor.name.replace("&#039;", "'")}`} className="actor">
+                <div key={`${actor.name.replace("&#039;", "'")}-${index}`} className="actor">
                     <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
                     <div className="actor-language secondary">{actor.language}</div>
                     <img className="actor-image" src={actor.image_url}/>
@@ -441,17 +441,20 @@ function Episodes(props){
     }
     const episodes = props.episodes.map((ep) => {
         return(
-            <tr>
-                <td>{ep.id}</td>
-                <td>
-                    <p>{ep.title}</p>
-                    <p>{ep.title_japanese}</p>
+            <tr key={ep.id} className="ep-row">
+                <td className="eptable-id">{ep.id}</td>
+                <td className="eptable-title">
+                    <p className="eptitle-eng"><a href={ep.video_url}>
+                        {ep.title.replace("&#039;", "'")}
+                    </a></p>
+                    <p className="eptitle-jpn">{ep.title_japanese}</p>
                 </td>
-                <td>{ep.aired}</td>
-                <td>{ep.filler ? 'Y' : 'N'}</td>
-                <td>{ep.recap ? 'Y' : 'N'}</td>
-                <td><a href={ep.video_url}>LINK</a></td>
-                <td><a href={ep.forum_url}>LINK</a></td>
+                <td className="eptable-air">{ep.aired}</td>
+                <td className="eptable-filler">
+                    {ep.filler ? 'Filler' : null}
+                    {ep.filler && ep.recap ? '/' : null}
+                    {ep.recap ? 'Recap' : null}</td>
+                <td className="eptable-forum"><a href={ep.forum_url}>Link</a></td>
             </tr>
         )
     })
@@ -461,13 +464,11 @@ function Episodes(props){
             <table className="content content-episodes">
                 <tbody>
                     <tr>
-                        <th>Ep. #</th>
+                        <th></th>
                         <th>Title</th>
                         <th>Air Date</th>
-                        <th>Filler?</th>
-                        <th>Recap?</th>
-                        <th>Video (MAL)</th>
-                        <th>Forum (MAL)</th>
+                        <th></th>
+                        <th>Forum</th>
                     </tr>
                     {episodes}
                 </tbody>
