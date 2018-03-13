@@ -1,6 +1,5 @@
 function MALfetchCAST(info){
     const id = typeof info === 'number' ? info : info.split('/')[4]
-    console.log(id)
     const api = `http://api.jikan.me/anime/${id}/characters_staff`
 
     const options = {

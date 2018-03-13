@@ -5,7 +5,7 @@ ALfetch(title) handles fetching info from Anilist
 */
 // DEBUGGING
 
-// localStorage.clear();
+localStorage.clear();
 
 
 
@@ -114,6 +114,7 @@ class Modal extends React.Component {
             tab: 'synopsis',
             MALdata: this.props.data,
             ALdata: null,
+            updateAt: null,
             // Just for checking if MAL got stuff received
             MALcast: null,
             MALepisodes: null,
@@ -122,23 +123,23 @@ class Modal extends React.Component {
         }
     }
 
-    componentWillMount(){
-
-    }
 
     componentDidMount(){
       document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+      let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
-      if(localStorage[this.state.id]){
-          let loadstate = JSON.parse(localStorage.getItem(this.state.id));
+      // If the file exists and a new episode hasn't aired,
+      if(loadstate && loadstate.updateAt > Date.now()){
           loadstate.tab = 'synopsis';
           this.setState(loadstate);
       }
+      // Else, let's start with a new object into local
       else{
           this.grabALData(this.state.MALdata.title, this.state.id).then(() => {
               localStorage.setItem(this.state.id, JSON.stringify(this.state))
           })
       }
+
     }
 
     componentWillUnmount(){
@@ -149,7 +150,8 @@ class Modal extends React.Component {
     grabALData(title, animeID){
         return ALfetch(title).then((data) => {
             this.setState({
-                ALdata: data
+                ALdata: data,
+                updateAt: data.nextAiringEpisode.airingAt * 1000
             })
         });
 
