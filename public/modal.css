@@ -130,7 +130,7 @@
     height: 100%;
 }
     .content-synopsis .synopsis-text{
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     .content-synopsis .synopsis-trailer{
         display: flex;
