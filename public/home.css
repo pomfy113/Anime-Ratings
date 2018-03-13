@@ -110,6 +110,11 @@ button{
 
     }
 
+    .search-cont input{
+        width: 90%;
+        margin: 5%;
+    }
+
     .sidebar-search{
         background-color: green;
     }

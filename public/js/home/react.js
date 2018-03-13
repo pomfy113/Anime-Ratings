@@ -525,7 +525,7 @@ class Sidebar extends React.Component {
         this.state = {
             tab: null,
             visible: false,
-            filter: this.props.current
+            filter: this.props.current // has title and synopsis
         }
     }
 
@@ -549,9 +549,10 @@ class Sidebar extends React.Component {
         this.setState({visible: false})
     }
 
-    changeFilter(title){
+    changeFilter(data, type){
+        console.log(data, type)
         let search = this.state.filter;
-        search.title = title.target.value;
+        search[type] = data.target.value;
 
         this.setState({filter: search})
         this.props.handleFilter(this.state.filter)
@@ -563,7 +564,7 @@ class Sidebar extends React.Component {
             case 'search':
                 currentTab = <Search
                                 handleFilter={() => this.props.handleFilter(this.state.filter)}
-                                changeFilter={(ev) => this.changeFilter(ev)}
+                                changeFilter={(data, type) => this.changeFilter(data, type)}
                             />
                         break;
         }
@@ -590,7 +591,15 @@ class Sidebar extends React.Component {
 function Search(props){
     return (
         <div className="search-cont">
-            <input className="search-name" onChange={(ev) => props.changeFilter(ev)}></input>
+            <label>Title</label>
+            <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'title')}></input>
+            <label>Studio</label>
+            <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'studio')}></input>
+            <label>Content</label>
+            <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'synopsis')}></input>
+
+
+
         </div>
     )
 }
@@ -609,7 +618,8 @@ class App extends React.Component {
             modal: null,
             filter: {
                 title: null,
-                studio: null
+                synopsis: null,
+                studio: null,
             }
         }
 
@@ -688,15 +698,37 @@ class App extends React.Component {
 
     render() {
         // Post category filtering; uses state
-        console.log(this.state.filter)
+        const filterTypes = ['title', 'synopsis', 'studio']
         const filtered = this.allAnime.filter((card) => {
             let title = true;
-
             if(this.state.filter.title){
                 title = card.props.anime.title.includes(this.state.filter.title)
+                title === false ? return false : null;
             }
 
-            return card.props.genres.some(genre => this.state.current.includes(genre)) && title;
+            let synopsis = true;
+            if(this.state.filter.synopsis){
+                synopsis = card.props.anime.synopsis.includes(this.state.filter.synopsis)
+                synopsis === false ? return false : null;
+
+            }
+
+            let studio = true;
+            if(this.state.filter.studio){
+                // Weird naming convention from API
+                studio = card.props.anime.producers.some(studio => studio.includes(this.state.filter.studio))
+                studio === false ? return false : null;
+
+            }
+
+            // filterTypes.forEach((filter) => {
+            //     filter.
+            // })
+
+            let genres = card.props.genres.some(genre => this.state.current.includes(genre))
+
+
+            return genres && title && synopsis && studio;
         })
 
         const genres =
