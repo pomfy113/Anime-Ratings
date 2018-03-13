@@ -49,6 +49,7 @@ html {
 
 
 /* React stuff */
+
 .Container{
     display: inline-flex;
     flex-direction: row;
@@ -67,8 +68,61 @@ button{
 
 .genreToggle{
     border-radius: 15px;
-
 }
+/* Sidebar BEGIN */
+
+.sidebar-cont{
+    --sidebarBtn: 20px;
+    display: flex;
+    position: fixed;
+    left: calc(-25% + var(--sidebarBtn));
+    top: 20%;
+
+    width: 25%;
+    height: 60%;
+
+    transition: 500ms;
+    z-index: 1;
+}
+
+.sidebar-cont.show{
+    left: 0%
+}
+
+.sidebar-content{
+    width: 100%;
+    height: 100%;
+    background-color: red;
+}
+
+.sidebar-btns{
+    width: var(--sidebarBtn);
+    font-size: 14px;
+}
+
+    .sidebar-btns div{
+        writing-mode: vertical-lr;
+        height: 80px;
+        width: inherit;
+        padding-top: 5px;
+        color: white;
+        text-shadow: 0px 0px 2px black;
+
+    }
+
+    .sidebar-search{
+        background-color: green;
+    }
+
+    .sidebar-genres{
+        background-color: purple;
+    }
+
+    .sidebar-favorites{
+        background-color: orange;
+    }
+
+/* Sidebar END */
 
 .anime-container{
     --imageHeight: 266px;

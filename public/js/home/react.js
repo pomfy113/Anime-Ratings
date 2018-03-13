@@ -124,7 +124,6 @@ class Modal extends React.Component {
     componentDidMount(){
       document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
       let loadstate = JSON.parse(localStorage.getItem(this.state.id));
-      console.log(loadstate)
 
       // If the file exists and a new episode hasn't aired,
       if(loadstate && (loadstate.updateAt > Date.now() || loadstate.updateAt === null)){
@@ -523,6 +522,56 @@ function Episodes(props){
 // ================================================================
 // ================================================================
 
+class Sidebar extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            tab: null,
+            visible: false
+        }
+    }
+
+    componentDidMount(){
+        document.addEventListener("click", (ev) => {
+            if(document.querySelector('.sidebar-cont').contains(ev.target)){
+                console.log("This shouldn't close")
+            }
+            else{
+                this.hideSidebar()
+            }
+
+        });
+
+
+    }
+
+    showSidebar(){
+        this.setState({visible: true})
+    }
+
+    hideSidebar(){
+        this.setState({visible: false})
+    }
+
+    render(){
+        return(
+            <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
+                <div className="sidebar-content">
+                    Stuff here!
+                </div>
+
+                <div className="sidebar-btns">
+                    <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Search</div>
+                    <div className="sidebar-genres" onClick={() => this.showSidebar('genre')}>Genres</div>
+                    <div className="sidebar-favorites" onClick={() => this.showSidebar('favorite')}>Favorites</div>
+
+                </div>
+            </div>
+        )
+    }
+
+}
+
 class App extends React.Component {
     constructor(props){
         super(props)
@@ -604,13 +653,13 @@ class App extends React.Component {
         })
 
         const genres =
-            <Genres
-                key="genrebox"
-                allGenres={this.genres}
-                currentGenres={this.state.current}
-                clickHandler={(i) => this.genreShift(i)}
-                clickHandlerAll = {(i) => this.allShift(i)}
-            />
+                        <Genres
+                            key="genrebox"
+                            allGenres={this.genres}
+                            currentGenres={this.state.current}
+                            clickHandler={(i) => this.genreShift(i)}
+                            clickHandlerAll = {(i) => this.allShift(i)}
+                        />
 
         const modal = this.state.modal
                         ? <Modal data={this.state.modal}
@@ -622,6 +671,7 @@ class App extends React.Component {
 
         return (
             <div key="container" className="Container">
+                <Sidebar/>
                 {modal}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
