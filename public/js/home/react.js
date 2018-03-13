@@ -532,7 +532,6 @@ class Sidebar extends React.Component {
     componentDidMount(){
         document.addEventListener("click", (ev) => {
             if(document.querySelector('.sidebar-cont').contains(ev.target)){
-                console.log("This shouldn't close")
             }
             else{
                 this.hideSidebar()
@@ -550,7 +549,6 @@ class Sidebar extends React.Component {
     }
 
     changeFilter(data, type){
-        console.log(data, type)
         let search = this.state.filter;
         search[type] = data.target.value;
 
@@ -699,36 +697,49 @@ class App extends React.Component {
     render() {
         // Post category filtering; uses state
         const filterTypes = ['title', 'synopsis', 'studio']
+        const currentFilter = this.state.filter
+
         const filtered = this.allAnime.filter((card) => {
-            let title = true;
-            if(this.state.filter.title){
-                title = card.props.anime.title.includes(this.state.filter.title)
-                title === false ? return false : null;
+            // Faster access
+            const anime = card.props.anime
+
+            // let studio = true;
+            // if(this.state.filter.studio){
+            //     // Weird naming convention from API
+            //     studio = card.props.anime.producers.some(studio => studio.includes(this.state.filter.studio))
+            //     studio === false ? return false : null;
+            //
+            // }
+
+            let check = true;
+
+            for(let index in filterTypes){
+                const filter = filterTypes[index]
+                // If null, we don't have to worry
+                if(currentFilter[filter]){
+                    // Simple if searching synopsis or title
+                    if(filter !== 'studio' && !anime[filter].includes(currentFilter[filter])){
+                        check = false;
+                        break;
+                    }
+                    // If it's a studio, we need to check the whole array
+                    else
+                    if(filter === 'studio' && !anime.producers.some(studio => studio.includes(currentFilter[filter]))){
+                        check = false;
+                        break;
+                    }
+                }
             }
 
-            let synopsis = true;
-            if(this.state.filter.synopsis){
-                synopsis = card.props.anime.synopsis.includes(this.state.filter.synopsis)
-                synopsis === false ? return false : null;
-
+            // Early exit 1
+            if(check === false){
+                return false
             }
-
-            let studio = true;
-            if(this.state.filter.studio){
-                // Weird naming convention from API
-                studio = card.props.anime.producers.some(studio => studio.includes(this.state.filter.studio))
-                studio === false ? return false : null;
-
-            }
-
-            // filterTypes.forEach((filter) => {
-            //     filter.
-            // })
 
             let genres = card.props.genres.some(genre => this.state.current.includes(genre))
 
 
-            return genres && title && synopsis && studio;
+            return genres && check;
         })
 
         const genres =
