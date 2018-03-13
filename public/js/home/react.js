@@ -5,9 +5,6 @@ ALfetch(title) handles fetching info from Anilist
 */
 // DEBUGGING
 
-localStorage.clear();
-
-
 
 // ================================================================
 //               All genre-button related stuff
@@ -202,25 +199,28 @@ class Modal extends React.Component {
         let currentTab;
         switch(this.state.tab){
             case "synopsis":
-                currentTab = <Synopsis synopsis={this.state.MALdata.synopsis}/>
+                currentTab = <Synopsis
+                                synopsis={this.state.MALdata.synopsis}
+                                trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
+                                />
                 break;
             case "cast":
                 currentTab = <Cast
-                    characters={this.state.MALcast.characters}
-                    staff={this.state.MALcast.staff}
-                    themes={this.state.MALcast.themes}
-                />
+                                characters={this.state.MALcast.characters}
+                                staff={this.state.MALcast.staff}
+                                themes={this.state.MALcast.themes}
+                                />
                 break;
             case "episodes":
                 currentTab = <Episodes
-                    episodes={this.state.MALepisodes}
-
-                />
+                                episodes={this.state.MALepisodes}
+                                />
                 break;
             case "related":
                 currentTab = <Related
-                    related={this.state.MALrelated}
-                    changeModal={(data) => this.props.newModal(data)}/>
+                                related={this.state.MALrelated}
+                                changeModal={(data) => this.props.newModal(data)}
+                            />
                 break;
             default:
                 currentTab = <div>?</div>
@@ -358,12 +358,43 @@ function Tabs(props){
 
 
 function Synopsis(props){
+    console.log(props)
+
     return(
         <div className="content content-synopsis">
-            {props.synopsis}
+            <div className="synopsis-text">{props.synopsis}</div>
+            <div className="synopsis-trailer">
+                {props.trailer ? <Trailer site={props.trailer.site} url={props.trailer.id}/> : null}
+            </div>
         </div>
     )
 }
+
+function Trailer(props){
+    let url;
+
+    switch(props.site){
+        case "dailymotion":
+            url = `http://www.${props.site}.com/embed/video/${props.url}`
+            break;
+        case "youtube":
+            url = `http://www.${props.site}.com/embed/${props.url}`
+            break;
+        case null:
+            return null
+
+    }
+
+    return (
+        <iframe
+            className="trailer-video"
+            src={url}
+            frameBorder="0"
+            allowFullScreen>
+        </iframe>
+    )
+}
+
 
 function Cast(props){
     const characters = props.characters.map((char) => {
@@ -406,10 +437,12 @@ function Related(props){
             // ... and style the individual rows
             // Note: dammit, the API sends me apostrophe ASCII codes
             return(
-                <a href={anime.type === 'manga' ? anime.url : null}
+                <a
+                key={`${type}-${index}`}
+                href={anime.type === 'manga' ? anime.url : null}
                 onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null}
                 className="related-cont">
-                    <div key={`${type}-${index}`} className={`related-anime ${anime.type}`}>
+                    <div className={`related-anime ${anime.type}`}>
                         <div className="related-anime-title">
                             {anime.title.replace("&#039;", "\'")}
                         </div>

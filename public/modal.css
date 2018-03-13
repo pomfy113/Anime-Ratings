@@ -122,9 +122,29 @@
 }
 
 .content-synopsis{
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
     white-space: pre-line;
     padding-top: 10px;
+    height: 100%;
 }
+    .content-synopsis .synopsis-text{
+        overflow-y: scroll;
+    }
+    .content-synopsis .synopsis-trailer{
+        display: flex;
+        justify-content: center;
+        min-height: 240px;
+        border-top: 1px solid lightgrey;
+
+    }
+
+    .content-synopsis .trailer-video{
+        width: 420px;
+        height: 240px;
+    }
+
 
 .content-cast {
     --portraitWidth: 32px;
