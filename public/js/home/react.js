@@ -124,9 +124,10 @@ class Modal extends React.Component {
     componentDidMount(){
       document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
       let loadstate = JSON.parse(localStorage.getItem(this.state.id));
+      console.log(loadstate)
 
       // If the file exists and a new episode hasn't aired,
-      if(loadstate && loadstate.updateAt > Date.now()){
+      if(loadstate && (loadstate.updateAt > Date.now() || loadstate.updateAt === null)){
           loadstate.tab = 'synopsis';
           this.setState(loadstate);
       }
@@ -148,8 +149,8 @@ class Modal extends React.Component {
         return ALfetch(title).then((data) => {
             this.setState({
                 ALdata: data,
-                updateAt: data.nextAiringEpisode.airingAt * 1000
-            })
+                updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null)
+            });
         });
 
     }
@@ -358,8 +359,6 @@ function Tabs(props){
 
 
 function Synopsis(props){
-    console.log(props)
-
     return(
         <div className="content content-synopsis">
             <div className="synopsis-text">{props.synopsis}</div>

@@ -135,9 +135,8 @@
     .content-synopsis .synopsis-trailer{
         display: flex;
         justify-content: center;
-        min-height: 240px;
+        min-height: 260px;
         border-top: 1px solid lightgrey;
-
     }
 
     .content-synopsis .trailer-video{

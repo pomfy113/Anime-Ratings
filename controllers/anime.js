@@ -18,7 +18,7 @@ const utils = require('./utils');
 
 module.exports = function(app) {
     // Getting home
-    app.get('old-home/', (req, res) => {
+    app.get('/old-home', (req, res) => {
         let bodytype = utils.checklog("home", req.user);
         nani.get('browse/anime?status=currently+airing&genres_exclude=hentai&sort=score-desc&airing_data=true')
         .then((anime) => {
