@@ -518,16 +518,14 @@ function Episodes(props){
 
 
 // ================================================================
-// ================================================================
-// ================================================================
-// ================================================================
 
 class Sidebar extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             tab: null,
-            visible: false
+            visible: false,
+            filter: this.props.current
         }
     }
 
@@ -541,36 +539,65 @@ class Sidebar extends React.Component {
             }
 
         });
-
-
     }
 
-    showSidebar(){
-        this.setState({visible: true})
+    showSidebar(tab){
+        this.setState({visible: true, tab: tab})
     }
 
     hideSidebar(){
         this.setState({visible: false})
     }
 
+    changeFilter(title){
+        let search = this.state.filter;
+        search.title = title.target.value;
+
+        this.setState({filter: search})
+        this.props.handleFilter(this.state.filter)
+    }
+
     render(){
+        let currentTab;
+        switch(this.state.tab){
+            case 'search':
+                currentTab = <Search
+                                handleFilter={() => this.props.handleFilter(this.state.filter)}
+                                changeFilter={(ev) => this.changeFilter(ev)}
+                            />
+                        break;
+        }
+
         return(
             <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
                 <div className="sidebar-content">
                     Stuff here!
+                    {currentTab}
                 </div>
 
                 <div className="sidebar-btns">
                     <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Search</div>
                     <div className="sidebar-genres" onClick={() => this.showSidebar('genre')}>Genres</div>
                     <div className="sidebar-favorites" onClick={() => this.showSidebar('favorite')}>Favorites</div>
-
                 </div>
             </div>
         )
     }
 
 }
+
+
+function Search(props){
+    return (
+        <div className="search-cont">
+            <input className="search-name" onChange={(ev) => props.changeFilter(ev)}></input>
+        </div>
+    )
+}
+
+// ================================================================
+// ================================================================
+// ================================================================
 
 class App extends React.Component {
     constructor(props){
@@ -579,11 +606,15 @@ class App extends React.Component {
         this.state = {
             current: this.props.genres,   // Currently turned on genres
             showGenres: false,
-            modal: null
+            modal: null,
+            filter: {
+                title: null,
+                studio: null
+            }
         }
 
         // All items
-        this.fullList = this.props.data.map((anime) =>{
+        this.allAnime = this.props.data.map((anime) =>{
             return <Card
                 key={anime.title}
                 anime={anime}
@@ -646,10 +677,26 @@ class App extends React.Component {
         document.body.style.overflow = "initial"
     }
 
+    // * * * * * * * * * * * * * * * * * * * * * * * *
+    // Filter switches
+    // * * * * * * * * * * * * * * * * * * * * * * * *
+    filterChange(content){
+        this.setState({
+            filter: content
+        })
+    }
+
     render() {
         // Post category filtering; uses state
-        const filtered = this.fullList.filter((item) => {
-            return item.props.genres.some(genre => this.state.current.includes(genre));
+        console.log(this.state.filter)
+        const filtered = this.allAnime.filter((card) => {
+            let title = true;
+
+            if(this.state.filter.title){
+                title = card.props.anime.title.includes(this.state.filter.title)
+            }
+
+            return card.props.genres.some(genre => this.state.current.includes(genre)) && title;
         })
 
         const genres =
@@ -671,7 +718,7 @@ class App extends React.Component {
 
         return (
             <div key="container" className="Container">
-                <Sidebar/>
+                <Sidebar current={this.state.filter} handleFilter={(i) => this.filterChange(i)}/>
                 {modal}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
