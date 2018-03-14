@@ -522,21 +522,31 @@ function Episodes(props){
 class Sidebar extends React.Component {
     constructor(props){
         super(props);
+
+        this.genres = [
+            "Action", "Adventure", "Cars", "Comedy", "Dementia",
+            "Demons", "Mystery", "Drama", "Ecchi", "Fantasy", "Game",
+            "Historical", "Horror", "Magic", "Martial Arts",
+            "Mecha", "Music", "Parody", "Samurai", "Romance",
+            "School", "Sci-Fi", "Shoujo", "Shoujo Ai", "Shounen",
+            "Shounen Ai", "Space", "Sports", "Super Power", "Vampire",
+            "Harem", "Slice of Life", "Supernatural", "Military", "Police",
+            "Psychological", "Thriller", "Seinen", "Josei"
+        ]
+
         this.state = {
-            tab: null,
+            tab: 'search', // default to this
             visible: false,
-            filter: this.props.current // has title and synopsis
+            filter: this.props.current, // has title and synopsis
+            genres: []
         }
     }
 
     componentDidMount(){
         document.addEventListener("click", (ev) => {
-            if(document.querySelector('.sidebar-cont').contains(ev.target)){
-            }
-            else{
+            if(!document.querySelector('.sidebar-cont').contains(ev.target)){
                 this.hideSidebar()
             }
-
         });
     }
 
@@ -552,30 +562,36 @@ class Sidebar extends React.Component {
         let search = this.state.filter;
         search[type] = data.target.value;
 
-        this.setState({filter: search})
-        this.props.handleFilter(this.state.filter)
+        this.setState({filter: search});
+        this.props.handleFilter(this.state.filter);
+    }
+
+    changeGenres(ele, type){
+        let genres = this.state.genres.slice();
+        // We're actually passing in the select box's data
+        var newGenre = ele.options[ele.selectedIndex].value;
+        if(type === 'add'){
+            genres.includes(newGenre) ? null : genres.push(newGenre);
+        }
+        else if(type === 'remove'){
+            genres.includes(newGenre) ? genres.pop(newGenre) : null;
+        }
+        this.setState({genres: genres})
     }
 
     render(){
         let currentTab;
-        // switch(this.state.tab){
-        //     case 'search':
-        //         currentTab = <Search
-        //                         handleFilter={() => this.props.handleFilter(this.state.filter)}
-        //                         changeFilter={(data, type) => this.changeFilter(data, type)}
-        //                     />
-        //                 break;
-        // }
-
         return(
             <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
                 <div className={`sidebar-content ${this.state.tab}`}>
                     <Search
-                        handleFilter={() => this.props.handleFilter(this.state.filter)}
                         changeFilter={(data, type) => this.changeFilter(data, type)}
                     />
-                    <Genres/>
-                    <
+                    <Genres
+                        allGenres={this.genres}
+                        currentGenres={this.state.genres}
+                        changeGenres={(data, type) => this.changeGenres(data, type)}/>
+                    <Favorites/>
                 </div>
 
                 <div className="sidebar-btns">
@@ -607,20 +623,28 @@ function Search(props){
 function Genres(props){
     const allGenres = genres.map((genre) => {
         return (<option key={genre} value={genre}>{genre}</option>)
-    })
+    });
+
+    const ele = document.querySelector('.genre-select');
 
     return (
         <div className="genre-cont side-content">
             <h1>Genre</h1>
-            <select size='6'>
+            <select className="genre-select" size='6'>
                 {allGenres}
             </select>
+            <button onClick={() =>
+                props.changeGenres(document.querySelector('.genre-select'), 'add')
+            }/>
+            <button onClick={() =>
+                props.changeGenres(document.querySelector('.genre-select'), 'remove')
+            }/>
+
         </div>
     )
 }
-
 function Favorites(props){
-    return (<div>Wait warmly!</div>)
+    return (<div className="favorite-cont side-content">Wait warmly!</div>)
 }
 
 // ================================================================

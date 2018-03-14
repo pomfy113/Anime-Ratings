@@ -118,6 +118,7 @@ button{
     .sidebar-content .side-content{
         overflow: hidden;
         height: 100%;
+        transition: 300ms;
     }
 
     .sidebar-content .search-cont{
@@ -135,7 +136,7 @@ button{
     }
 
     .sidebar-content .favorite-cont{
-        background-color: #aafd;
+        background-color: #aafdaa;
     }
     .sidebar-content.favorite .side-content:not(.favorite-cont){
         height: 1%;
