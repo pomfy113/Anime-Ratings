@@ -563,18 +563,18 @@ class Sidebar extends React.Component {
         this.props.handleFilter(search);
     }
 
-    changeGenres(genre, type){
-        let genres = this.props.genres;
+    changeGenres(data, type){
+        let genresCopy = this.props.genres;
         // We're actually passing in the select box's data
 
         if(type === 'add'){
-            genres.includes(genre) ? null : genres.push(genre)
+            genresCopy.includes(data) ? null : genresCopy.push(data)
         }
         else if(type === 'remove'){
-            genres.includes(genre) ? genres.pop(genre) : null;
+            genresCopy.includes(data) ? genresCopy.pop(data) : null;
         }
 
-        this.props.handleGenre(genres);
+        this.props.handleGenre(genresCopy);
     }
 
     render(){
@@ -636,7 +636,7 @@ function Genres(props){
             <select className="genre-select" size='6'>
                 {allGenres}
             </select>
-            <button onClick={() => props.changeGenres(newGenre, 'add')}>Add</button>
+            <button onClick={() => props.changeGenres(document.querySelector('.genre-select').options[ele.selectedIndex].value, 'add')}>Add</button>
             <button onClick={() => props.changeGenres(newGenre, 'remove')}>Remove</button>
             {allCurrentGenres}
         </div>
