@@ -108,6 +108,12 @@
         box-shadow: black;
     }
 
+    .window-tabs .on{
+        background-color: #2222BB;
+        color: #DDD;
+        box-shadow: black;
+    }
+
 
 .window-details{
     grid-column: 2;

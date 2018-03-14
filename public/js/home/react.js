@@ -158,7 +158,7 @@ class Modal extends React.Component {
     grabMALData(tab){
         switch(tab){
             case 'related':
-            case 'cast':
+            case 'characters':
                 return MALfetchCAST(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
                     this.setState({
                         MALcast: {
@@ -199,28 +199,28 @@ class Modal extends React.Component {
         let currentTab;
         switch(this.state.tab){
             case "synopsis":
-                currentTab = <Synopsis
-                                synopsis={this.state.MALdata.synopsis}
-                                trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
+                currentTab =    <Synopsis
+                                    synopsis={this.state.MALdata.synopsis}
+                                    trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
                                 />
                 break;
-            case "cast":
-                currentTab = <Cast
-                                characters={this.state.MALcast.characters}
-                                staff={this.state.MALcast.staff}
-                                themes={this.state.MALcast.themes}
+            case "characters":
+                currentTab =    <Cast
+                                    characters={this.state.MALcast.characters}
+                                    staff={this.state.MALcast.staff}
+                                    themes={this.state.MALcast.themes}
                                 />
                 break;
             case "episodes":
-                currentTab = <Episodes
-                                episodes={this.state.MALepisodes}
+                currentTab =    <Episodes
+                                    episodes={this.state.MALepisodes}
                                 />
                 break;
             case "related":
-                currentTab = <Related
-                                related={this.state.MALrelated}
-                                changeModal={(data) => this.props.newModal(data)}
-                            />
+                currentTab =    <Related
+                                    related={this.state.MALrelated}
+                                    changeModal={(data) => this.props.newModal(data)}
+                                />
                 break;
             default:
                 currentTab = <div>?</div>
@@ -233,7 +233,7 @@ class Modal extends React.Component {
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
-                    <Tabs handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
+                    <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                     <Details currentTab={currentTab}/>
                 </div>
             </div>
@@ -346,12 +346,20 @@ function Details(props){
 }
 
 function Tabs(props){
+    const allTabs = ['synopsis', 'characters', 'episodes', 'related'];
+    const tabNames = ['Story', 'Cast', 'Eps.', 'Related'];
+
+    const tabs = allTabs.map((tab, index) => {
+        const load = (tab === 'synopsis' ? null : 'MAL');           // Whether to load MAL or not
+        const onTab = props.currentTab === tab                      // See if it's on
+        const className = `tab-${tab} ` + (onTab ? 'on' : null);    // If on, add "on"
+
+        return(<div key={tab} className={className} onClick={() => props.handleTab(tab, load)}> {tabNames[index]}</div>)
+    })
+
     return(
         <div className="window-tabs">
-            <div className="tab-synopsis" onClick={() => props.handleTab('synopsis', null)}>Story</div>
-            <div className="tab-characters" onClick={() => props.handleTab('cast', 'MAL')}>Cast</div>
-            <div className="tab-episodes" onClick={() => props.handleTab('episodes', 'MAL')}>Eps.</div>
-            <div className="tab-related" onClick={() => props.handleTab('related', 'MAL')}>Related</div>
+            {tabs}
         </div>
     )
 }
