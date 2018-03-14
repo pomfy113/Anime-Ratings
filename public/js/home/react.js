@@ -734,14 +734,10 @@ class App extends React.Component {
     // * * * * * * * * * * * * * * * * * * * * * * * *
     filterChange(content){
         this.setState({filter: content})
-        console.log(this.state.filter)
-
     }
 
     genreChange(content){
         this.setState({genres: content})
-        console.log(this.state.genres)
-
     }
 
     render() {
@@ -756,16 +752,18 @@ class App extends React.Component {
 
             for(let index in filterTypes){
                 const filter = filterTypes[index]
+                
                 // If null, we don't have to worry
                 if(currentFilter[filter]){
+                    const data = currentFilter[filter].toLowerCase()
                     // Simple if searching synopsis or title
-                    if(filter !== 'studio' && !anime[filter].includes(currentFilter[filter])){
+                    if(filter !== 'studio' && !anime[filter].toLowerCase().includes(data)){
                         check = false;
                         break;
                     }
                     // If it's a studio, we need to check the whole array
                     else
-                    if(filter === 'studio' && !anime.producers.some(studio => studio.includes(currentFilter[filter]))){
+                    if(filter === 'studio' && !anime.producers.some(studio => studio.toLowerCase().includes(data))){
                         check = false;
                         break;
                     }
