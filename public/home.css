@@ -55,6 +55,7 @@ html {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 0 2.5%;
 }
 
 button{
@@ -75,10 +76,10 @@ button{
     --sidebarBtn: 20px;
     display: flex;
     position: fixed;
-    left: calc(-15% + var(--sidebarBtn));
+    left: calc(-150px + var(--sidebarBtn));
     top: 20%;
 
-    width: 15%;
+    width: 150px;
     height: 60%;
 
     transition: 500ms;

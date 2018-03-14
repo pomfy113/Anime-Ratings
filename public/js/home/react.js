@@ -656,12 +656,18 @@ function Favorites(props){
 // ================================================================
 // ================================================================
 
-class Season extends React.Componen{
+class Season extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            currentSeason:
+            currentSeason: this.props.season
         }
+        this.seasons = ["winter", "spring", "summer", "fall"];
+        console.log(this.state.currentSeason)
+    }
+
+    render(props){
+        return null
     }
 }
 // ================================================================
@@ -671,7 +677,8 @@ class App extends React.Component {
         super(props)
         this.genres = this.props.genres  // All genres
         this.state = {
-            anime: this.props.data
+            anime: this.props.data,
+            season: this.props.season,
             current: this.props.genres,   // Currently turned on genres
             showGenres: false,
             modal: null,
@@ -723,6 +730,7 @@ class App extends React.Component {
 
     showModal(data){
         document.body.style.overflow = "hidden"
+        document.body.style.marginRight = "5px"
         this.setState({modal: data})
 
     }
@@ -738,6 +746,8 @@ class App extends React.Component {
     hideModal(){
         this.setState({modal: null})
         document.body.style.overflow = "initial"
+        document.body.style.marginRight = "0px"
+
     }
 
     // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -811,14 +821,8 @@ class App extends React.Component {
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
                 />
-                <Season/>
+                <Season season={this.state.season}/>
                 {modal}
-                <div className="btnCont">
-                    <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
-                        Toggle Genre Filter
-                    </button>
-                    {this.state.showGenres ? genres : null}
-                </div>
                 {filtered}
             </div>
         );

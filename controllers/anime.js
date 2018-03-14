@@ -176,15 +176,15 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV), season: {year: year, season: season}});
+              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV), season: JSON.stringify({year: year, season: season})});
           })
 
           .catch((err) => console.log(err));
     });
 
     app.get('/season/:season/:year', (req, res) => {
-
-        malScraper.getSeason(req.params.year, req.params.season)
+        malScraper.getSeason(year, season)
+          .then((data) => {
               let animeTV = [];
               let biggerpic;
               // Do some minor altering for the data
@@ -208,6 +208,7 @@ module.exports = function(app) {
 
           .catch((err) => console.log(err));
     });
+
 
     app.get('/alt-home-old', (req, res) => {
         const date = new Date();
