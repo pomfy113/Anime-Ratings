@@ -160,15 +160,14 @@ module.exports = function(app) {
           .then((data) => {
               let animeTV = [];
               let biggerpic;
-
+              // Do some minor altering for the data
               for(let item in data.TV){
                   biggerpic = data.TV[item].picture.replace('r/167x242/', '');
+                  data.TV[item].picture = biggerpic;
 
                   if(data.TV[item].score === "N/A"){
                       data.TV[item].score = "0"; // I'll need to revert this later
                   }
-
-                  data.TV[item].picture = biggerpic;
 
                   animeTV.push(data.TV[item]);
               }
@@ -177,7 +176,34 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV)});
+              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV), season: {year: year, season: season}});
+          })
+
+          .catch((err) => console.log(err));
+    });
+
+    app.get('/season/:season/:year', (req, res) => {
+
+        malScraper.getSeason(req.params.year, req.params.season)
+              let animeTV = [];
+              let biggerpic;
+              // Do some minor altering for the data
+              for(let item in data.TV){
+                  biggerpic = data.TV[item].picture.replace('r/167x242/', '');
+                  data.TV[item].picture = biggerpic;
+
+                  if(data.TV[item].score === "N/A"){
+                      data.TV[item].score = "0"; // I'll need to revert this later
+                  }
+
+                  animeTV.push(data.TV[item]);
+              }
+
+              const sorted = animeTV.sort(function(a, b){
+                  return b.score - a.score;
+              });
+
+              res.send(JSON.stringify(animeTV));
           })
 
           .catch((err) => console.log(err));

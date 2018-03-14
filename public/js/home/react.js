@@ -656,11 +656,22 @@ function Favorites(props){
 // ================================================================
 // ================================================================
 
+class Season extends React.Componen{
+    constructor(props){
+        super(props)
+        this.state = {
+            currentSeason:
+        }
+    }
+}
+// ================================================================
+
 class App extends React.Component {
     constructor(props){
         super(props)
         this.genres = this.props.genres  // All genres
         this.state = {
+            anime: this.props.data
             current: this.props.genres,   // Currently turned on genres
             showGenres: false,
             modal: null,
@@ -673,7 +684,7 @@ class App extends React.Component {
         }
 
         // All items
-        this.allAnime = this.props.data.map((anime) =>{
+        this.allAnime = this.state.anime.map((anime) =>{
             return <Card
                 key={anime.title}
                 anime={anime}
@@ -752,7 +763,7 @@ class App extends React.Component {
 
             for(let index in filterTypes){
                 const filter = filterTypes[index]
-                
+
                 // If null, we don't have to worry
                 if(currentFilter[filter]){
                     const data = currentFilter[filter].toLowerCase()
@@ -784,15 +795,6 @@ class App extends React.Component {
 
         })
 
-        // const genres =
-        //                 <Genres
-        //                     key="genrebox"
-        //                     allGenres={this.genres}
-        //                     currentGenres={this.state.current}
-        //                     clickHandler={(i) => this.genreShift(i)}
-        //                     clickHandlerAll = {(i) => this.allShift(i)}
-        //                 />
-
         const modal = this.state.modal
                         ? <Modal data={this.state.modal}
                             handleClick={(ev) => this.handleWindowPress(ev)}
@@ -809,6 +811,7 @@ class App extends React.Component {
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
                 />
+                <Season/>
                 {modal}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
@@ -823,6 +826,6 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-    <App genres={genres} data={data}/>,
+    <App genres={genres} data={data} season={season}/>,
     document.getElementById('root')
 );
