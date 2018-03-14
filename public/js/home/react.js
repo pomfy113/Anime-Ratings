@@ -542,7 +542,7 @@ class Sidebar extends React.Component {
 
     componentDidMount(){
         document.addEventListener("click", (ev) => {
-            if(!document.querySelector('.sidebar-cont').contains(ev.target)){
+            if(!ev.path.includes(document.querySelector('.sidebar-cont'))){
                 this.hideSidebar()
             }
         });
@@ -568,10 +568,13 @@ class Sidebar extends React.Component {
         // We're actually passing in the select box's data
 
         if(type === 'add'){
-            genresCopy.includes(data) ? null : genresCopy.push(data)
+            genresCopy.includes(data) ? null : genresCopy.push(data);
         }
         else if(type === 'remove'){
-            genresCopy.includes(data) ? genresCopy.pop(data) : null;
+            if(genresCopy.includes(data)){
+                let index = genresCopy.indexOf(data);
+                genresCopy.splice(index, 1);
+            }
         }
 
         this.props.handleGenre(genresCopy);
@@ -624,20 +627,23 @@ function Genres(props){
     });
 
     const ele = document.querySelector('.genre-select');
-    const newGenre = ele ? ele.options[ele.selectedIndex].value : null;
 
     const allCurrentGenres = props.currentGenres ? props.currentGenres.map((genre) => {
-        return (<span onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
+        return (<span className="genre-on" onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
     }) : null;
 
     return (
         <div className="genre-cont side-content">
             <h1>Genre</h1>
-            <select className="genre-select" size='6'>
+            <select
+                onDoubleClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'add')}
+                className="genre-select" size='6'>
                 {allGenres}
             </select>
-            <button onClick={() => props.changeGenres(document.querySelector('.genre-select').options[ele.selectedIndex].value, 'add')}>Add</button>
-            <button onClick={() => props.changeGenres(newGenre, 'remove')}>Remove</button>
+            <div className="genre-btns">
+                <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'add')}>Add</button>
+                <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'remove')}>Remove</button>
+            </div>
             {allCurrentGenres}
         </div>
     )
