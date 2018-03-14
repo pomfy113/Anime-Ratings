@@ -118,7 +118,7 @@ button{
     .sidebar-content .side-content{
         overflow: hidden;
         height: 100%;
-        transition: 300ms;
+        transition: 600ms;
     }
 
     .sidebar-content .search-cont{
@@ -163,11 +163,11 @@ button{
     }
 
     .sidebar-genres{
-        background-color: purple;
+        background-color: blue;
     }
 
     .sidebar-favorites{
-        background-color: orange;
+        background-color: green;
     }
 
 /* Sidebar END */

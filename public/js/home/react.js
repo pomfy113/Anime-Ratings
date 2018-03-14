@@ -537,7 +537,7 @@ class Sidebar extends React.Component {
         this.state = {
             tab: 'search', // default to this
             visible: false,
-            filter: this.props.current, // has title and synopsis
+            filter: this.props.filter, // has title and synopsis
             genres: []
         }
     }
@@ -564,19 +564,23 @@ class Sidebar extends React.Component {
 
         this.setState({filter: search});
         this.props.handleFilter(this.state.filter);
+        console.log(this.state.filter)
     }
 
-    changeGenres(ele, type){
+    changeGenres(genre, type){
         let genres = this.state.genres.slice();
         // We're actually passing in the select box's data
-        var newGenre = ele.options[ele.selectedIndex].value;
+
         if(type === 'add'){
-            genres.includes(newGenre) ? null : genres.push(newGenre);
+            genres.includes(genre) ? null : genres.push(genre);
         }
         else if(type === 'remove'){
-            genres.includes(newGenre) ? genres.pop(newGenre) : null;
+            genres.includes(genre) ? genres.pop(genre) : null;
         }
+
+
         this.setState({genres: genres})
+        this.props.handleGenre(genres);
     }
 
     render(){
@@ -626,6 +630,11 @@ function Genres(props){
     });
 
     const ele = document.querySelector('.genre-select');
+    const newGenre = ele ? ele.options[ele.selectedIndex].value : null;
+
+    // const allCurrentGenres = props.currentGenres.map((genre) => {
+    //     return (<span onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
+    // })
 
     return (
         <div className="genre-cont side-content">
@@ -633,13 +642,9 @@ function Genres(props){
             <select className="genre-select" size='6'>
                 {allGenres}
             </select>
-            <button onClick={() =>
-                props.changeGenres(document.querySelector('.genre-select'), 'add')
-            }/>
-            <button onClick={() =>
-                props.changeGenres(document.querySelector('.genre-select'), 'remove')
-            }/>
-
+            <button onClick={() => props.changeGenres(newGenre, 'add')}>Add</button>
+            <button onClick={() => props.changeGenres(newGenre, 'remove')}>Remove</button>
+            {/* {allCurrentGenres} */}
         </div>
     )
 }
@@ -663,7 +668,8 @@ class App extends React.Component {
                 title: null,
                 synopsis: null,
                 studio: null,
-            }
+            },
+            genres: []
         }
 
         // All items
@@ -681,26 +687,19 @@ class App extends React.Component {
     // * * * * * * * * * * * * * * * * * * * * * * * *
 
     // Switch individual genres on or off
-    genreShift(i){
-        const current = this.state.current.slice();
-        current[i] = current[i] ? null : this.genres[i];  // Toggle
-
-        this.setState({
-            current: current
-        })
-    }
-
-    // Switch all
-    allShift(i){
-        switch(i){
-            case "all":
-                this.setState({ current: this.genres });
-                break;
-            case "none":
-                this.setState({ current: [] })
-                break;
-        }
-    }
+    // genreShift(i){
+    //     const current = this.state.current.slice();
+    //     current[i] = current[i] ? null : this.genres[i];  // Toggle
+    //
+    //     this.setState({
+    //         current: current
+    //     })
+    // }
+    //
+    // // Switch all
+    // allShift(i){
+    //     this.setState({})
+    // }
 
     // * * * * * * * * * * * * * * * * * * * * * * * *
     // Modal switches
@@ -734,9 +733,15 @@ class App extends React.Component {
     // Filter switches
     // * * * * * * * * * * * * * * * * * * * * * * * *
     filterChange(content){
-        this.setState({
-            filter: content
-        })
+        this.setState({filter: content})
+        console.log(this.state.filter)
+
+    }
+
+    genreChange(content){
+        this.setState({genres: content})
+        console.log(this.state.genres)
+
     }
 
     render() {
@@ -772,10 +777,13 @@ class App extends React.Component {
                 return false
             }
 
-            let genres = card.props.genres.some(genre => this.state.current.includes(genre))
+            if(this.state.genres.length > 0){
+                return card.props.genres.some(genre => this.state.genres.includes(genre))
+            }
+            else{
+                return true
+            }
 
-
-            return genres;
         })
 
         // const genres =
@@ -797,7 +805,11 @@ class App extends React.Component {
 
         return (
             <div key="container" className="Container">
-                <Sidebar current={this.state.filter} handleFilter={(i) => this.filterChange(i)}/>
+                <Sidebar
+                    filter={this.state.filter}
+                    handleFilter={(i) => this.filterChange(i)}
+                    handleGenre={(i) => this.genreChange(i)}
+                />
                 {modal}
                 <div className="btnCont">
                     <button className="genreToggle" onClick={() => this.setState({showGenres: !this.state.showGenres})}>
