@@ -38,42 +38,42 @@ function SpecialGenre(props) {
     )
 }
 
-class Genres extends React.Component {
-    renderCategory(item, index) {
-        return <Genre
-            key={index}
-            text={item}
-            isOn={this.props.currentGenres[index] ? "on" : "off" }
-            onClick={() => this.props.clickHandler(index)}
-        />
-    }
-
-    renderSpecial(item){
-        return <SpecialGenre
-            key={item}
-            text={item === "all" ? "Select All" : "Deselect All"}
-            onClick={() => this.props.clickHandlerAll(item)}
-        />
-    }
-
-    render(){
-        const genreButtons = this.props.allGenres.map((item, index) => {
-            return this.renderCategory(item, index)
-        })
-
-        const specialButtons = [
-            this.renderSpecial("all"),
-            this.renderSpecial("none")
-        ]
-
-        return (
-            <div>
-                <div className="genre-container">{genreButtons}</div>
-                <div className="genre-special">{specialButtons}</div>
-            </div>
-        )
-    }
-}
+// class Genres extends React.Component {
+//     renderCategory(item, index) {
+//         return <Genre
+//             key={index}
+//             text={item}
+//             isOn={this.props.currentGenres[index] ? "on" : "off" }
+//             onClick={() => this.props.clickHandler(index)}
+//         />
+//     }
+//
+//     renderSpecial(item){
+//         return <SpecialGenre
+//             key={item}
+//             text={item === "all" ? "Select All" : "Deselect All"}
+//             onClick={() => this.props.clickHandlerAll(item)}
+//         />
+//     }
+//
+//     render(){
+//         const genreButtons = this.props.allGenres.map((item, index) => {
+//             return this.renderCategory(item, index)
+//         })
+//
+//         const specialButtons = [
+//             this.renderSpecial("all"),
+//             this.renderSpecial("none")
+//         ]
+//
+//         return (
+//             <div>
+//                 <div className="genre-container">{genreButtons}</div>
+//                 <div className="genre-special">{specialButtons}</div>
+//             </div>
+//         )
+//     }
+// }
 
 // ================================================================
 
@@ -558,20 +558,24 @@ class Sidebar extends React.Component {
 
     render(){
         let currentTab;
-        switch(this.state.tab){
-            case 'search':
-                currentTab = <Search
-                                handleFilter={() => this.props.handleFilter(this.state.filter)}
-                                changeFilter={(data, type) => this.changeFilter(data, type)}
-                            />
-                        break;
-        }
+        // switch(this.state.tab){
+        //     case 'search':
+        //         currentTab = <Search
+        //                         handleFilter={() => this.props.handleFilter(this.state.filter)}
+        //                         changeFilter={(data, type) => this.changeFilter(data, type)}
+        //                     />
+        //                 break;
+        // }
 
         return(
             <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
-                <div className="sidebar-content">
-                    Stuff here!
-                    {currentTab}
+                <div className={`sidebar-content ${this.state.tab}`}>
+                    <Search
+                        handleFilter={() => this.props.handleFilter(this.state.filter)}
+                        changeFilter={(data, type) => this.changeFilter(data, type)}
+                    />
+                    <Genres/>
+                    <
                 </div>
 
                 <div className="sidebar-btns">
@@ -588,18 +592,35 @@ class Sidebar extends React.Component {
 
 function Search(props){
     return (
-        <div className="search-cont">
+        <div className="search-cont side-content">
+            <h1>Search</h1>
             <label>Title</label>
             <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'title')}></input>
             <label>Studio</label>
             <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'studio')}></input>
             <label>Content</label>
             <input className="search-name" onChange={(ev) => props.changeFilter(ev, 'synopsis')}></input>
-
-
-
         </div>
     )
+}
+
+function Genres(props){
+    const allGenres = genres.map((genre) => {
+        return (<option key={genre} value={genre}>{genre}</option>)
+    })
+
+    return (
+        <div className="genre-cont side-content">
+            <h1>Genre</h1>
+            <select size='6'>
+                {allGenres}
+            </select>
+        </div>
+    )
+}
+
+function Favorites(props){
+    return (<div>Wait warmly!</div>)
 }
 
 // ================================================================
@@ -702,15 +723,6 @@ class App extends React.Component {
         const filtered = this.allAnime.filter((card) => {
             // Faster access
             const anime = card.props.anime
-
-            // let studio = true;
-            // if(this.state.filter.studio){
-            //     // Weird naming convention from API
-            //     studio = card.props.anime.producers.some(studio => studio.includes(this.state.filter.studio))
-            //     studio === false ? return false : null;
-            //
-            // }
-
             let check = true;
 
             for(let index in filterTypes){
@@ -739,17 +751,17 @@ class App extends React.Component {
             let genres = card.props.genres.some(genre => this.state.current.includes(genre))
 
 
-            return genres && check;
+            return genres;
         })
 
-        const genres =
-                        <Genres
-                            key="genrebox"
-                            allGenres={this.genres}
-                            currentGenres={this.state.current}
-                            clickHandler={(i) => this.genreShift(i)}
-                            clickHandlerAll = {(i) => this.allShift(i)}
-                        />
+        // const genres =
+        //                 <Genres
+        //                     key="genrebox"
+        //                     allGenres={this.genres}
+        //                     currentGenres={this.state.current}
+        //                     clickHandler={(i) => this.genreShift(i)}
+        //                     clickHandlerAll = {(i) => this.allShift(i)}
+        //                 />
 
         const modal = this.state.modal
                         ? <Modal data={this.state.modal}
