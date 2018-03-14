@@ -536,9 +536,7 @@ class Sidebar extends React.Component {
 
         this.state = {
             tab: 'search', // default to this
-            visible: false,
-            filter: this.props.filter, // has title and synopsis
-            genres: []
+            visible: false
         }
     }
 
@@ -559,27 +557,23 @@ class Sidebar extends React.Component {
     }
 
     changeFilter(data, type){
-        let search = this.state.filter;
+        let search = this.props.filter;
         search[type] = data.target.value;
 
-        this.setState({filter: search});
-        this.props.handleFilter(this.state.filter);
-        console.log(this.state.filter)
+        this.props.handleFilter(search);
     }
 
     changeGenres(genre, type){
-        let genres = this.state.genres.slice();
+        let genres = this.props.genres;
         // We're actually passing in the select box's data
 
         if(type === 'add'){
-            genres.includes(genre) ? null : genres.push(genre);
+            genres.includes(genre) ? null : genres.push(genre)
         }
         else if(type === 'remove'){
             genres.includes(genre) ? genres.pop(genre) : null;
         }
 
-
-        this.setState({genres: genres})
         this.props.handleGenre(genres);
     }
 
@@ -593,7 +587,7 @@ class Sidebar extends React.Component {
                     />
                     <Genres
                         allGenres={this.genres}
-                        currentGenres={this.state.genres}
+                        currentGenres={this.props.genres}
                         changeGenres={(data, type) => this.changeGenres(data, type)}/>
                     <Favorites/>
                 </div>
@@ -625,16 +619,16 @@ function Search(props){
 }
 
 function Genres(props){
-    const allGenres = genres.map((genre) => {
+    const allGenres = props.allGenres.map((genre) => {
         return (<option key={genre} value={genre}>{genre}</option>)
     });
 
     const ele = document.querySelector('.genre-select');
     const newGenre = ele ? ele.options[ele.selectedIndex].value : null;
 
-    // const allCurrentGenres = props.currentGenres.map((genre) => {
-    //     return (<span onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
-    // })
+    const allCurrentGenres = props.currentGenres ? props.currentGenres.map((genre) => {
+        return (<span onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
+    }) : null;
 
     return (
         <div className="genre-cont side-content">
@@ -644,7 +638,7 @@ function Genres(props){
             </select>
             <button onClick={() => props.changeGenres(newGenre, 'add')}>Add</button>
             <button onClick={() => props.changeGenres(newGenre, 'remove')}>Remove</button>
-            {/* {allCurrentGenres} */}
+            {allCurrentGenres}
         </div>
     )
 }
@@ -807,6 +801,7 @@ class App extends React.Component {
             <div key="container" className="Container">
                 <Sidebar
                     filter={this.state.filter}
+                    genres={this.state.genres}
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
                 />
