@@ -727,7 +727,9 @@ class App extends React.Component {
 
     dataChange(season, year){
         seasonGet(season, year).then((data) => {
-            this.setState({anime: JSON.parse(data)})
+            return data
+        }).then((data) => {
+            this.setState({anime: typeof data === 'string' ? JSON.parse(data) : data})
         })
     }
 

@@ -190,28 +190,26 @@ module.exports = function(app) {
     app.get('/season/:season/:year', (req, res) => {
         malScraper.getSeason(req.params.year, req.params.season)
           .then((data) => {
-              let animeTV = [];
+              let cleanedData = data.TV
               let biggerpic;
-              // Do some minor altering for the data
-              for(let item in data.TV){
-                  biggerpic = data.TV[item].picture.replace('r/167x242/', '');
-                  data.TV[item].picture = biggerpic;
 
-                  if(data.TV[item].score === "N/A"){
-                      data.TV[item].score = "0"; // I'll need to revert this later
+              // Do some minor altering for the data
+              for(let item in cleanedData){
+                  biggerpic = cleanedData[item].picture.replace('r/167x242/', '');
+                 cleanedData[item].picture = biggerpic;
+
+                  if(cleanedData[item].score === "N/A"){
+                     cleanedData[item].score = "0"; // I'll need to revert this later
                   }
 
-                  animeTV.push(data.TV[item]);
               }
 
-              const sorted = animeTV.sort(function(a, b){
+             return cleanedData.sort(function(a, b){
                   return b.score - a.score;
-              });
-
-              res.send(animeTV);
-          })
-
-          .catch((err) => console.log(err));
+              })
+          }).then((data) => {
+              res.send(JSON.stringify(data));
+          }).catch((err) => console.log(err));
     });
 
 

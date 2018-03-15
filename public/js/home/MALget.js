@@ -50,6 +50,7 @@ function seasonGet(season, year){
         url: `/season/${season.toLowerCase()}/${year}`,
         type: 'GET'
     }).done((data) => {
+        // Something really funky is going on here; sometimes it's a String
         return data
     }).fail(() => {
         console.log("Failed")
