@@ -158,7 +158,7 @@ class Modal extends React.Component {
     grabMALData(tab){
         switch(tab){
             case 'related':
-            case 'characters':
+            case 'cast':
                 return MALfetchCAST(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
                     this.setState({
                         MALcast: {
@@ -204,7 +204,7 @@ class Modal extends React.Component {
                                     trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
                                 />
                 break;
-            case "characters":
+            case "cast":
                 currentTab =    <Cast
                                     characters={this.state.MALcast.characters}
                                     staff={this.state.MALcast.staff}
@@ -346,7 +346,7 @@ function Details(props){
 }
 
 function Tabs(props){
-    const allTabs = ['synopsis', 'characters', 'episodes', 'related'];
+    const allTabs = ['synopsis', 'cast', 'episodes', 'related'];
     const tabNames = ['Story', 'Cast', 'Eps.', 'Related'];
 
     const tabs = allTabs.map((tab, index) => {

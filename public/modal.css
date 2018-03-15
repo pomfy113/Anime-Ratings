@@ -248,6 +248,7 @@
 }
     .content-episodes{
         font-size: 14px;
+        width: 100%;
     }
 
     .content-episodes tr{
@@ -271,8 +272,6 @@
     .content-episodes td{
         padding: 3px;
     }
-
-
 
     .content-episodes .eptable-title *{
         margin-bottom: .5em;
