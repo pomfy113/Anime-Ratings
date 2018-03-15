@@ -56,6 +56,7 @@ html {
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 2.5%;
+    width: 100%;
 }
 
 button{
@@ -70,11 +71,12 @@ button{
 .genreToggle{
     border-radius: 15px;
 }
-/* Seasons */
+/* Seasons BEGIN*/
 .season-cont{
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin: 0 2.5%
 }
 
 .season-cont .season-select{
@@ -82,7 +84,6 @@ button{
 }
 
 /* Season End */
-
 /* Sidebar BEGIN */
 
 .sidebar-cont{
@@ -195,12 +196,21 @@ button{
 
     .genre-cont .genre-btns{
         display: flex;
+        flex-direction: column;
         justify-content: space-around;
+        margin: 0 5%;
     }
     .genre-cont .genre-btns button{
         border-radius: 10px;
+        font-size: 14px;
         background-color: white;
     }
+
+    .genre-cont .genre-btns div{
+        display: flex;
+        justify-content: space-between;
+    }
+
 
     .genre-cont .genre-on:after{
         content: " x";

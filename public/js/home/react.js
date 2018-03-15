@@ -91,7 +91,9 @@ class Card extends React.Component {
                 >
                 <div className="anime-footer">
                     <div className="anime-title">{this.props.anime.title}</div>
-                    <div className="anime-score">{this.props.anime.score}</div>
+                    <div className="anime-score">
+                        {this.props.anime.score === '0' ? 'N/A' : this.props.anime.score}
+                    </div>
                     <div className="anime-studio">{this.producers}</div>
                 </div>
             </div>
@@ -321,8 +323,10 @@ function ModalBar(props){
                         <td>Score:</td><td>
                             <div>MAL - {props.MALdata.score} / 10.0</div>
                             <div>Ani - {props.ALdata ? props.ALdata.meanScore : "?"} / 100</div>
-
                         </td>
+                    </tr>
+                    <tr>
+                        <td>Release:</td><td>{props.MALdata.releaseDate}</td>
                     </tr>
                     <tr>
                         <td>Airing:</td><td>{airingDisplay}</td>
@@ -355,7 +359,7 @@ function Tabs(props){
         const className = `tab-${tab} ` + (onTab ? 'on' : null);    // If on, add "on"
 
         return(<div key={tab} className={className} onClick={() => props.handleTab(tab, load)}> {tabNames[index]}</div>)
-    })
+    });
 
     return(
         <div className="window-tabs">
@@ -572,6 +576,10 @@ class Sidebar extends React.Component {
     }
 
     changeGenres(data, type){
+        if(type === 'clear'){
+            return this.props.handleGenre([])
+        }
+
         let genresCopy = this.props.genres;
         // We're actually passing in the select box's data
 
@@ -584,6 +592,7 @@ class Sidebar extends React.Component {
                 genresCopy.splice(index, 1);
             }
         }
+
 
         this.props.handleGenre(genresCopy);
     }
@@ -636,9 +645,11 @@ function Genres(props){
 
     const ele = document.querySelector('.genre-select');
 
-    const allCurrentGenres = props.currentGenres ? props.currentGenres.map((genre) => {
-        return (<span className="genre-on" onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
-    }) : null;
+    const allCurrentGenres = props.currentGenres
+            ?   props.currentGenres.map((genre) => {
+                    return (<span className="genre-on" onClick={() => props.changeGenres(genre, 'remove')}>{genre}</span>)
+                })
+            :   null;
 
     return (
         <div className="genre-cont side-content">
@@ -649,8 +660,12 @@ function Genres(props){
                 {allGenres}
             </select>
             <div className="genre-btns">
-                <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'add')}>Add</button>
-                <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'remove')}>Remove</button>
+                <div>
+                    <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'add')}>Add</button>
+                    <button onClick={() => props.changeGenres(ele.options[ele.selectedIndex].value, 'remove')}>Remove</button>
+                </div>
+                <button onClick={() => props.changeGenres(null, 'clear')}>Clear</button>
+
             </div>
             {allCurrentGenres}
         </div>
