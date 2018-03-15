@@ -670,12 +670,33 @@ class Season extends React.Component{
         this.state = {
             currentSeason: this.props.season
         }
-        this.seasons = ["winter", "spring", "summer", "fall"];
-        console.log(this.state.currentSeason)
+        this.seasons = ["Winter", "Spring", "Summer", "Fall"];
+        this.selection = [-2, -1, 0, 1, 2]
+
     }
 
     render(props){
-        return null
+        // const seasons = this.seasons.map((season) => {
+        //     return(
+        //         <div key={season} className="season-select">{season}, {this.state.season.year}</div>
+        //     )
+        // })
+        const seasons = this.selection.map((season) => {
+            // Anime is weird when it comes to dates
+            // Winter season starts off the year, so we need to tweak this a bit
+            const year = this.state.currentSeason.year + Math.trunc((this.state.currentSeason.season - 3 + season ) / 4);
+            const seasonIndex = ((this.state.currentSeason.season + season) % 4 + 4) % 4;
+
+            return(
+                <div key={season} className="season-select">{this.seasons[seasonIndex]}, {year}</div>
+            )
+
+        })
+        return(
+            <div className="season-cont">
+                {seasons}
+            </div>
+        )
     }
 }
 // ================================================================

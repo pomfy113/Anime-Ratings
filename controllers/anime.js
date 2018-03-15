@@ -154,7 +154,9 @@ module.exports = function(app) {
         const date = new Date();
         const year = date.getFullYear();
         const seasonList = ["winter", "spring", "summer", "fall"];
-        const season = seasonList[Math.floor(date.getMonth() / 3)];
+        const seasonCount = Math.floor(date.getMonth() / 3)
+
+        const season = seasonList[seasonCount];
 
         malScraper.getSeason(year, season)
           .then((data) => {
@@ -176,7 +178,10 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.render('home/alt-home', {MAL_TV: JSON.stringify(animeTV), season: JSON.stringify({year: year, season: season})});
+              res.render('home/alt-home', {
+                  MAL_TV: JSON.stringify(animeTV),
+                  season: JSON.stringify({year: year, season: seasonCount})
+              });
           })
 
           .catch((err) => console.log(err));
