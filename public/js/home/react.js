@@ -620,22 +620,45 @@ class Sidebar extends React.Component {
         this.props.handleGenre(genresCopy);
     }
 
-    removeFavorites(data, type){
-        if(type === 'clear'){
-            return this.props.handleFavorites([])
-        }
+    // removeFavorites(data, type){
+    //     if(type === 'clear'){
+    //         return this.props.handleFavorites([])
+    //     }
+    //
+    //     let favoritesCopy = this.props.favorites;
+    //     // We're actually passing in the select box's data
+    //
+    //     if(type === 'remove'){
+    //         if(favoritesCopy.includes(data)){
+    //             let index = favoritesCopy.indexOf(data);
+    //             favoritesCopy.splice(index, 1);
+    //         }
+    //     }
+    //
+    //     this.props.handleFavorites(favoritesCopy);
+    // }
 
+    changeFavorites(){
         let favoritesCopy = this.props.favorites;
-        // We're actually passing in the select box's data
+        let data = this.state.MALdata;
+        let inArray = false;
+        let index = -1;
 
-        if(type === 'remove'){
-            if(favoritesCopy.includes(data)){
-                let index = favoritesCopy.indexOf(data);
-                favoritesCopy.splice(index, 1);
+
+        favoritesCopy.forEach((item) => {
+            if(data.title === item.title){
+                index = favoritesCopy.indexOf(item);
             }
+        })
+
+        if(index !== -1){
+            favoritesCopy.splice(index, 1);
+        }
+        else{
+            favoritesCopy.push(data)
         }
 
-        this.props.handleFavorites(favoritesCopy);
+        return this.props.handleFavorites(favoritesCopy)
     }
 
 
@@ -718,12 +741,14 @@ function Genres(props){
 function Favorites(props){
     let favorites = props.favorites.map((favorite) => {
         return(
-            <div>
+            <div key={favorite.title} className="favorite-show">
                 {favorite.title}
             </div>
         )
     })
-    return (<div className="favorite-cont side-content">
+    return (
+    <div className="favorite-cont side-content">
+        <h1>Favorites</h1>
         {favorites}
     </div>)
 }
