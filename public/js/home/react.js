@@ -112,6 +112,7 @@ class Modal extends React.Component {
             id: this.props.data.id || this.props.data.link.split('/')[4],
             tab: 'synopsis',
             MALdata: this.props.data,
+            favorited: false,
             ALdata: null,
             updateAt: null,
             // Just for checking if MAL got stuff received
@@ -211,9 +212,11 @@ class Modal extends React.Component {
 
         if(index !== -1){
             favoritesCopy.splice(index, 1);
+            this.setState({favorited: false})
         }
         else{
             favoritesCopy.push(data)
+            this.setState({favorited: true})
         }
 
         return this.props.handleFavorites(favoritesCopy)
@@ -256,7 +259,9 @@ class Modal extends React.Component {
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
-                     <button onClick={() => this.changeFavorites()}>Test add</button>
+                     <div className="window-favorite" onClick={() => this.changeFavorites()}>
+                         {this.state.favorited ? "Remove from favorites" : "Add to favorites"}
+                     </div>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
                     <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                     <Details currentTab={currentTab}/>

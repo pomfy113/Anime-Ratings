@@ -45,6 +45,22 @@
     font-weight: 800;
 }
 
+.window-favorite{
+    height: 1.5em;
+    background-color: white;
+    border-top: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    text-align: center;
+}
+
+.window-favorite:hover{
+    background-color: #343a70;
+    color: white;
+    text-shadow: black;
+    cursor: pointer;
+
+}
 .window-bar{
     display: flex;
     flex-flow: column;
@@ -103,15 +119,15 @@
     }
 
     .window-tabs div:hover{
-        background-color: #2222BB;
-        color: #DDD;
-        box-shadow: black;
+        background-color: #343a70;
+        color: white;
+        text-shadow: black;
     }
 
     .window-tabs .on{
-        background-color: #2222BB;
-        color: #DDD;
-        box-shadow: black;
+        background-color: #343a70;
+        color: white;
+        text-shadow: black;
     }
 
 
