@@ -688,7 +688,11 @@ class Season extends React.Component{
             const seasonIndex = ((this.state.currentSeason.season + season) % 4 + 4) % 4;
 
             return(
-                <div key={season} className="season-select">{this.seasons[seasonIndex]}, {year}</div>
+                <div key={season}
+                    onClick={() => this.props.handleSeason(this.seasons[seasonIndex], year)}
+                    className="season-select">
+                    {this.seasons[seasonIndex]}, {year}
+                </div>
             )
 
         })
@@ -719,13 +723,11 @@ class App extends React.Component {
             genres: []
         }
 
-        // All items
-        this.allAnime = this.state.anime.map((anime) =>{
-            return <Card
-                key={anime.title}
-                anime={anime}
-                genres={anime.genres}
-                handleModal={(i) => this.showModal(i)}/>
+    }
+
+    dataChange(season, year){
+        seasonGet(season, year).then((data) => {
+            this.setState({anime: JSON.parse(data)})
         })
     }
 
@@ -791,11 +793,19 @@ class App extends React.Component {
     }
 
     render() {
+        const allAnime = this.state.anime.map((anime) =>{
+            return <Card
+                key={anime.title}
+                anime={anime}
+                genres={anime.genres}
+                handleModal={(i) => this.showModal(i)}/>
+        })
+
         // Post category filtering; uses state
         const filterTypes = ['title', 'synopsis', 'studio']
         const currentFilter = this.state.filter
 
-        const filtered = this.allAnime.filter((card) => {
+        const filtered = allAnime.filter((card) => {
             // Faster access
             const anime = card.props.anime
             let check = true;
@@ -850,7 +860,9 @@ class App extends React.Component {
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
                 />
-                <Season season={this.state.season}/>
+                <Season
+                    season={this.state.season}
+                    handleSeason={(i, j) => this.dataChange(i, j)}/>
                 {modal}
                 {filtered}
             </div>

@@ -188,7 +188,7 @@ module.exports = function(app) {
     });
 
     app.get('/season/:season/:year', (req, res) => {
-        malScraper.getSeason(year, season)
+        malScraper.getSeason(req.params.year, req.params.season)
           .then((data) => {
               let animeTV = [];
               let biggerpic;
@@ -208,7 +208,7 @@ module.exports = function(app) {
                   return b.score - a.score;
               });
 
-              res.send(JSON.stringify(animeTV));
+              res.send(animeTV);
           })
 
           .catch((err) => console.log(err));

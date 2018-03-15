@@ -44,3 +44,14 @@ function simpleFetch(url){
         console.log("Failed")
     });
 }
+
+function seasonGet(season, year){
+    return $.ajax({
+        url: `/season/${season.toLowerCase()}/${year}`,
+        type: 'GET'
+    }).done((data) => {
+        return data
+    }).fail(() => {
+        console.log("Failed")
+    });
+}

@@ -71,7 +71,15 @@ button{
     border-radius: 15px;
 }
 /* Seasons */
+.season-cont{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
 
+.season-cont .season-select{
+    margin-right: 20px;
+}
 
 /* Season End */
 
