@@ -593,9 +593,27 @@ class Sidebar extends React.Component {
             }
         }
 
-
         this.props.handleGenre(genresCopy);
     }
+
+    removeFavorites(data, type){
+        if(type === 'clear'){
+            return this.props.handleFavorites([])
+        }
+
+        let favoritesCopy = this.props.favorites;
+        // We're actually passing in the select box's data
+
+        if(type === 'remove'){
+            if(favoritesCopy.includes(data)){
+                let index = favoritesCopy.indexOf(data);
+                favoritesCopy.splice(index, 1);
+            }
+        }
+
+        this.props.handleFavorites(favoritesCopy);
+    }
+
 
     render(){
         let currentTab;
@@ -730,6 +748,7 @@ class App extends React.Component {
             current: this.props.genres,   // Currently turned on genres
             showGenres: false,
             modal: null,
+            favorites: [],
             filter: {
                 title: null,
                 synopsis: null,
@@ -747,25 +766,6 @@ class App extends React.Component {
             this.setState({anime: typeof data === 'string' ? JSON.parse(data) : data})
         })
     }
-
-    // * * * * * * * * * * * * * * * * * * * * * * * *
-    // Genre switches
-    // * * * * * * * * * * * * * * * * * * * * * * * *
-
-    // Switch individual genres on or off
-    // genreShift(i){
-    //     const current = this.state.current.slice();
-    //     current[i] = current[i] ? null : this.genres[i];  // Toggle
-    //
-    //     this.setState({
-    //         current: current
-    //     })
-    // }
-    //
-    // // Switch all
-    // allShift(i){
-    //     this.setState({})
-    // }
 
     // * * * * * * * * * * * * * * * * * * * * * * * *
     // Modal switches
@@ -806,6 +806,10 @@ class App extends React.Component {
     }
 
     genreChange(content){
+        this.setState({genres: content})
+    }
+
+    favoritesChange(content){
         this.setState({genres: content})
     }
 
@@ -863,9 +867,11 @@ class App extends React.Component {
 
         const modal = this.state.modal
                         ? <Modal data={this.state.modal}
+                            favorites={this.state.favorites}
                             handleClick={(ev) => this.handleWindowPress(ev)}
                             handleKey={(ev) => this.handleKeyPress(ev)}
                             newModal={(ev) => this.changeModal(ev)}
+                            handleFavorites={(i) => this.favoritesChange(i)}
                             />
                         : null;
 
@@ -874,8 +880,10 @@ class App extends React.Component {
                 <Sidebar
                     filter={this.state.filter}
                     genres={this.state.genres}
+                    favorites={this.state.favorites}
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
+                    handleFavorites={(i) => this.favoritesChange(i)}
                 />
                 <Season
                     season={this.state.season}
