@@ -200,16 +200,24 @@ class Modal extends React.Component {
     changeFavorites(){
         let favoritesCopy = this.props.favorites;
         let data = this.state.MALdata;
+        let inArray = false;
+        let index = -1;
 
-        if(favoritesCopy.includes(data)){
-            let index = favoritesCopy.indexOf(data);
+
+        favoritesCopy.forEach((item) => {
+            if(data.title === item.title){
+                index = favoritesCopy.indexOf(item);
+            }
+        })
+
+        if(index !== -1){
             favoritesCopy.splice(index, 1);
         }
         else{
             favoritesCopy.push(data)
         }
 
-        this.props.handleFavorites(favoritesCopy)
+        return this.props.handleFavorites(favoritesCopy)
     }
 
     render(){
@@ -837,6 +845,7 @@ class App extends React.Component {
     }
 
     favoritesChange(content){
+        console.log("After ", content)
         this.setState({favorites: content})
     }
 
