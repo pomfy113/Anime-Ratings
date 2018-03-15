@@ -203,7 +203,6 @@ class Modal extends React.Component {
         let inArray = false;
         let index = -1;
 
-
         favoritesCopy.forEach((item) => {
             if(data.title === item.title){
                 index = favoritesCopy.indexOf(item);
@@ -620,45 +619,23 @@ class Sidebar extends React.Component {
         this.props.handleGenre(genresCopy);
     }
 
-    // removeFavorites(data, type){
-    //     if(type === 'clear'){
-    //         return this.props.handleFavorites([])
-    //     }
-    //
-    //     let favoritesCopy = this.props.favorites;
-    //     // We're actually passing in the select box's data
-    //
-    //     if(type === 'remove'){
-    //         if(favoritesCopy.includes(data)){
-    //             let index = favoritesCopy.indexOf(data);
-    //             favoritesCopy.splice(index, 1);
-    //         }
-    //     }
-    //
-    //     this.props.handleFavorites(favoritesCopy);
-    // }
-
-    changeFavorites(){
+    removeFavorites(data){
         let favoritesCopy = this.props.favorites;
-        let data = this.state.MALdata;
         let inArray = false;
         let index = -1;
-
 
         favoritesCopy.forEach((item) => {
             if(data.title === item.title){
                 index = favoritesCopy.indexOf(item);
+                favoritesCopy.splice(index, 1);
             }
         })
 
-        if(index !== -1){
-            favoritesCopy.splice(index, 1);
-        }
-        else{
-            favoritesCopy.push(data)
-        }
-
         return this.props.handleFavorites(favoritesCopy)
+    }
+
+    clearFavorites(){
+        return this.props.handleFavorites([])
     }
 
 
@@ -675,7 +652,10 @@ class Sidebar extends React.Component {
                         currentGenres={this.props.genres}
                         changeGenres={(data, type) => this.changeGenres(data, type)}/>
                     <Favorites
+                        removeFavorites={(data) => this.removeFavorites(data)}
                         favorites={this.props.favorites}
+                        clearFavorites={() => this.clearFavorites()}
+                        favoritesOnly={() => this.props.favoritesOnly()}
                     />
                 </div>
 
@@ -741,7 +721,7 @@ function Genres(props){
 function Favorites(props){
     let favorites = props.favorites.map((favorite) => {
         return(
-            <div key={favorite.title} className="favorite-show">
+            <div key={favorite.title} className="favorite-show" onClick={() => props.removeFavorites(favorite)}>
                 {favorite.title}
             </div>
         )
@@ -749,6 +729,11 @@ function Favorites(props){
     return (
     <div className="favorite-cont side-content">
         <h1>Favorites</h1>
+        <div className="favorite-btns">
+            <button onClick={() => props.favoritesOnly()}>Toggle Favorites</button>
+            <button onClick={() => props.clearFavorites()}>Clear All</button>
+        </div>
+
         {favorites}
     </div>)
 }
@@ -807,6 +792,7 @@ class App extends React.Component {
             season: this.props.season,
             current: this.props.genres,   // Currently turned on genres
             showGenres: false,
+            favoritesOnly: false,
             modal: null,
             favorites: [],
             filter: {
@@ -870,12 +856,23 @@ class App extends React.Component {
     }
 
     favoritesChange(content){
-        console.log("After ", content)
         this.setState({favorites: content})
     }
 
+    favoritesOnly(){
+        this.setState({favoritesOnly: !this.state.favoritesOnly});
+    }
+
     render() {
-        const allAnime = this.state.anime.map((anime) =>{
+        let source;
+        if(this.state.favoritesOnly){
+            source = this.state.favorites
+        }
+        else{
+            source = this.state.anime
+        }
+
+        const allAnime = source.map((anime) =>{
             return <Card
                 key={anime.title}
                 anime={anime}
@@ -938,6 +935,7 @@ class App extends React.Component {
 
         return (
             <div key="container" className="Container">
+
                 <Sidebar
                     filter={this.state.filter}
                     genres={this.state.genres}
@@ -945,6 +943,7 @@ class App extends React.Component {
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
                     handleFavorites={(i) => this.favoritesChange(i)}
+                    favoritesOnly={() => this.favoritesOnly()}
                 />
                 <Season
                     season={this.state.season}

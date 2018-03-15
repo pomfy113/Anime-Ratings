@@ -132,12 +132,17 @@ button{
         padding-top: 5px;
         color: white;
         text-shadow: 0px 0px 2px black;
-
     }
 
     .sidebar-content{
         color: white;
         text-shadow: 0px 0px 2px black;
+    }
+
+    .sidebar-content button{
+        border-radius: 15px;
+        font-size: 14px;
+        background-color: white;
     }
 
     .sidebar-content .side-content{
@@ -210,11 +215,7 @@ button{
         justify-content: space-around;
         margin: 0 5%;
     }
-    .genre-cont .genre-btns button{
-        border-radius: 10px;
-        font-size: 14px;
-        background-color: white;
-    }
+
 
     .genre-cont .genre-btns div{
         display: flex;
@@ -233,6 +234,11 @@ button{
         width: 90%;
         margin: 5px 5%;
         padding: 5px;
+    }
+
+    .favorite-cont .favorite-btns{
+        display: flex;
+        flex-direction: column;
     }
 
 /* Sidebar END */
