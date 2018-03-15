@@ -25,7 +25,7 @@ html {
 .header{
     display: flex;
     width: 100%;
-    background-color: #343a40;
+    background-color: #343a70;
     margin-bottom: 10px;
     padding: 20px 30px;
     border-radius: 0px 0px 25px 25px;
@@ -35,7 +35,7 @@ html {
 
 .header-name{
     font-size: 30px;
-    font-weight: 800;
+    font-weight: 900;
     color: #FFF;
     box-shadow: #2222BB;
 }
@@ -56,7 +56,7 @@ html {
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 2.5%;
-    width: 100%;
+    width: 95%;
 }
 
 button{
@@ -76,11 +76,22 @@ button{
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin: 0 2.5%
+    border-bottom: 1px solid lightgrey;
 }
 
 .season-cont .season-select{
     margin-right: 20px;
+    border-top: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    width: 9em;
+    text-align: center;
+}
+.season-cont .season-select:hover{
+    background-color: #343a70;
+    cursor: pointer;
+    color: white;
+    text-shadow: 0px 0px 2px black;
 }
 
 /* Season End */
@@ -107,7 +118,6 @@ button{
 .sidebar-content{
     width: 100%;
     height: 100%;
-    background-color: red;
 }
 
 .sidebar-btns{
