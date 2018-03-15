@@ -197,6 +197,21 @@ class Modal extends React.Component {
         }
     }
 
+    changeFavorites(){
+        let favoritesCopy = this.props.favorites;
+        let data = this.state.MALdata;
+
+        if(favoritesCopy.includes(data)){
+            let index = favoritesCopy.indexOf(data);
+            favoritesCopy.splice(index, 1);
+        }
+        else{
+            favoritesCopy.push(data)
+        }
+
+        this.props.handleFavorites(favoritesCopy)
+    }
+
     render(){
         let currentTab;
         switch(this.state.tab){
@@ -234,6 +249,7 @@ class Modal extends React.Component {
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
+                     <button onClick={() => this.changeFavorites()}>Test add</button>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
                     <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                     <Details currentTab={currentTab}/>
@@ -627,7 +643,9 @@ class Sidebar extends React.Component {
                         allGenres={this.genres}
                         currentGenres={this.props.genres}
                         changeGenres={(data, type) => this.changeGenres(data, type)}/>
-                    <Favorites/>
+                    <Favorites
+                        favorites={this.props.favorites}
+                    />
                 </div>
 
                 <div className="sidebar-btns">
@@ -690,7 +708,16 @@ function Genres(props){
     )
 }
 function Favorites(props){
-    return (<div className="favorite-cont side-content">Wait warmly!</div>)
+    let favorites = props.favorites.map((favorite) => {
+        return(
+            <div>
+                {favorite.title}
+            </div>
+        )
+    })
+    return (<div className="favorite-cont side-content">
+        {favorites}
+    </div>)
 }
 
 // ================================================================
@@ -702,7 +729,7 @@ class Season extends React.Component{
         super(props)
         this.state = {
             currentSeason: this.props.season
-        }
+        };
         this.seasons = ["Winter", "Spring", "Summer", "Fall"];
         this.selection = [-2, -1, 0, 1, 2]
 
@@ -810,7 +837,7 @@ class App extends React.Component {
     }
 
     favoritesChange(content){
-        this.setState({genres: content})
+        this.setState({favorites: content})
     }
 
     render() {
