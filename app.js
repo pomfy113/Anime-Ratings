@@ -55,12 +55,6 @@ app.use(checkAuth)
 
 // Anime routes
 require('./controllers/anime.js')(app);
-// This needs its own; lot of work happening at home
-require('./controllers/anime-home.js')(app);
-// Authentication
-require('./controllers/auth.js')(app);
-require('./controllers/user.js')(app);
-
 
 // double: either port for heroku or local 3000
 app.listen(process.env.PORT || 3000, function(){
