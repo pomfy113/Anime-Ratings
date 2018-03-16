@@ -1,203 +1,26 @@
-<style>
-.genre-filter{
-    display: none;
-    margin: 5px;
-    padding: 5px;
-    width: 400%;
-    border: 1px solid grey;
-    border-radius: 10px;
-}
+<link rel="stylesheet" href="../../../home.css"/>
+<link rel="stylesheet" href="../../../modal.css"/>
 
-.genre-filter label{
-    padding: 0px;
-    margin: 0px;
-}
-
-.genre-filter ul{
-    list-style: none;
-    padding: 5px;
-    margin: 5px;
-}
-
-.genre-filter li{
-    width: 16.667%;
-    padding: 5px;
-    float: left;
-}
-
-.genre-filter label{
-    padding: 5px;
-}
-
-
-/*input:checked{
-    background-color: black;
-    border: 20px solid black;
-}*/
-
-@media (max-width: 1040px){
-    .genre-filter li{
-        padding: 0px;
-        width: 25%;
-    }
-}
-
-@media (max-width: 767px){
-    .genre-filter li{
-        padding: 0px;
-        width: 33.33%;
-    }
-    .genre-filter label{
-        padding: 2px;
-        margin: 2px;
-    }
-}
-
-@media (max-width: 573px){
-    .genre-filter li{
-        padding: 0px;
-        margin: 0px;
-        width: 50%;
-    }
-    .genre-filter label{
-        padding: 5px;
-        margin: 5px;
-    }
-}
-
-.updates{
-    height: 200px;
-    overflow-y: scroll;
-    border: 1px solid grey;
-    border-radius: 4px 4px 4px 4px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 10px;
-}
-
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    background-color: rgba(0,0,0,.2);
-    width: 7px;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-}
-
-.dropdown-toggle::after {
-    display:none !important;
-}
-
-
-</style>
-<script src="/js/home.js"></script>
-
-<div class="above-cards">
-
-
-    <div class="loading-error alert alert-warning" role="alert">
-    </div>
-    <!--
-    = * = * =
-    Buttons for all the filtering
-    = * = * =
--->
-<div class="row">
-    <div class="updates">
-        {{> changelog}}
-    </div>
-</div>
-<div class="row">
-    <div class="col button-container">
-        <div class="row">
-            <div class="title-container">
-                <h1 style="font-size: 30px; margin-top: 10px;">Currently Airing</h1>
-                <h2 style="font-size: 20px;">Sorted by score</h2>
-                <button type="button" class="btn btn-primary btn-lg" id="airing">Show Currently Airing Anime</button>
-
-            </div>
-        </div>
-        <div class="row">
-            <button class="btn btn-primary btn-lg" id="search">Search</button>
-
-            <div class="btn-group" role="group">
-                <input type="text" placeholder="Year" value="2017" id="year-input" style="width: 65px; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" class="form-control" aria-describedby="current-year">
-                <button id="season-drop" value="airing" data-season="" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Season</button>
-                <div class="dropdown-menu season-buttons" aria-labelledby="season-drop">
-                    <button class="dropdown-item" data-id="Spring">Spring</button>
-                    <button class="dropdown-item" data-id="Summer">Summer</button>
-                    <button class="dropdown-item" data-id="Fall">Fall</button>
-                    <button class="dropdown-item" data-id="Winter">Winter</button>
-                </div>
-            </div>
-        <!-- </div>
-        <div class="row"> -->
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary genre-show">Show Genres</button>
-                <button class="btn btn-secondary clear-all">Clear Genres</button>
-            </div>
-                <div class="genre-filter">
-                <ul>
-                    <li><label><input type="checkbox" rel="action" />Action</label></li>
-                    <li><label><input type="checkbox" rel="adventure" />Adventure</label></li>
-                    <li><label><input type="checkbox" rel="comedy" />Comedy</label></li>
-                    <li><label><input type="checkbox" rel="drama" />Drama</label></li>
-                    <li><label><input type="checkbox" rel="ecchi" />Ecchi</label></li>
-                    <li><label><input type="checkbox" rel="fantasy" />Fantasy</label></li>
-                    <li><label><input type="checkbox" rel="mahoushoujo" />Mahou Shoujo</label></li>
-                    <li><label><input type="checkbox" rel="mecha" />Mecha</label></li>
-                    <li><label><input type="checkbox" rel="music" />Music</label></li>
-                    <li><label><input type="checkbox" rel="mystery" />Mystery</label></li>
-                    <li><label><input type="checkbox" rel="psychological" />Psychological</label></li>
-                    <li><label><input type="checkbox" rel="romance" />Romance</label></li>
-                    <li><label><input type="checkbox" rel="sci-fi" />Sci-fi</label></li>
-                    <li><label><input type="checkbox" rel="sliceoflife" />Slice of Life</label></li>
-                    <li><label><input type="checkbox" rel="sports" />Sports</label></li>
-                    <li><label><input type="checkbox" rel="supernatural" />Supernatural</label></li>
-                    <li><label><input type="checkbox" rel="thriller" />Thriller</label></li>
-                </ul>
-            </div>
-
-            <div class="btn-group" role="group">
-                <button style="width: 125px;" id="sort-drop" type="button" class="btn btn-secondary dropdown-toggle noCaret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort by:
-                </button>
-                <div class="dropdown-menu main-filters">
-                    <button class="dropdown-item" data-id="score" id="sort-score">Score &#9660;</button>
-                    <button class="dropdown-item" data-id="popularity" id="sort-pop">Popularity &#9660;</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+<div class="header">
+    <div class="header-name">Our Anime Chart</div>
+    <div class="header-sub">Under construction! Our developer is doing his best, please wait warmly!</div>
 </div>
 
+<div id="root"></div>
+
+<div class="footer">
+    I'll work on footers later.
 </div>
-<span class="loading-modal">
-    <img src="../../images/TamamoBall4.gif"><p>LOADING</p>
-</span>
-<span class="loading"><img src="../../images/TamamoBall4.gif"><br>LOADING</span>
-<!--
-Actual content below
--->
 
-<div class="d-flex flex-row flex-wrap justify-content-start" id="home-container">
-    {{> home-search}}
-</div>
-<button class="btn btn-secondary prev-page">Prev page</button>
-<span id="page">Page: 1</span>
-<button class="btn btn-secondary next-page">Next page</button>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<!-- <script src="/js/home/tabs.js"></script> -->
+<script>
+    const data = {{{MAL_TV}}}
+    const season = {{{season}}}
+</script>
+<script src="/js/home/ALget.js"></script>
+<script src="/js/home/MALget.js"></script>
 
-
-
-<div class="mymodal">
-    <div id="inmodal" class="modalcontent">
-    </div>
-
-</div>
+<script type="text/babel" src="/js/home/react.js"></script>

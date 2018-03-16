@@ -11,10 +11,10 @@ module.exports = function(app) {
         malScraper.getSeason(year, season)
           .then((data) => cleanData(data))
           .then((data) => {
-                res.render('home/alt-home', {
-                    MAL_TV: JSON.stringify(data),
-                    season: JSON.stringify({year: year, season: seasonCount})
-                });
+            res.render('home', {
+                MAL_TV: JSON.stringify(data),
+                season: JSON.stringify({year: year, season: seasonCount})
+            });
           }).catch((err) => console.log(err));
     });
 
