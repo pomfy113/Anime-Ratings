@@ -38,6 +38,7 @@ module.exports = function(app) {
           }).catch((err) => console.log(err));
     });
 
+    // Just cleaning up TV data
     function cleanData(data){
         let cleanedData = data.TV
         let biggerpic;
@@ -55,7 +56,7 @@ module.exports = function(app) {
             return b.score - a.score;
         })
     }
-
+    // Get current quarter/season and year for routes
     function getDate(){
         const date = new Date();
         const year = date.getFullYear();

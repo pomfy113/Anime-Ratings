@@ -38,42 +38,6 @@ function SpecialGenre(props) {
     )
 }
 
-// class Genres extends React.Component {
-//     renderCategory(item, index) {
-//         return <Genre
-//             key={index}
-//             text={item}
-//             isOn={this.props.currentGenres[index] ? "on" : "off" }
-//             onClick={() => this.props.clickHandler(index)}
-//         />
-//     }
-//
-//     renderSpecial(item){
-//         return <SpecialGenre
-//             key={item}
-//             text={item === "all" ? "Select All" : "Deselect All"}
-//             onClick={() => this.props.clickHandlerAll(item)}
-//         />
-//     }
-//
-//     render(){
-//         const genreButtons = this.props.allGenres.map((item, index) => {
-//             return this.renderCategory(item, index)
-//         })
-//
-//         const specialButtons = [
-//             this.renderSpecial("all"),
-//             this.renderSpecial("none")
-//         ]
-//
-//         return (
-//             <div>
-//                 <div className="genre-container">{genreButtons}</div>
-//                 <div className="genre-special">{specialButtons}</div>
-//             </div>
-//         )
-//     }
-// }
 
 // ================================================================
 
