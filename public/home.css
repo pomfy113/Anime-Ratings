@@ -141,6 +141,12 @@ button{
     text-shadow: 0px 0px 2px black;
 }
 
+.season-cont .season-select.current{
+    background-color: #343a70;
+    color: white;
+    text-shadow: black;
+}
+
 /* Season End */
 /* Sidebar BEGIN */
 

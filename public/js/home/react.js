@@ -722,22 +722,28 @@ class Season extends React.Component{
 
     }
 
+    changeSeason(season, year){
+        this.setState({
+            currentSeason: {
+                season: season,
+                year: year
+            }
+        })
+        this.props.handleSeason(this.seasons[season], year)
+    }
+
     render(props){
-        // const seasons = this.seasons.map((season) => {
-        //     return(
-        //         <div key={season} className="season-select">{season}, {this.state.season.year}</div>
-        //     )
-        // })
         const seasons = this.selection.map((season) => {
             // Anime is weird when it comes to dates
             // Winter season starts off the year, so we need to tweak this a bit
-            const year = this.state.currentSeason.year + Math.trunc((this.state.currentSeason.season - 3 + season ) / 4);
+            const year = this.state.currentSeason.year + Math.floor((this.state.currentSeason.season + season) / 4);
             const seasonIndex = ((this.state.currentSeason.season + season) % 4 + 4) % 4;
+            // 2018 + (4+1) or 5 / 4 is 1
 
             return(
                 <div key={season}
-                    onClick={() => this.props.handleSeason(this.seasons[seasonIndex], year)}
-                    className="season-select">
+                    onClick={() => this.changeSeason(seasonIndex, year)}
+                    className={`season-select ${season === 0 ? 'current' : null}`}>
                     {this.seasons[seasonIndex]}, {year}
                 </div>
             )
@@ -778,7 +784,14 @@ class App extends React.Component {
         seasonGet(season, year).then((data) => {
             return data
         }).then((data) => {
-            this.setState({anime: typeof data === 'string' ? JSON.parse(data) : data})
+            this.setState({
+                anime: typeof data === 'string' ? JSON.parse(data) : data,
+                season: {
+                    year: year,
+                    season: season
+                }
+
+            })
         })
     }
 
