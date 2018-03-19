@@ -21,6 +21,11 @@ html {
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(0,0,0,0.0);
 }
+
+.error-react{
+    text-align: center;
+    width: 100%;
+}
 .header{
     display: flex;
     width: 100%;
@@ -54,27 +59,40 @@ html {
     flex-direction: row;
 }
 
-.footer-name{
-    font-size: 15px;
-    font-weight: 600;
-    color: #FFF;
-    box-shadow: #2222BB;
-}
 
 .footer{
     display: flex;
     justify-content: space-between;
 }
 
+.footer-name h1{
+    font-size: 15px;
+    font-weight: 600;
+    color: #FFF;
+    box-shadow: #2222BB;
+}
+
+.footer-name h2{
+    font-size: 12px;
+    font-weight: 600;
+    color: #FFF;
+    box-shadow: #2222BB;
+}
+
 .footer-misc li {
     display: inline;
     list-style: none;
-    margin: 0px 10px;
+    margin: 0px 5px;
 }
 
 .footer-misc img{
     width: 25px;
     height: 25px;
+    filter: brightness(70%);
+}
+
+.footer-misc img:hover{
+    filter: none;
 }
 
 /* React stuff */
