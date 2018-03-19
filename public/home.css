@@ -21,7 +21,6 @@ html {
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(0,0,0,0.0);
 }
-
 .header{
     display: flex;
     width: 100%;
@@ -30,7 +29,6 @@ html {
     padding: 20px 30px;
     border-radius: 0px 0px 25px 25px;
     flex-direction: column;
-
 }
 
 .header-name{
@@ -46,7 +44,22 @@ html {
     padding-left: 5px;
 }
 
+.footer{
+    display: flex;
+    width: 100%;
+    background-color: #343a70;
+    margin-bottom: 10px;
+    padding: 20px 30px;
+    border-radius: 25px 25px 0px 0px;
+    flex-direction: row;
+}
 
+.footer-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: #FFF;
+    box-shadow: #2222BB;
+}
 
 /* React stuff */
 
