@@ -61,6 +61,22 @@ html {
     box-shadow: #2222BB;
 }
 
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-misc li {
+    display: inline;
+    list-style: none;
+    margin: 0px 10px;
+}
+
+.footer-misc img{
+    width: 25px;
+    height: 25px;
+}
+
 /* React stuff */
 
 .Container{
