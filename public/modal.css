@@ -26,7 +26,7 @@
     height: 85%;
 
     width: 80%;
-    border-radius: 25%;
+    border-radius: 25px;
     width: -moz-fit-content;
     width: -webkit-fit-content;
 
@@ -49,9 +49,7 @@
 .window-favorite{
     height: 1.5em;
     background-color: white;
-    border-top: 1px solid lightgrey;
-    border-left: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
+    border: 1px solid lightgrey;
     text-align: center;
 }
 
@@ -137,17 +135,13 @@
     grid-row: 3;
     background-color: white;
     overflow-y: auto;
-    margin-left: 15px;
-}
-
-.content{
-    padding-left: 10px;
 }
 
 .content-synopsis{
     white-space: pre-line;
-    padding-top: 10px;
+    padding-top: 20px;
     height: 100%;
+    padding-left: 20px;
 }
     .content-synopsis .synopsis-text{
         margin-bottom: 20px;
@@ -227,7 +221,8 @@
         }
 
 .content-related{
-    padding-top: 10px;
+    padding-top: 20px;
+    padding-left: 20px;
 }
     .content-related .related-category{
         margin-bottom: 24px;
@@ -239,7 +234,6 @@
 
     .content-related .related-anime{
         padding: 10px;
-        padding-left: 20px;
         font-size: 18px;
         font-weight: 600;
         color: var(--linkcolor);
@@ -287,7 +281,11 @@
 
 
     .content-episodes td{
-        padding: 3px;
+        padding: 3px 3px 3px 8px;
+    }
+
+    .content-episodes td:nth-child(1){
+        text-align: center;
     }
 
     .content-episodes .eptable-title *{
