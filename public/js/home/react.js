@@ -47,7 +47,9 @@ class Card extends React.Component {
     }
 
 // ================================================================
-// Modal
+// ================================================================
+// MAIN COMPONENT: MODAL
+// ================================================================
 // ================================================================
 
     class Modal extends React.Component {
@@ -112,7 +114,6 @@ class Card extends React.Component {
                     updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null)
                 });
             });
-
         }
 
         // Heavy; grabs a lot of data from Jikan.
@@ -179,6 +180,7 @@ class Card extends React.Component {
             return this.props.handleFavorites(favoritesCopy)
         }
 
+        // Grabbing the proper tab
         tabGrab(tab){
             switch(tab){
                 case "synopsis":
@@ -230,64 +232,36 @@ class Card extends React.Component {
         }
     }
 
-    // Functioning for making an airing data object; comprehensive
-    function AiringData(data){
-        if(!data){
-            return null;
-        }
-
-        const airingData = data.nextAiringEpisode;
-
-        if(!airingData){
-            return "N/A"
-        }
-
-        const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
-        const episode = airingData.episode;
-        const airAt = new Date(airingData.airingAt * 1000)
-
-        const relativeTime = moment(airAt).fromNow();
-        const exactDay = moment(airAt).format('MMMM Do, YYYY');
-        const airingDay = day[airAt.getDay()] + "day"
-        const airingHour = moment(airAt).format('h:mma')
-
-        return {
-            episode: episode,
-            exactDay: exactDay,
-            airingDay: airingDay,
-            airingHour: airingHour,
-            relativeTime: relativeTime
-        }
-
-    }
-
+    // * * * * * * * * * * * * * * * * * * * *
+    // SUBCOMPONENT: Bar for the modal
+    // * * * * * * * * * * * * * * * * * * * *
 
     function ModalBar(props){
         const producers = props.MALdata.studios ?
         props.MALdata.studios.join(', ') :
         props.MALdata.producers.join(', ');
 
-        // The airing time needs al ot of information; function for this above
+        // The airing time needs al ot of information; function below
         const airingData = AiringData(props.ALdata)
 
         let airingDisplay;
 
         switch(airingData){
             case null:
-            airingData && props.ALdata
-            ? airingDisplay = "Loading!"
-            : airingDisplay = "Anilist data not found!"
-            break;
+                airingData && props.ALdata
+                ? airingDisplay = "Loading!"
+                : airingDisplay = "Anilist data not found!"
+                break;
             case "N/A":
-            airingDisplay = "Currently not airing :c";
-            break;
+                airingDisplay = "Currently not airing :c";
+                break;
             default:
-            airingDisplay =
-            <div className="bar-data-airing">
-                <div>Ep. {airingData.episode} {airingData.relativeTime}</div>
-                <div>{airingData.exactDay}</div>
-                <div>{airingData.airingHour}, {airingData.airingDay}s</div>
-            </div>
+                airingDisplay =
+                <div className="bar-data-airing">
+                    <div>Ep. {airingData.episode} {airingData.relativeTime}</div>
+                    <div>{airingData.exactDay}</div>
+                    <div>{airingData.airingHour}, {airingData.airingDay}s</div>
+                </div>
             break;
         }
 
@@ -324,18 +298,43 @@ class Card extends React.Component {
         )
 
     }
-    // * * * * * * * * * *
-    // * * * Textbox * * *
-    // * * * * * * * * * *
 
-    function Details(props){
-        return(
-            <div className="window-details">
-                {props.currentTab}
-            </div>
-        )
+    // Helper function for subcomponent: modalbar
+    function AiringData(data){
+        if(!data){
+            return null;
+        }
+
+        const airingData = data.nextAiringEpisode;
+
+        if(!airingData){
+            return "N/A"
+        }
+
+        const day = ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"]
+        const episode = airingData.episode;
+        const airAt = new Date(airingData.airingAt * 1000)
+
+        const relativeTime = moment(airAt).fromNow();
+        const exactDay = moment(airAt).format('MMMM Do, YYYY');
+        const airingDay = day[airAt.getDay()] + "day"
+        const airingHour = moment(airAt).format('h:mma')
+
+        return {
+            episode: episode,
+            exactDay: exactDay,
+            airingDay: airingDay,
+            airingHour: airingHour,
+            relativeTime: relativeTime
+        }
+
     }
 
+    // * * * * * * * * * * * * * * * * * * * *
+    // SUBCOMPONENT: Details for modal
+    // * * * * * * * * * * * * * * * * * * * *
+
+    // Navigation tabs
     function Tabs(props){
         const allTabs = ['synopsis', 'cast', 'episodes', 'related'];
         const tabNames = ['Story', 'Cast', 'Eps.', 'Related'];
@@ -355,7 +354,16 @@ class Card extends React.Component {
         )
     }
 
+    // Tab-dependent info; see below
+    function Details(props){
+        return(
+            <div className="window-details">
+                {props.currentTab}
+            </div>
+        )
+    }
 
+    // Synopsis/summary and trailer
     function Synopsis(props){
         return(
             <div className="content content-synopsis">
@@ -366,35 +374,28 @@ class Card extends React.Component {
             </div>
         )
     }
+        // Trailer for synopsis/summary
+        function Trailer(props){
+            let url;
 
-    function Trailer(props){
-        let url;
+            switch(props.site){
+                case "dailymotion":
+                    url = `http://www.${props.site}.com/embed/video/${props.url}`
+                    break;
+                case "youtube":
+                    url = `http://www.${props.site}.com/embed/${props.url}`
+                    break;
+                case null:
+                    return null
+            }
 
-        switch(props.site){
-            case "dailymotion":
-            url = `http://www.${props.site}.com/embed/video/${props.url}`
-            break;
-            case "youtube":
-            url = `http://www.${props.site}.com/embed/${props.url}`
-            break;
-            case null:
-            return null
-
+            return <iframe className="trailer-video" src={url} frameBorder="0" allowFullScreen/>
         }
 
-        return (
-            <iframe
-                className="trailer-video"
-                src={url}
-                frameBorder="0"
-                allowFullScreen>
-            </iframe>
-        )
-    }
-
-
+    // Cast; staff and seiyuus
     function Cast(props){
         const characters = props.characters.map((char) => {
+            // Individual actor
             const actors = char.voice_actor.map((actor, index) => {
                 // API pls.
                 return(
@@ -406,6 +407,7 @@ class Card extends React.Component {
                 )
             })
 
+            // Individual rows per actor
             return(
                 <div key={`${char.name}`} className="content content-character">
                     <div className="character">
@@ -425,14 +427,13 @@ class Card extends React.Component {
         )
     }
 
+    // Related anime; adaptations, sequels, spinoffs, etc.
     function Related(props){
         let relationships = [];
 
         for(let type in props.related){
-            // First let's grab everything inside this type of relation
+            // First let's actually seperate them by type
             const reltype = props.related[type].map((anime, index) => {
-                // ... and style the individual rows
-                // Note: dammit, the API sends me apostrophe ASCII codes
                 return(
                     <a
                         key={`${type}-${index}`}
