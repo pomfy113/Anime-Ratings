@@ -57,7 +57,7 @@ class Card extends React.Component {
                 id: this.props.data.id || this.props.data.link.split('/')[4],    // Changes depending on source
                 tab: 'synopsis',
                 MALdata: this.props.data,       // Available from start
-                favIndex: -1,
+                favIndex: -1,                   // Where it is in the favorites
                 ALdata: null,                   // SHOULD be available on start; airing, score, trailer
                 updateAt: null,
                 // MAL info
@@ -72,7 +72,9 @@ class Card extends React.Component {
         componentDidMount(){
             // For closing
             document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+            // Find index in favorites
             this.findIndex()
+            // Loading
             let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
             // If the file exists and a new episode hasn't aired,
@@ -93,6 +95,7 @@ class Card extends React.Component {
             document.removeEventListener("keydown", (ev) => this.props.handleKey(ev));
         }
 
+        // Should hit this immediately; check all of favorites to see if current data is in there
         findIndex(){
             this.props.favorites.forEach((item, index) => {
                 if(this.state.MALdata.title === item.title){
@@ -101,7 +104,7 @@ class Card extends React.Component {
             })
         }
 
-        // Should hit this immediately; rather lightweight
+        // Should hit this immediately; lightweight gathering of data
         grabALData(title, animeID){
             return ALfetch(title).then((data) => {
                 this.setState({
@@ -112,7 +115,7 @@ class Card extends React.Component {
 
         }
 
-        // This is heavy. Get this ONLY when necessary
+        // Heavy; grabs a lot of data from Jikan.
         grabMALData(tab){
             switch(tab){
                 // Both include; have this go into one of them
@@ -144,6 +147,7 @@ class Card extends React.Component {
 
         }
 
+        // Switching between info tabs
         tabSwitch(tab, info){
             if(this.state[`MAL${tab}`] === null){
                 this.grabMALData(tab).then(() => {
@@ -155,15 +159,18 @@ class Card extends React.Component {
                 this.setState({tab: tab})
             }
         }
+
         // Dealing with favorites
         changeFavorites(){
             let favoritesCopy = this.props.favorites;
             let modalInfo = this.state.MALdata;
 
+            // If it's in there, remove
             if(this.state.favIndex !== -1){
                 favoritesCopy.splice(this.state.favIndex, 1);
                 this.setState({favIndex: -1})
             }
+            // Else, push in a new copy
             else{
                 favoritesCopy.push(modalInfo)
                 this.setState({favIndex: favoritesCopy.length - 1})
@@ -172,38 +179,40 @@ class Card extends React.Component {
             return this.props.handleFavorites(favoritesCopy)
         }
 
-        render(){
-            let currentTab;
-            switch(this.state.tab){
+        tabGrab(tab){
+            switch(tab){
                 case "synopsis":
-                currentTab =    <Synopsis
-                    synopsis={this.state.MALdata.synopsis}
-                    trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
-                />
-                break;
+                    return <Synopsis
+                        synopsis={this.state.MALdata.synopsis}
+                        trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
+                    />
+                    break;
                 case "cast":
-                currentTab =    <Cast
-                    characters={this.state.MALcast.characters}
-                    staff={this.state.MALcast.staff}
-                    themes={this.state.MALcast.themes}
-                />
-                break;
+                    return <Cast
+                        characters={this.state.MALcast.characters}
+                        staff={this.state.MALcast.staff}
+                        themes={this.state.MALcast.themes}
+                    />
+                    break;
                 case "episodes":
-                currentTab =    <Episodes
-                    episodes={this.state.MALepisodes}
-                />
-                break;
+                    return <Episodes
+                        episodes={this.state.MALepisodes}
+                    />
+                    break;
                 case "related":
-                currentTab =    <Related
-                    related={this.state.MALrelated}
-                    changeModal={(data) => this.props.newModal(data)}
-                />
-                break;
+                    return <Related
+                        related={this.state.MALrelated}
+                        changeModal={(data) => this.props.newModal(data)}
+                    />
+                    break;
                 default:
-                currentTab = <div>?</div>
-                break;
+                    return <div>?</div>
+                    break;
             }
+        }
 
+        render(){
+            let currentTab = this.tabGrab(this.state.tab)
 
             return(
                 <div onClick={(i) => this.props.handleClick(i)} className="window-container">
@@ -221,7 +230,7 @@ class Card extends React.Component {
         }
     }
 
-
+    // Functioning for making an airing data object; comprehensive
     function AiringData(data){
         if(!data){
             return null;
@@ -258,7 +267,7 @@ class Card extends React.Component {
         props.MALdata.studios.join(', ') :
         props.MALdata.producers.join(', ');
 
-        // The airing time is a nightmare
+        // The airing time needs al ot of information; function for this above
         const airingData = AiringData(props.ALdata)
 
         let airingDisplay;
