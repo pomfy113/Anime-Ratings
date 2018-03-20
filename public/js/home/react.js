@@ -57,7 +57,7 @@ class Card extends React.Component {
                 id: this.props.data.id || this.props.data.link.split('/')[4],    // Changes depending on source
                 tab: 'synopsis',
                 MALdata: this.props.data,       // Available from start
-                favorited: false,
+                favIndex: -1,
                 ALdata: null,                   // SHOULD be available on start; airing, score, trailer
                 updateAt: null,
                 // MAL info
@@ -72,6 +72,7 @@ class Card extends React.Component {
         componentDidMount(){
             // For closing
             document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+            this.findIndex()
             let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
             // If the file exists and a new episode hasn't aired,
@@ -79,19 +80,25 @@ class Card extends React.Component {
                 loadstate.tab = 'synopsis';
                 this.setState(loadstate);
             }
-
             // Else, update
             else{
                 this.grabALData(this.state.MALdata.title, this.state.id).then(() => {
                     localStorage.setItem(this.state.id, JSON.stringify(this.state))
                 })
             }
-
         }
 
         componentWillUnmount(){
             // Remove closing
             document.removeEventListener("keydown", (ev) => this.props.handleKey(ev));
+        }
+
+        findIndex(){
+            this.props.favorites.forEach((item, index) => {
+                if(this.state.MALdata.title === item.title){
+                    this.setState({favIndex: index})
+                }
+            })
         }
 
         // Should hit this immediately; rather lightweight
@@ -152,22 +159,14 @@ class Card extends React.Component {
         changeFavorites(){
             let favoritesCopy = this.props.favorites;
             let modalInfo = this.state.MALdata;
-            let inArray = false;
-            let index = -1;
 
-            favoritesCopy.forEach((item) => {
-                if(modalInfo.title === item.title){
-                    index = favoritesCopy.indexOf(item);
-                }
-            })
-
-            if(index !== -1){
-                favoritesCopy.splice(index, 1);
-                this.setState({favorited: false})
+            if(this.state.favIndex !== -1){
+                favoritesCopy.splice(this.state.favIndex, 1);
+                this.setState({favIndex: -1})
             }
             else{
                 favoritesCopy.push(modalInfo)
-                this.setState({favorited: true})
+                this.setState({favIndex: favoritesCopy.length - 1})
             }
 
             return this.props.handleFavorites(favoritesCopy)
@@ -211,7 +210,7 @@ class Card extends React.Component {
                     <div className="window-content">
                         <h1 className="window-title">{this.props.data.title}</h1>
                         <div className="window-favorite" onClick={() => this.changeFavorites()}>
-                            {this.state.favorited ? "Remove from favorites" : "Add to favorites"}
+                            {this.state.favIndex !== -1 ? "Remove from favorites" : "Add to favorites"}
                         </div>
                         <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
                         <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
@@ -577,7 +576,6 @@ class Card extends React.Component {
 
             removeFavorites(data){
                 let favoritesCopy = this.props.favorites;
-                let inArray = false;
                 let index = -1;
 
                 favoritesCopy.forEach((item) => {
