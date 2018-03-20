@@ -38,6 +38,13 @@ module.exports = function(app) {
           }).catch((err) => console.log(err));
     });
 
+    // For simple fetch
+    app.get('/simpleMALscrape', (req, res) =>{
+        malScraper.getInfoFromURL(req.query.url).then((data) =>{
+            res.send(data);
+        }).catch((err) => console.log(err))
+    })
+
     // Just cleaning up TV data
     function cleanData(data){
         let cleanedData = data.TV
