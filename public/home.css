@@ -176,15 +176,33 @@ button{
 .sidebar-btns{
     width: var(--sidebarBtn);
     font-size: 14px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
     .sidebar-btns div{
         writing-mode: vertical-lr;
         height: 80px;
         width: inherit;
-        padding-top: 5px;
         color: white;
         text-shadow: 0px 0px 2px black;
+        text-align: center;
+    }
+
+    .sidebar-search{
+        background-color: #aeb6ff;
+        border-top-right-radius: 25px;
+    }
+
+    .sidebar-genres{
+        background-color: #aec6ff;
+    }
+
+    .sidebar-favorites{
+        background-color: #aecff8;
+        border-bottom-right-radius: 25px;
+
     }
 
     .sidebar-content{
@@ -201,25 +219,29 @@ button{
     .sidebar-content .side-content{
         overflow: hidden;
         height: 100%;
+        padding: 5px;
         transition: 600ms;
     }
 
     .sidebar-content .search-cont{
-        background-color: #fdaaaa;
+        background-color: #aeb6ff;
+        border-top-right-radius: 50px;
     }
     .sidebar-content.search .side-content:not(.search-cont){
         height: 1%;
     }
 
     .sidebar-content .genre-cont{
-        background-color: #aaaafd;
+        background-color: #aec6ff;
     }
     .sidebar-content.genre .side-content:not(.genre-cont){
         height: 1%;
     }
 
     .sidebar-content .favorite-cont{
-        background-color: #aafdaa;
+        background-color: #aecff8;
+        border-bottom-right-radius: 50px;
+
     }
     .sidebar-content.favorite .side-content:not(.favorite-cont){
         height: 1%;
@@ -238,18 +260,6 @@ button{
 
     .search-cont label{
         margin: 0px;
-    }
-
-    .sidebar-search{
-        background-color: red;
-    }
-
-    .sidebar-genres{
-        background-color: blue;
-    }
-
-    .sidebar-favorites{
-        background-color: green;
     }
 
     /* Genres */
