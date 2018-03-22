@@ -224,7 +224,7 @@ html {
 
     .sidebar-content .search-cont{
         background-color: #aeb6ff;
-        border-top-right-radius: 50px;
+        border-top-right-radius: 25px;
     }
     .sidebar-content.search .side-content:not(.search-cont){
         height: 1%;
@@ -239,7 +239,7 @@ html {
 
     .sidebar-content .favorite-cont{
         background-color: #aecff8;
-        border-bottom-right-radius: 50px;
+        border-bottom-right-radius: 25px;
 
     }
     .sidebar-content.favorite .side-content:not(.favorite-cont){

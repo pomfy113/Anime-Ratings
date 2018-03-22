@@ -51,6 +51,9 @@
     background-color: white;
     border: 1px solid lightgrey;
     text-align: center;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 5px;
+
 }
 
 .window-favorite:hover{
@@ -112,6 +115,9 @@
         border-top: 1px solid lightgrey;
         border-left: 1px solid lightgrey;
         border-right: 1px solid lightgrey;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
         text-align: center;
         margin-left: 10px;
         cursor: pointer;
