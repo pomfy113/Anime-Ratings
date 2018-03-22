@@ -122,16 +122,17 @@ button{
 .season-cont{
     display: flex;
     flex-direction: row;
+    justify-content: center;
     width: 100%;
-    border-bottom: 1px solid lightgrey;
+    margin: 10px;
 }
 
 .season-cont .season-select{
     margin-right: 20px;
-    border-top: 1px solid lightgrey;
-    border-left: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
+    border: 1px solid lightgrey;
     width: 9em;
+    padding: 5px;
+    border-radius: 10px;
     text-align: center;
 }
 .season-cont .season-select:hover{
