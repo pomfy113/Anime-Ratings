@@ -16,17 +16,14 @@ function ALfetch(title){
     }`;
     // I needed to clean the title if it has 2nd; Anilist is quirky like that
     let cleanedTitle;
-    if(title.search("2nd") !== -1){
-        const index = title.indexOf("2nd") + 1;
-        cleanedTitle = title.slice(0, index);
+    let sequel = title.search(/4th|3rd|2nd/)
+    if(sequel !== -1){
+        cleanedTitle = title.slice(0, sequel+1);
     }
     else{
         cleanedTitle = title;
     }
-
-
-        // console.log(cleanedTitle, title)
-
+    console.log(sequel, cleanedTitle, title)
     // Define our query variables and values that will be used in the query request
     const variables = {
         query: cleanedTitle
