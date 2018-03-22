@@ -22,17 +22,26 @@ html {
 	background: rgba(0,0,0,0.0);
 }
 
+html, body{
+    height: 100%;
+}
+
+#root{
+    min-height: 77.5%;
+    padding-bottom: 2.5%;
+}
+
 .error-react{
     text-align: center;
-    width: 100%;
 }
+
+
 .header{
     display: flex;
     width: 100%;
+    height: 12.5%;
     background-color: #343a70;
-    margin-bottom: 10px;
     padding: 20px 30px;
-    border-radius: 0px 0px 25px 25px;
     flex-direction: column;
 }
 
@@ -51,19 +60,16 @@ html {
 
 .footer{
     display: flex;
+    position: relative;
+    height: 10%;
+    bottom: 0;
+    justify-content: space-between;
     width: 100%;
     background-color: #343a70;
-    margin-bottom: 10px;
-    padding: 20px 30px;
-    border-radius: 25px 25px 0px 0px;
+    padding: 20px 20px;
     flex-direction: row;
 }
 
-
-.footer{
-    display: flex;
-    justify-content: space-between;
-}
 
 .footer-name h1{
     font-size: 15px;
@@ -152,7 +158,7 @@ html {
     display: flex;
     position: fixed;
     left: calc(-150px + var(--sidebarBtn));
-    top: 20%;
+    top: 15%;
 
     width: 150px;
     height: 60%;
