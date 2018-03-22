@@ -106,10 +106,6 @@ html {
     width: 95%;
 }
 
-button{
-    background-color: white;
-}
-
 .btnCont{
     width: 100%;
     margin: 5px;
@@ -212,9 +208,11 @@ button{
     }
 
     .sidebar-content button{
-        border-radius: 15px;
+        border-radius: 5px;
         font-size: 14px;
         background-color: white;
+        border: none;
+        margin: 2.5px;
     }
 
     .sidebar-content .side-content{
@@ -277,7 +275,6 @@ button{
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        margin: 0 5%;
     }
 
 
