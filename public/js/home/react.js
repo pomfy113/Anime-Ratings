@@ -71,7 +71,6 @@ class Card extends React.Component {
         }
 
         componentDidMount(){
-            console.log("Did mount!")
             // For closing
             document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
             // Find index in favorites
@@ -543,8 +542,9 @@ class Card extends React.Component {
         componentDidMount(){
             // Click anywhere else to close sidebar
             document.addEventListener("click", (ev) => {
-                if(!ev.path.includes(document.querySelector('.sidebar-cont'))){
-                    this.hideSidebar()
+                const container = document.querySelector('.sidebar-cont');
+                if(!container.contains(ev.target)){
+                    this.hideSidebar();
                 }
             });
         }
