@@ -542,6 +542,7 @@ class Card extends React.Component {
         componentDidMount(){
             // Click anywhere else to close sidebar
             document.addEventListener("click", (ev) => {
+                const container = document.querySelector('.sidebar-cont');
                 // The span appears to be finnicky
                 if(!container.contains(ev.target) && ev.target.className !== 'genre-on'){
                     this.hideSidebar();
