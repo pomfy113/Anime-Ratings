@@ -32,6 +32,7 @@ html, body{
 }
 
 .error-react{
+    padding-top: 20%;
     text-align: center;
 }
 
