@@ -4,7 +4,7 @@ const data = {{{MAL_TV}}}
 ALfetch(title) handles fetching info from Anilist
 */
 // DEBUGGING
-localStorage.clear()
+// localStorage.clear()
 
 
 // ================================================================

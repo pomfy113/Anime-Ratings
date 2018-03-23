@@ -16,9 +16,7 @@ function ALfetch(title, url){
             return data
         }
         else{
-            return AnilistGrab(simpleFetch(url).titleEnglish).then(data => {
-                return data
-            })
+            return AnilistGrab(simpleFetch(url).titleEnglish)
         }
     })
 
