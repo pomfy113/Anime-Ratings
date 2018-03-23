@@ -4,6 +4,7 @@ const data = {{{MAL_TV}}}
 ALfetch(title) handles fetching info from Anilist
 */
 // DEBUGGING
+localStorage.clear()
 
 
 // ================================================================
@@ -85,7 +86,7 @@ class Card extends React.Component {
             }
             // Else, update
             else{
-                this.grabALData(this.state.MALdata.title, this.state.id).then(() => {
+                this.grabALData(this.state.MALdata.title, this.state.link).then(() => {
                     localStorage.setItem(this.state.id, JSON.stringify(this.state))
                 })
             }
@@ -106,8 +107,8 @@ class Card extends React.Component {
         }
 
         // Should hit this immediately; lightweight gathering of data
-        grabALData(title, animeID){
-            return ALfetch(title).then((data) => {
+        grabALData(title, url){
+            return ALfetch(title, url).then((data) => {
                 this.setState({
                     ALdata: data,
                     updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null)

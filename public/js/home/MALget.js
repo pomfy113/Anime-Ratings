@@ -39,6 +39,7 @@ function simpleFetch(url){
         url: `/simpleMALscrape?url=${url}`,
         type: 'GET'
     }).done((data) => {
+        console.log(data)
         return data
     }).fail(() => {
         console.log("Failed")
