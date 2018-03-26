@@ -24,6 +24,7 @@ html {
 
 html, body{
     height: 100%;
+    --backgroundColor: #343a70;
 }
 
 #root{
@@ -41,8 +42,8 @@ html, body{
     display: flex;
     width: 100%;
     height: 12.5%;
-    background-color: #343a70;
-    padding: 20px 30px;
+    background-color: var(--backgroundColor);
+    padding: 10px 20px;
     flex-direction: column;
 }
 
@@ -66,7 +67,7 @@ html, body{
     bottom: 0;
     justify-content: space-between;
     width: 100%;
-    background-color: #343a70;
+    background-color: var(--backgroundColor);
     padding: 20px 20px;
     flex-direction: row;
 }
@@ -139,14 +140,14 @@ html, body{
     text-align: center;
 }
 .season-cont .season-select:hover{
-    background-color: #343a70;
+    background-color: var(--backgroundColor);
     cursor: pointer;
     color: white;
     text-shadow: 0px 0px 2px black;
 }
 
 .season-cont .season-select.current{
-    background-color: #343a70;
+    background-color: var(--backgroundColor);
     color: white;
     text-shadow: black;
 }
@@ -194,17 +195,18 @@ html, body{
         text-align: center;
     }
 
+    /* #343a70 as base */
     .sidebar-search{
-        background-color: #aeb6ff;
+        background-color: #545a90;
         border-top-right-radius: 25px;
     }
 
     .sidebar-genres{
-        background-color: #aec6ff;
+        background-color: #747aB0;
     }
 
     .sidebar-favorites{
-        background-color: #aecff8;
+        background-color: #949aD0;
         border-bottom-right-radius: 25px;
 
     }
@@ -230,7 +232,7 @@ html, body{
     }
 
     .sidebar-content .search-cont{
-        background-color: #aeb6ff;
+        background-color: #545a90;
         border-top-right-radius: 25px;
     }
     .sidebar-content.search .side-content:not(.search-cont){
@@ -238,14 +240,14 @@ html, body{
     }
 
     .sidebar-content .genre-cont{
-        background-color: #aec6ff;
+        background-color:  #747aB0;
     }
     .sidebar-content.genre .side-content:not(.genre-cont){
         height: 1%;
     }
 
     .sidebar-content .favorite-cont{
-        background-color: #aecff8;
+        background-color: #949aD0;
         border-bottom-right-radius: 25px;
 
     }
