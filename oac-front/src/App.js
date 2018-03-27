@@ -2,8 +2,6 @@ import React from 'react';
 import {MALfetchCAST, MALfetchEP, seasonGet} from './MALget.js'
 import {ALfetch, simpleFetch} from './ALget.js'
 import moment from 'moment'
-import './home.css';
-import './index.css';
 
 // ================================================================
 //               All genre-button related stuff

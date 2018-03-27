@@ -25,6 +25,7 @@ html {
 html, body{
     height: 100%;
     --backgroundColor: #343a70;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
 #root{
@@ -45,6 +46,7 @@ html, body{
     background-color: var(--backgroundColor);
     padding: 10px 20px;
     flex-direction: column;
+    line-height: 1.5;
 }
 
 .header-name{
