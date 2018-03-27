@@ -813,7 +813,14 @@ class App extends React.Component {
         return fetch('/get-current', {method: 'GET'}).then((data) => {
             return data.json()
         }).then((data) => {
-            this.setState({anime: data})
+            const date = new Date()
+            this.setState({
+                anime: data,
+                season: {
+                    year: date.getFullYear(),
+                    season: Math.floor(date.getMonth() / 3)
+                }
+            })
         })
 
     }
@@ -958,6 +965,13 @@ class App extends React.Component {
             />
             : null;
 
+            const seasons = this.state.season
+            ? <Season
+                season={this.state.season}
+                handleSeason={(i, j) => this.dataChange(i, j)}
+              />
+            : null;
+
             return (
                 <div key="container" className="Container">
                     <Sidebar
@@ -969,10 +983,7 @@ class App extends React.Component {
                         handleFavorites={(i) => this.favoritesChange(i)}
                         favoritesOnly={() => this.favoritesOnly()}
                     />
-                    <Season
-                        season={this.state.season}
-                        handleSeason={(i, j) => this.dataChange(i, j)}
-                    />
+                    {seasons}
                     {modal}
                     {filtered ? filtered : null}
                 </div>

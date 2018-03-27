@@ -35,22 +35,16 @@ export function MALfetchEP(info){
 }
 
 export function seasonGet(season, year){
-    // return $.ajax({
-    //     url: `/season/${season.toLowerCase()}/${year}`,
-    //     type: 'GET'
-    // }).done((data) => {
-    //     // Something really funky is going on here; sometimes it's a String
-    //     return data
-    // }).fail(() => {
-    //     console.log("Failed")
-    // });
     return fetch(`/season/${season.toLowerCase()}/${year}`, {
-      method: 'GET',
+        method: 'GET'
     }).then((data) => {
-      return data;
+        return data.json();
+    }).then((data) => {
+        return data
     }).catch((err) => {
       console.log(err);
       alert('Error!')
     })
+
 
 }
