@@ -208,6 +208,11 @@ class App extends React.Component {
               />
             : null;
 
+            const loadingText = (
+                    <div class="error-react">
+                        <h1>Loading React!</h1>
+                        <p>If it's not working, your browser might not support React.</p>
+                    </div>)
             return (
                 <div key="container" className="Container">
                     <Sidebar
@@ -221,7 +226,7 @@ class App extends React.Component {
                     />
                     {seasons}
                     {modal}
-                    {filtered ? filtered : null}
+                    {filtered ? filtered : loadingText}
                 </div>
             );
             }
