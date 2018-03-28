@@ -12,7 +12,7 @@ export function MALfetchCAST(info){
         return data
     }).catch((err) => {
         console.log(err)
-        alert('An error has happened!')
+        alert('Could not get MAL cast info!')
     });
 }
 
@@ -30,7 +30,7 @@ export function MALfetchEP(info){
         return data
     }).catch((err) => {
         console.log(err)
-        alert('An error has happened!')
+        alert('Could not get MAL episode info!')
     });
 }
 
@@ -43,7 +43,7 @@ export function seasonGet(season, year){
         return data
     }).catch((err) => {
       console.log(err);
-      alert('Error!')
+      alert('Could not get seasonal info!')
     })
 
 

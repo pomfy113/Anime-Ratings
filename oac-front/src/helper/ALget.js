@@ -69,6 +69,7 @@ function AnilistGrab(title){
         const data = json.data.Media
         return data
     }).catch((err) => {
+        console.log(err)
         return null;
     });
 }
@@ -77,9 +78,9 @@ export function simpleFetch(url){
     return fetch(`/simpleMALscrape?url=${url}`, {
       method: 'GET',
     }).then((data) => {
-      return data;
+      return data.json();
     }).catch((err) => {
       console.log(err);
-      alert('Error!')
+      alert('Could not perform modal fetch!')
     })
 }

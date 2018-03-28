@@ -211,6 +211,19 @@ function ModalBar(props){
         break;
     }
 
+    let release;
+    if(props.MALdata.releaseDate){
+        const fullDate = props.MALdata.releaseDate
+        release = fullDate.substring(0, fullDate.lastIndexOf(','))
+    }
+    else if(props.MALdata.aired){
+        const fullDate = props.MALdata.aired
+        release = fullDate.substring(0, fullDate.lastIndexOf(' to'))
+    }
+    else{
+        release = "Info not found!"
+    }
+
     return(
         <div className="window-bar">
             <img src={props.MALdata.picture} alt="Anime cover"></img>
@@ -233,7 +246,7 @@ function ModalBar(props){
                         </td>
                     </tr>
                     <tr>
-                        <td>Release:</td><td>{props.MALdata.releaseDate}</td>
+                        <td>Release:</td><td>{release}</td>
                     </tr>
                     <tr>
                         <td>Airing:</td><td>{airingDisplay}</td>

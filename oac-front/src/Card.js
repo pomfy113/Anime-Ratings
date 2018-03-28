@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class Card extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
         this.producers = this.props.anime.producers.join(', ')
     }
 
@@ -11,7 +11,8 @@ export default class Card extends React.Component {
             <div
                 className="anime-container"
                 style={{backgroundImage: `url(${this.props.anime.picture})`}}
-                onClick={() => this.props.handleModal(this.props.anime)}
+                onClick={() => {
+                    this.props.handleModal(this.props.anime)}}
             >
                     <div className="anime-footer">
                         <div className="anime-title">{this.props.anime.title}</div>

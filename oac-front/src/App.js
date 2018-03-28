@@ -41,7 +41,6 @@ class App extends React.Component {
     componentWillMount(){
         return fetch('/get-current', {method: 'GET'}).then((data) => {
             const contentType = data.headers.get("content-type");
-            console.log(data, data.headers, contentType)
             return data.json()
         }).then((data) => {
             const date = new Date()
@@ -80,7 +79,9 @@ class App extends React.Component {
 
     changeModal(url){
         this.hideModal()
-        simpleFetch(url).then(data => this.showModal(data))
+        simpleFetch(url).then(data => {
+            this.showModal(data)
+        })
     }
 
     showModal(data){
