@@ -1,0 +1,82 @@
+Arguments: 
+  /usr/local/Cellar/node/9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js start
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/fcruz/Library/Android/sdk/tools:/Users/fcruz/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.8.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "anime-ratings",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "node app.js",
+      "test": "mocha -t 100000"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "anilist-api-pt": "^1.0.0",
+      "bcrypt": "^1.0.3",
+      "body-parser": "^1.18.2",
+      "bootstrap": "^4.0.0",
+      "chai": "^4.1.2",
+      "chai-http": "^3.0.0",
+      "cookie-parser": "^1.4.3",
+      "dotenv": "^4.0.0",
+      "eslint": "^4.18.2",
+      "express": "^4.16.2",
+      "express-handlebars": "^3.0.0",
+      "jquery": "^3.3.1",
+      "jsonwebtoken": "^8.2.0",
+      "kitsu": "^3.1.4",
+      "kitsu.js": "^2.0.0",
+      "mal-scrape": "^1.1.0",
+      "mal-scraper": "^2.4.2",
+      "malapi": "0.0.3",
+      "method-override": "^2.3.10",
+      "mocha": "^4.1.0",
+      "moment": "^2.21.0",
+      "mongoose": "^4.13.11",
+      "nani": "^1.2.0",
+      "nodemon": "^1.17.2",
+      "npm": "^5.7.1",
+      "popper": "^1.0.1",
+      "popper.js": "^1.13.0",
+      "popura": "^1.2.5",
+      "react": "^16.2.0",
+      "react-dom": "^16.2.0",
+      "sinon": "^4.4.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c node app.js
+  Directory: /Users/fcruz/Documents/GitHub/OurAnimeChart
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:30281:17)
+      at ChildProcess.emit (events.js:180:13)
+      at maybeClose (internal/child_process.js:936:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)

@@ -1,15 +1,10 @@
 const express = require('express')
-const exphbs  = require('express-handlebars');
 // Parsing bodies
 const app = express()
-
 const moment = require('moment');
 
 // Public
-app.use(express.static('public'))
-// Handlebars
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.use(express.static('public/build'))
 
 // Anime routes
 require('./controllers/anime.js')(app);
