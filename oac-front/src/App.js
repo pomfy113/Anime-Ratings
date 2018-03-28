@@ -1,7 +1,6 @@
 import React from 'react';
-import {MALfetchCAST, MALfetchEP, seasonGet} from './helper/MALget.js';
-import {ALfetch, simpleFetch} from './helper/ALget.js';
-import moment from 'moment';
+import {seasonGet} from './helper/MALget.js';
+import {simpleFetch} from './helper/ALget.js';
 import Card from './Card.js';
 import Modal from './Modal.js';
 import Season from './Season.js';
@@ -13,7 +12,7 @@ import Sidebar from './Sidebar.js';
 
 function Loading(props){
     return(
-        <img src="../../images/TamamoBall4.gif"/>
+        <img alt="Loading!" src="../../images/TamamoBall4.gif"/>
     )
 }
 
@@ -35,14 +34,14 @@ class App extends React.Component {
             // What's showing?
             modal: null,
             isLoading: false
-
-
         }
 
     }
 
     componentWillMount(){
         return fetch('/get-current', {method: 'GET'}).then((data) => {
+            const contentType = data.headers.get("content-type");
+            console.log(data, data.headers, contentType)
             return data.json()
         }).then((data) => {
             const date = new Date()
@@ -92,11 +91,15 @@ class App extends React.Component {
     }
 
     handleWindowPress(ev){
-        ev.target.className === 'window-container' ? this.hideModal() : null;
+        if(ev.target.className === 'window-container'){
+            this.hideModal()
+        }
     }
 
     handleKeyPress(ev){
-        ev.key === 'Escape' ? this.hideModal() : null;
+        if(ev.key === 'Escape'){
+            this.hideModal()
+        }
     }
 
     hideModal(){

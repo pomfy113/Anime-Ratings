@@ -57,7 +57,9 @@ export default class Sidebar extends React.Component {
 
             // On add, add in the select box's data
             if(type === 'add'){
-                genresCopy.includes(data) ? null : genresCopy.push(data);
+                if(!genresCopy.includes(data)){
+                    genresCopy.push(data);
+                }
             }
             // Else, find index and remove
             else if(type === 'remove'){
@@ -90,7 +92,6 @@ export default class Sidebar extends React.Component {
         }
 
         render(){
-            let currentTab;
             return(
                 <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
                     <div className={`sidebar-content ${this.state.tab}`}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {MALfetchCAST, MALfetchEP, seasonGet} from './helper/MALget.js'
+import {MALfetchCAST, MALfetchEP} from './helper/MALget.js'
 import {ALfetch} from './helper/ALget.js'
 import moment from 'moment'
 
@@ -70,8 +70,8 @@ export default class Modal extends React.Component {
     grabMALData(tab){
         switch(tab){
             // Both include; have this go into one of them
-            case 'related':
             // Characters, staff, themes, related
+            case 'related':
             case 'cast':
                 return MALfetchCAST(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
                     this.setState({
@@ -83,7 +83,6 @@ export default class Modal extends React.Component {
                         MALrelated: data.related
                     })
                 })
-                break;
             // Episodes, themes, related
             case 'episodes':
                 return MALfetchEP(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
@@ -93,7 +92,9 @@ export default class Modal extends React.Component {
                         MALrelated: data.related
                     })
                 })
-            break;
+            default:
+                alert("Something happened during fetching!")
+                return null;
         }
 
     }
@@ -138,28 +139,23 @@ export default class Modal extends React.Component {
                     synopsis={this.state.MALdata.synopsis}
                     trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
                 />
-                break;
             case "cast":
                 return <Cast
                     characters={this.state.MALcast.characters}
                     staff={this.state.MALcast.staff}
                     themes={this.state.MALcast.themes}
                 />
-                break;
             case "episodes":
                 return <Episodes
                     episodes={this.state.MALepisodes}
                 />
-                break;
             case "related":
                 return <Related
                     related={this.state.MALrelated}
                     changeModal={(data) => this.props.newModal(data)}
                 />
-                break;
             default:
                 return <div>?</div>
-                break;
         }
     }
 
@@ -217,7 +213,7 @@ function ModalBar(props){
 
     return(
         <div className="window-bar">
-            <img src={props.MALdata.picture}></img>
+            <img src={props.MALdata.picture} alt="Anime cover"></img>
 
             <table className="bar-data">
                 <tbody>
@@ -337,9 +333,12 @@ function Synopsis(props){
                 break;
             case null:
                 return null
+            default:
+                alert("Something wrong happened!")
+                return null
         }
 
-        return <iframe className="trailer-video" src={url} frameBorder="0" allowFullScreen/>
+        return <iframe title="Trailer" className="trailer-video" src={url} frameBorder="0" allowFullScreen/>
     }
 
 // Cast; staff and seiyuus
@@ -352,7 +351,7 @@ function Cast(props){
                 <div key={`${actor.name.replace("&#039;", "'")}-${index}`} className="actor">
                     <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>
                     <div className="actor-language secondary">{actor.language}</div>
-                    <img className="actor-image" src={actor.image_url}/>
+                    <img className="actor-image" alt="Actor" src={actor.image_url}/>
                 </div>
             )
         })
@@ -363,7 +362,7 @@ function Cast(props){
                 <div className="character">
                     <div className="character-name name"><a href={char.url}>{char.name}</a></div>
                     <div className="character-role secondary">{char.role}</div>
-                    <img className="character-image" src={char.image_url}/>
+                    <img className="character-image" alt="Character" src={char.image_url}/>
                 </div>
                 <div className="actors">{actors}</div>
             </div>
@@ -392,7 +391,7 @@ function Related(props){
                     className="related-cont">
                     <div className={`related-anime ${anime.type}`}>
                         <div className="related-anime-title">
-                            {anime.title.replace("&#039;", "\'")}
+                            {anime.title.replace("&#039;", "'")}
                         </div>
                         <div className="related-anime-type">
                             {anime.type === 'anime' ? anime.type.toUpperCase() : 'MANGA/NOVEL (external link)'}
