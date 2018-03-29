@@ -3,7 +3,7 @@
 ## About
 This project was originally made to consolidate all the information from several anime information sites at once. Now it's more for ease of finding what's worth looking into season per season.
 
-###Why?
+### Why?
 Mostly for my and my Discord groups' convenience. We were tired of looking at multiple sites and clicking through everything just to find out what's worth looking into that season. I asked them what features they wanted the most, and made their wants a reality.
 
 ## ToDo
