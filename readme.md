@@ -28,20 +28,19 @@ And voila! You're good to go
 
 ## Info
 ### Currently using
-- Node.js + Express
-- Handlebars for templating
-- React! It's magical!
+- [Node.js](https://nodejs.org/en/) + [Express](https://expressjs.com/)
+- [React](https://reactjs.org/) - For front-end
 - [MAL Scraper](https://www.npmjs.com/package/mal-scraper) - For seasonal MAL info
 - [Anilist API](https://anilist.gitbooks.io/anilist-apiv2-docs/) - For detailed Anilist info (Using GraphQL)
 - [Jikan](https://jikan.me/docs) - For detailed MAL info
 
 
 ### Previously built with
-- Handlebars for templating
-- Bootstrap for styling, then I learned the magic of CSS
+- [Handlebars](http://handlebarsjs.com/) for templating
+- [Bootstrap](https://getbootstrap.com/) for styling; switched to CSS
 - [MongoDB](https://www.mongodb.com/) as database
 - [Kitsu API](https://www.npmjs.com/package/kitsu)
 - [Popura API](https://www.npmjs.com/package/popura)
 
 ## Author
-* **Ferdinand Cruz** - everything so far!
+* **Ferdinand Cruz** - everything so far
