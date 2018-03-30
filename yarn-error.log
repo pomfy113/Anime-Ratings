@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js build
+  /usr/local/Cellar/node/9.10.0_1/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js startr
 
 PATH: 
   /Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/fcruz/Library/Android/sdk/tools:/Users/fcruz/Library/Android/sdk/platform-tools
@@ -8,7 +8,7 @@ Yarn version:
   1.5.1
 
 Node version: 
-  9.8.0
+  9.10.0
 
 Platform: 
   darwin x64
@@ -67,7 +67,7 @@ Lockfile:
   No lockfile
 
 Trace: 
-  Error: Command "build" not found.
+  Error: Command "startr" not found. Did you mean "start"?
       at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
       at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:87307:17
       at Generator.next (<anonymous>)

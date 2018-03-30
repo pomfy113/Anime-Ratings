@@ -9,11 +9,14 @@ import Sidebar from './Sidebar.js';
 
 // DEBUGGING
 // localStorage.clear()
-// TODO: Jake broke the thing by clicking too fast.
+
 
 function Loading(props){
     return(
-        <img alt="Loading!" src="../../images/TamamoBall4.gif"/>
+        <div className="loading">
+            <img className="loadingImage" alt="Loading!" src="../../images/TamamoBall4.gif"/>
+            <div className="loadingText">LOADING!</div>
+        </div>
     )
 }
 
@@ -58,6 +61,10 @@ class App extends React.Component {
 
 
     dataChange(season, year){
+        if(this.state.isLoading){
+            return
+        }
+
         this.setState({isLoading: true})
         seasonGet(season, year).then((data) => {
             return data
@@ -67,7 +74,8 @@ class App extends React.Component {
                 season: {
                     year: year,
                     season: season
-                }
+                },
+                isLoading: false
 
             })
         })
@@ -206,16 +214,20 @@ class App extends React.Component {
             ? <Season
                 season={this.state.season}
                 handleSeason={(i, j) => this.dataChange(i, j)}
+                loading={this.state.isLoading}
               />
             : null;
 
             const loadingText = (
-                    <div class="error-react">
+                    <div className="error-react">
                         <h1>Loading React!</h1>
                         <p>If it's not working, your browser might not support React.</p>
                     </div>)
+
+
             return (
                 <div key="container" className="Container">
+                    {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
                         filter={this.state.filter}
                         genres={this.state.genres}

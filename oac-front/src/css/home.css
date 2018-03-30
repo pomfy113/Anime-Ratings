@@ -105,6 +105,44 @@ html, body{
     filter: none;
 }
 
+.loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222A;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    z-index: 255;
+}
+
+.loadingText{
+    color: white;
+    font-weight: 900;
+}
+
+.loadingImage{
+    animation: bounce 1s infinite linear;
+    height: 150px;
+    width: 150px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    0%, 100% {transform:  scale(1, 1);}
+    20%, 50%, 80% {transform:  scale(1.2, 0.85);}
+    40% {transform: translateY(-50px) scale(0.85, 1.2);}
+    60% {transform: translateY(-30px) scale(0.85, 1.2);}
+}
+
 /* React stuff */
 
 .Container{
@@ -152,6 +190,20 @@ html, body{
     background-color: var(--backgroundColor);
     color: white;
     text-shadow: black;
+}
+
+
+.season-cont.disabled .season-select{
+    background-color: #e5e5e5;
+}
+
+.season-cont.disabled .season-select.current{
+    background-color: #aaa;
+}
+
+.season-cont.disabled .season-select:hover{
+    background-color: #aaa;
+    cursor: default;
 }
 
 /* Season End */

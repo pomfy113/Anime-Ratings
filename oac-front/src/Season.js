@@ -12,6 +12,9 @@ export default class Season extends React.Component{
     }
 
     changeSeason(season, year){
+        if(this.props.loading){
+            return null
+        }
         this.setState({
             currentSeason: {
                 season: season,
@@ -39,7 +42,7 @@ export default class Season extends React.Component{
 
         })
         return(
-            <div className="season-cont">
+            <div className={`season-cont ${this.props.loading ? 'disabled' : null}`}>
                 {seasons}
             </div>
         )
