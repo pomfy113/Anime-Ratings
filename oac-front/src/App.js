@@ -9,6 +9,7 @@ import Sidebar from './Sidebar.js';
 
 // DEBUGGING
 // localStorage.clear()
+// TODO: Jake broke the thing by clicking too fast.
 
 function Loading(props){
     return(
