@@ -8,7 +8,7 @@ import Sidebar from './Sidebar.js';
 
 
 // DEBUGGING
-// localStorage.clear()
+localStorage.clear()
 
 
 function Loading(props){
@@ -44,7 +44,7 @@ class App extends React.Component {
 
     componentWillMount(){
         return fetch('/get-current', {method: 'GET'}).then((data) => {
-            const contentType = data.headers.get("content-type");
+            // const contentType = data.headers.get("content-type");
             return data.json()
         }).then((data) => {
             const date = new Date()
@@ -56,7 +56,6 @@ class App extends React.Component {
                 }
             })
         })
-
     }
 
 

@@ -16,7 +16,9 @@ export function ALfetch(title, url){
             return data
         }
         else{
-            return AnilistGrab(simpleFetch(url).titleEnglish)
+            return backupMALfetch(url).then(data => {
+                return AnilistGrab(data.title_japanese)
+            })
         }
     })
 
@@ -27,6 +29,11 @@ function AnilistGrab(title){
     var query = `
     query ($query: String) {
         Media (search: $query, type: ANIME) {
+            title {
+              romaji
+              english
+              native
+            }
             meanScore
             trailer{
                 id
@@ -74,6 +81,7 @@ function AnilistGrab(title){
     });
 }
 
+
 export function simpleFetch(url){
     return fetch(`/simpleMALscrape?url=${url}`, {
       method: 'GET',
@@ -83,4 +91,22 @@ export function simpleFetch(url){
       console.log(err);
       alert('Could not perform modal fetch!')
     })
+}
+
+export function backupMALfetch(url){
+    const id = url.split('/')[4]
+    const api = `http://api.jikan.me/anime/${id}/episodes`
+
+    const options = {
+            method: 'GET'
+        };
+
+    return fetch(api, options).then((res) => {
+        return res.json()
+    }).then((data) => {
+        return data
+    }).catch((err) => {
+        console.log(err)
+        alert('Could not get MAL episode info!')
+    });
 }

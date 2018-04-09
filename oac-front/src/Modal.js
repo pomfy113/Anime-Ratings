@@ -36,7 +36,8 @@ export default class Modal extends React.Component {
         }
         // Else, update
         else{
-            this.grabALData(this.state.MALdata.title, this.state.link).then(() => {
+            console.log(this.state.link)
+            this.grabALData(this.state.MALdata.title, this.state.MALdata.link).then(() => {
                 localStorage.setItem(this.state.id, JSON.stringify(this.state))
             })
         }
@@ -191,7 +192,6 @@ function ModalBar(props){
     const airingData = AiringData(props.ALdata)
 
     let airingDisplay;
-
     switch(airingData){
         case null:
             airingData && props.ALdata
@@ -432,7 +432,7 @@ function Related(props){
 // Episodes; has link to video, discussion forum, episode list, etc.
 function Episodes(props){
     if(!props.episodes || !props.episodes.length){
-        return (<p>No episode data available </p>)
+        return (<p>No MAL episode data available </p>)
     }
 
     const episodes = props.episodes.map((ep) => {
