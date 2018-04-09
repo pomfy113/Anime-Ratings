@@ -16,8 +16,11 @@ export function ALfetch(title, url){
             return data
         }
         else{
+            // All else fails, well
             return backupMALfetch(url).then(data => {
-                return AnilistGrab(data.title_japanese)
+                return AnilistGrab(data.title_japanese).then(ALdata => {
+                    return [ALdata, data.episode]
+                })
             })
         }
     })

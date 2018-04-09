@@ -61,8 +61,9 @@ export default class Modal extends React.Component {
     grabALData(title, url){
         return ALfetch(title, url).then((data) => {
             this.setState({
-                ALdata: data,
-                updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null)
+                ALdata: data[0],
+                updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null),
+                MALepisodes: data[1] && !this.state.MALepisodes ? data[1] : this.state.MALepisodes
             });
         });
     }
@@ -432,7 +433,7 @@ function Related(props){
 // Episodes; has link to video, discussion forum, episode list, etc.
 function Episodes(props){
     if(!props.episodes || !props.episodes.length){
-        return (<p>No MAL episode data available </p>)
+        return (<p>No MAL episode data available</p>)
     }
 
     const episodes = props.episodes.map((ep) => {
