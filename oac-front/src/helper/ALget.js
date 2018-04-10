@@ -16,7 +16,8 @@ export function ALfetch(title, url){
             return data
         }
         else{
-            // All else fails, well
+            // All else fails, do a full grab from MAL and use the Japanese title
+            // Titles get finickey with OUs vs OOs, romanization, etc
             return backupMALfetch(url).then(data => {
                 return AnilistGrab(data.title_japanese).then(ALdata => {
                     return [ALdata, data.episode]
