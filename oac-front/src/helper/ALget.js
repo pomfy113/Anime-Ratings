@@ -12,13 +12,14 @@ export function ALfetch(title, url){
 
     // Define our query variables and values that will be used in the query request
     return AnilistGrab(cleanedTitle).then((data) => {
-        if(data !== null){
+        if(data !== null || data !== undefined){
             return data
         }
         else{
             // All else fails, do a full grab from MAL and use the Japanese title
             // Titles get finickey with OUs vs OOs, romanization, etc
             return backupMALfetch(url).then(data => {
+                console.log(cleanedTitle, data.title_japanese)
                 return AnilistGrab(data.title_japanese).then(ALdata => {
                     return [ALdata, data.episode]
                 })

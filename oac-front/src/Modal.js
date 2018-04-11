@@ -36,7 +36,6 @@ export default class Modal extends React.Component {
         }
         // Else, update
         else{
-            console.log(this.state.link)
             this.grabALData(this.state.MALdata.title, this.state.MALdata.link).then(() => {
                 localStorage.setItem(this.state.id, JSON.stringify(this.state))
             })
@@ -60,10 +59,19 @@ export default class Modal extends React.Component {
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
         return ALfetch(title, url).then((data) => {
+            let ALdata, MALepisodes;
+            if(data.length === 2){
+                ALdata = data[0]
+                MALepisodes = data[1]
+            }
+            else{
+                ALdata = data
+            }
+
             this.setState({
-                ALdata: data[0],
-                updateAt: (data.nextAiringEpisode ? data.nextAiringEpisode.airingAt * 1000 : null),
-                MALepisodes: data[1] && !this.state.MALepisodes ? data[1] : this.state.MALepisodes
+                ALdata: ALdata,
+                updateAt: (ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
+                MALepisodes: MALepisodes && !this.state.MALepisodes ? MALepisodes : this.state.MALepisodes
             });
         });
     }
