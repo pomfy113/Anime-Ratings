@@ -29,22 +29,26 @@ export default class Modal extends React.Component {
         // Loading
         let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
-        // If the file exists and a new episode hasn't aired,
-        if(loadstate && (loadstate.updateAt > Date.now() || loadstate.updateAt === null)){
+        // If the file exists and a new episode hasn't aired, and ALdata is there
+        if(loadstate && (loadstate.updateAt > Date.now() || loadstate.updateAt === null) && loadstate.ALdata){
             loadstate.tab = 'synopsis';
             this.setState(loadstate);
         }
         // Else, update
         else{
-            this.grabALData(this.state.MALdata.title, this.state.MALdata.link).then(() => {
-                localStorage.setItem(this.state.id, JSON.stringify(this.state))
-            })
+            this.setData(this.state.MALdata.title, this.state.MALdata.link);
         }
     }
 
     componentWillUnmount(){
         // Remove closing
         document.removeEventListener("keydown", (ev) => this.props.handleKey(ev));
+    }
+
+    setData(title, url){
+        this.grabALData(title, url).then(() => {
+            localStorage.setItem(this.state.id, JSON.stringify(this.state))
+        })
     }
 
     // Should hit this immediately; check all of favorites to see if current data is in there
