@@ -171,40 +171,40 @@ html, body{
     margin: 10px;
 }
 
-.season-cont .season-select{
-    margin-right: 20px;
-    border: 1px solid lightgrey;
-    width: 9em;
-    padding: 5px;
-    border-radius: 10px;
-    text-align: center;
-}
-.season-cont .season-select:hover{
-    background-color: var(--backgroundColor);
-    cursor: pointer;
-    color: white;
-    text-shadow: 0px 0px 2px black;
-}
+    .season-select{
+        margin-right: 20px;
+        border: 1px solid lightgrey;
+        width: 9em;
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .season-select:hover{
+        background-color: var(--backgroundColor);
+        cursor: pointer;
+        color: white;
+        text-shadow: 0px 0px 2px black;
+    }
 
-.season-cont .season-select.current{
-    background-color: var(--backgroundColor);
-    color: white;
-    text-shadow: black;
-}
+    .season-select.current{
+        background-color: var(--backgroundColor);
+        color: white;
+        text-shadow: black;
+    }
 
 
-.season-cont.disabled .season-select{
-    background-color: #e5e5e5;
-}
+    .season-cont.disabled .season-select{
+        background-color: #e5e5e5;
+    }
 
-.season-cont.disabled .season-select.current{
-    background-color: #aaa;
-}
+    .season-cont.disabled .season-select.current{
+        background-color: #aaa;
+    }
 
-.season-cont.disabled .season-select:hover{
-    background-color: #aaa;
-    cursor: default;
-}
+    .season-cont.disabled .season-select:hover{
+        background-color: #aaa;
+        cursor: default;
+    }
 
 /* Season End */
 /* Sidebar BEGIN */

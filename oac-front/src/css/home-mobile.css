@@ -1,0 +1,9 @@
+@media (max-width: 724px){
+    .Container{
+        font-size: 10px;
+    }
+
+    .season-select{
+        margin-right: 5px;
+    }
+}
