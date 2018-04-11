@@ -28,8 +28,6 @@
     width: -moz-fit-content;
     width: -webkit-fit-content;
 
-
-
     background-color: white;
     padding: 20px;
 
@@ -140,6 +138,8 @@
     grid-column: 2;
     grid-row: 3;
     overflow-y: auto;
+    padding-left: 15px;
+    padding-top: 15px;
 }
 
 .content-synopsis{
@@ -225,15 +225,15 @@
 .content-related{
 
 }
-    .content-related .related-category{
+    .related-category{
         margin-bottom: 24px;
     }
 
-    .content-related .related-category-title{
+    .related-category-title{
         font-size: 20px;
     }
 
-    .content-related .related-anime{
+    .related-anime{
         padding: 10px;
         font-size: 18px;
         font-weight: 600;
@@ -242,16 +242,12 @@
 
     }
 
-    /* .content-related .related-cont:not(:last-of-type){
-    } */
-
-
-    .content-related .related-anime:hover{
+    .related-anime:hover{
         cursor: pointer;
         background-color: #DDD;
     }
 
-    .content-related .related-anime-type{
+    .related-anime-type{
         font-size: 10px;
     }
 
@@ -289,19 +285,19 @@
         text-align: center;
     }
 
-    .content-episodes .eptable-title *{
+    .eptable-title *{
         margin-bottom: .5em;
     }
 
-    .content-episodes .eptitle-eng a[href]{
+    .eptitle-eng a[href]{
         font-weight: 600;
         color: var(--linkcolor);
     }
 
-    .content-episodes .eptable-air{
+    .eptable-air{
         white-space: nowrap;
     }
 
-    .content-episodes .eptable-recap, .eptable-recap, .eptable-forum{
+    .eptable-recap, .eptable-recap, .eptable-forum{
         text-align: center;
     }

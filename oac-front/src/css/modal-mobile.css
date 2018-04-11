@@ -9,7 +9,7 @@
         padding-left: 5px;
     }
 
-    .content{
+    .window-details{
         padding-top: 10px;
         padding-left: 10px;
     }
@@ -21,6 +21,20 @@
     .trailer-video{
         width: 300px;
         height: 168px;
+    }
+
+    .content-related h1{
+        font-size: 18px;
+        margin-bottom: .25rem;
+    }
+
+    .related-anime{
+        font-size: 16px;
+        padding: 5px;
+    }
+
+    .related-category{
+        margin-bottom: 16px;
     }
 }
 
@@ -39,7 +53,7 @@
         font-size: 7px;
     }
 
-    .content{
+    .window-details{
         padding-top: 5px;
         padding-left: 5px;
     }
@@ -49,4 +63,17 @@
         height: 112.5px;
     }
 
+    .content-related h1{
+        font-size: 14px;
+        margin-bottom: .15rem;
+    }
+
+    .related-anime{
+        font-size: 12px;
+        padding: 2.5px;
+    }
+
+    .related-category{
+        margin-bottom: 10px;
+    }
 }
