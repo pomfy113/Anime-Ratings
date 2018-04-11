@@ -1,10 +1,13 @@
 @media (max-width: 724px){
+    .header{
+        height: 10%;
+    }
     .Container{
         font-size: 10px;
     }
 
     .header-sub{
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .season-select{
