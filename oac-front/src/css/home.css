@@ -250,6 +250,11 @@ html, body{
         text-align: center;
     }
 
+    .sidebar-btns div:hover{
+        cursor: pointer;
+        font-weight: bold;
+    }
+
     /* #343a70 as base */
     .sidebar-search{
         background-color: #545a90;

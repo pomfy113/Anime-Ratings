@@ -60,14 +60,13 @@ export default class Modal extends React.Component {
     grabALData(title, url){
         return ALfetch(title, url).then((data) => {
             let ALdata, MALepisodes;
-            if(data.length === 2){
+            if(Array.isArray(data) && data.length === 2){
                 ALdata = data[0]
                 MALepisodes = data[1]
             }
             else{
                 ALdata = data
             }
-
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
