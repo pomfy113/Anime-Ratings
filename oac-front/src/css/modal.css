@@ -16,7 +16,7 @@
     --animeImageWidth: 225px;
     position: relative;
     display: grid;
-    grid-template-rows: calc(var(--titleSize) + var(--titleMargin)) 1.5em 3fr;
+    grid-template-rows: calc(2*var(--titleSize) + var(--titleMargin)) 1.5em 3fr;
     grid-template-columns: var(--animeImageWidth) minmax(20em, 50em);
 
     top: 50%;
@@ -42,6 +42,7 @@
     line-height: var(--titleSize);
     font-weight: 800;
     text-overflow: clip;
+    align-self: center;
 }
 
 .window-favorite{

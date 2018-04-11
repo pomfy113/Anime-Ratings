@@ -36,7 +36,7 @@ export default class Modal extends React.Component {
         }
         // Else, update
         else{
-            this.setData(this.state.MALdata.title, this.state.MALdata.link);
+            this.setData(this.state.MALdata.title, this.state.MALdata.link || this.state.MALdata.id);
         }
     }
 

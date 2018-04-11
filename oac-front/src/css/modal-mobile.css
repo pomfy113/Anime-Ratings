@@ -1,7 +1,13 @@
+@media (max-height: 800px){
+    .window-bar{
+        font-size: 12px;
+    }
+}
+
 @media (max-width: 724px){
     .window-content{
         --animeImageWidth: 144.75px;
-        --titleSize: 25px;
+        --titleSize: 30px;
         font-size: 10px;
         padding: 10px;
     }
@@ -42,7 +48,7 @@
 @media (max-width: 527px){
     .window-content{
         --animeImageWidth: 100px;
-        --titleSize: 20px;
+        --titleSize: 25px;
 
         font-size: 8px;
         padding: 5px;

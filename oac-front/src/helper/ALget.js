@@ -98,7 +98,9 @@ export function simpleFetch(url){
 }
 
 export function backupMALfetch(url){
-    const id = url.split('/')[4]
+    console.log(url)
+    console.log(typeof url)
+    const id = typeof url === "number" ? String(url) : url.split('/')[4];
     const api = `http://api.jikan.me/anime/${id}/episodes`
 
     const options = {
