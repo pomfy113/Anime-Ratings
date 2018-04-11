@@ -32,6 +32,7 @@
     padding: 20px;
 
     justify-content: center;
+    overflow: hidden;
 }
 
 .window-title{
@@ -40,6 +41,7 @@
     font-size: var(--titleSize);
     line-height: var(--titleSize);
     font-weight: 800;
+    text-overflow: clip;
 }
 
 .window-favorite{
@@ -138,6 +140,9 @@
     grid-column: 2;
     grid-row: 3;
     overflow-y: auto;
+}
+
+.content-related, .content-synopsis{
     padding-left: 15px;
     padding-top: 15px;
 }
@@ -254,6 +259,7 @@
 
 .content-episodes{
 }
+
     .content-episodes{
         font-size: 14px;
         width: 100%;
