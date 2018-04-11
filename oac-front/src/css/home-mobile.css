@@ -6,4 +6,13 @@
     .season-select{
         margin-right: 5px;
     }
+
+    .anime-container{
+        --imageHeight: 200px;
+        --imageWidth: 144.75px;
+        --titleSize: 10px;
+        --studioSize: 8px;
+        --scoreSize: 10px;
+    }
+
 }
