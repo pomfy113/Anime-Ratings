@@ -4,6 +4,7 @@ html {
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -172,12 +173,14 @@ html, body{
 }
 
     .season-select{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-right: 20px;
         border: 1px solid lightgrey;
         width: 9em;
         padding: 5px;
         border-radius: 10px;
-        text-align: center;
     }
     .season-select:hover{
         background-color: var(--backgroundColor);
