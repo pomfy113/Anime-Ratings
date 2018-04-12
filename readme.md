@@ -6,6 +6,15 @@ This project was originally made to consolidate all the information from several
 ### Why?
 Mostly for my and my Discord groups' convenience. We were tired of looking at multiple sites and clicking through everything just to find out what's worth looking into that season. I asked them what features they wanted the most, and made their wants a reality.
 
+### What can it do?
+- Display anime per season with studios and ratings
+- Display each anime's synopsis, trailer, and airing dates
+- Link directly to episode, character, and voice actor data
+- Link directly to a legal stream
+- Move directly to sequels, prequels, adaptation, spin-offs, and all other related anime
+- Search by genre, studio, and name instantly
+- Save favorites for later (WIP)
+
 ## ToDo
 Mostly clean-up and styling. All the major stuff is working now; just need to make it look presentable.
 
@@ -20,7 +29,7 @@ Most of the things needed should be in the folder already. If you have any issue
 To get it running on your local device, all you need to do is:
 1. Go to your terminal
 2. Head to where you put the folder in
-3. Use `node install` to install dependencies  if needed
+3. Use `npm install` to install dependencies  if needed
 4. Run `node app.js` on the terminal
 5. Open `localhost:3000`
 
@@ -38,9 +47,9 @@ And voila! You're good to go
 ### Previously built with
 - [Handlebars](http://handlebarsjs.com/) for templating
 - [Bootstrap](https://getbootstrap.com/) for styling; switched to CSS
-- [MongoDB](https://www.mongodb.com/) as database
+- [MongoDB](https://www.mongodb.com/) as database; switched to using local storage
 - [Kitsu API](https://www.npmjs.com/package/kitsu)
 - [Popura API](https://www.npmjs.com/package/popura)
 
 ## Author
-* **Ferdinand Cruz** - everything so far
+* **Ferdinand Cruz** - everything so far!
