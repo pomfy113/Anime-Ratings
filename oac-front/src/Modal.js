@@ -368,6 +368,10 @@ function Synopsis(props){
 
 // Cast; staff and seiyuus
 function Cast(props){
+    if(!props.characters){
+        return (<p className="empty">No MAL character data available</p>)
+    }
+
     const characters = props.characters.map((char) => {
         // Individual actor
         const actors = char.voice_actor.map((actor, index) => {
@@ -444,7 +448,7 @@ function Related(props){
 // Episodes; has link to video, discussion forum, episode list, etc.
 function Episodes(props){
     if(!props.episodes || !props.episodes.length){
-        return (<p>No MAL episode data available</p>)
+        return (<p className="empty">No MAL episode data available</p>)
     }
 
     const episodes = props.episodes.map((ep) => {

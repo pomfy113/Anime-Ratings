@@ -1,32 +1,58 @@
 export function ALfetch(title, url){
     // I needed to clean the title if it has 2nd; Anilist is quirky like that
-    let cleanedTitle;
-    let sequel = title.search(/4th|3rd|2nd/)
+    return backupMALfetch(url).then(data => {
+        // If we're going to do a fetch, we might as well get the episode list
+        return AnilistGrab(data.title_japanese).then(ALdata => {
+            return [[ALdata, data.episode], data.title_japanese]
+        }).then((data) => {
+            // If we don't get data due to sequel weirdness
+            if(data[0][0] !== null){
+                console.log("Got it", data[0][0])
+                return data[0]
+            }
+            // Else we do some clean-up
+            else{
+                const title = titleCleanup(data[1]);
 
-    if(sequel !== -1){
-        cleanedTitle = title.slice(0, sequel+1);
-    }
-    else{
-        cleanedTitle = title;
-    }
-
-    // Define our query variables and values that will be used in the query request
-    return AnilistGrab(cleanedTitle).then((data) => {
-        if(data !== null){
-            return data
-        }
-        else{
-            // All else fails, do a full grab from MAL and use the Japanese title
-            // Titles get finickey with OUs vs OOs, romanization, etc
-            return backupMALfetch(url).then(data => {
-                return AnilistGrab(data.title_japanese).then(ALdata => {
+                return AnilistGrab(title).then((ALdata) => {
                     return [ALdata, data.episode]
                 })
-            })
-        }
+            }
+        })
     })
 
+    // let cleanedTitle;
+    // let sequel = title.search(/th|3rd|2nd/)
+    //
+    // if(sequel !== -1){
+    //     cleanedTitle = title.slice(0, sequel+1);
+    // }
+    // else{
+    //     cleanedTitle = title;
+    // }
 
+    // Define our query variables and values that will be used in the query request
+    // return AnilistGrab(cleanedTitle).then((data) => {
+    //     if(data !== null){
+    //         console.log("Got data first time", data)
+    //         return data
+    //     }
+    //     else{
+    //         // All else fails, do a full grab from MAL and use the Japanese title
+    //         // Titles get finickey with OUs vs OOs, romanization, etc
+    //         console.log("Backup")
+    //         return backupMALfetch(url).then(data => {
+    //             return AnilistGrab(data.title_japanese).then(ALdata => {
+    //                 return [ALdata, data.episode]
+    //             })
+    //         })
+    //     }
+    // })
+}
+
+function titleCleanup(title){
+    const sequel = title.search(/\dth|3rd|2nd/)
+    return title.slice(0, sequel+1);
 }
 
 function AnilistGrab(title){
@@ -77,6 +103,7 @@ function AnilistGrab(title){
             return res.json();
         }
     }).then((json) => {
+        console.log(json)
         const data = json.data.Media
         return data
     }).catch((err) => {
@@ -98,8 +125,6 @@ export function simpleFetch(url){
 }
 
 export function backupMALfetch(url){
-    console.log(url)
-    console.log(typeof url)
     const id = typeof url === "number" ? String(url) : url.split('/')[4];
     const api = `http://api.jikan.me/anime/${id}/episodes`
 
