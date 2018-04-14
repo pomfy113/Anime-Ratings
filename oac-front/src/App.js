@@ -1,10 +1,10 @@
 import React from 'react';
 import {seasonGet} from './helper/MALget.js';
 import {simpleFetch} from './helper/ALget.js';
-import Card from './Card.js';
-import Modal from './Modal.js';
-import Season from './Season.js';
-import Sidebar from './Sidebar.js';
+import Card from './components/card/Card.js';
+import Modal from './components/modal/Modal.js';
+import Season from './components/season/Season.js';
+import Sidebar from './components/sidebar/Sidebar.js';
 
 
 // DEBUGGING

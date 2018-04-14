@@ -45,6 +45,4 @@ export function seasonGet(season, year){
       console.log(err);
       alert('Could not get seasonal info!')
     })
-
-
 }

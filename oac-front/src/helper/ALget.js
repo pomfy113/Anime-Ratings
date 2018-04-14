@@ -20,34 +20,6 @@ export function ALfetch(title, url){
             }
         })
     })
-
-    // let cleanedTitle;
-    // let sequel = title.search(/th|3rd|2nd/)
-    //
-    // if(sequel !== -1){
-    //     cleanedTitle = title.slice(0, sequel+1);
-    // }
-    // else{
-    //     cleanedTitle = title;
-    // }
-
-    // Define our query variables and values that will be used in the query request
-    // return AnilistGrab(cleanedTitle).then((data) => {
-    //     if(data !== null){
-    //         console.log("Got data first time", data)
-    //         return data
-    //     }
-    //     else{
-    //         // All else fails, do a full grab from MAL and use the Japanese title
-    //         // Titles get finickey with OUs vs OOs, romanization, etc
-    //         console.log("Backup")
-    //         return backupMALfetch(url).then(data => {
-    //             return AnilistGrab(data.title_japanese).then(ALdata => {
-    //                 return [ALdata, data.episode]
-    //             })
-    //         })
-    //     }
-    // })
 }
 
 function titleCleanup(title){
@@ -124,7 +96,7 @@ export function simpleFetch(url){
     })
 }
 
-export function backupMALfetch(url){
+function backupMALfetch(url){
     const id = typeof url === "number" ? String(url) : url.split('/')[4];
     const api = `http://api.jikan.me/anime/${id}/episodes`
 
