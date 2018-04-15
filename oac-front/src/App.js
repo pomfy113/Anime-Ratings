@@ -135,6 +135,13 @@ class App extends React.Component {
         this.setState({favoritesOnly: !this.state.favoritesOnly});
     }
 
+    search(name){
+        animeSearch(name).then((data) => {
+            console.log(data)
+            this.setState({ anime: data })
+        })
+    }
+
     render() {
         let source, filtered;
         if(this.state.favoritesOnly){
@@ -225,7 +232,7 @@ class App extends React.Component {
             return (
                 <div key="container" className="Container">
                     <input type="textbox" onChange={(ev) => {this.setState({ search: ev.target.value})}}/>
-                    <button onClick={() => animeSearch(this.state.search)}>Test - Search</button>
+                    <button onClick={() => this.search(this.state.search)}>Test - Search</button>
 
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
