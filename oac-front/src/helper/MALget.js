@@ -46,3 +46,19 @@ export function seasonGet(season, year){
       alert('Could not get seasonal info!')
     })
 }
+
+export function animeSearch(name){
+    console.log("Testing!")
+    return fetch(`/search/${name}`, {
+        method: 'GET'
+    }).then((data) => {
+        console.log("In one layer", data)
+        return data.json();
+    }).then((data) => {
+        console.log("In two layers", data)
+        return data
+    }).catch((err) => {
+      console.log(err);
+      alert('Could not get seasonal info!')
+    })
+}

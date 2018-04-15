@@ -33,6 +33,14 @@ module.exports = function(app) {
         }).catch((err) => console.log(err))
     })
 
+
+    app.get('/search/:name', (req, res) => {
+        malScraper.getResultsFromSearch(req.params.name)
+            .then((data) => {
+                res.send(JSON.stringify(data));
+            }).catch((err) => console.log(err));
+    })
+
     // Just cleaning up TV data
     function cleanData(data){
         let cleanedData = data.TV
@@ -46,11 +54,22 @@ module.exports = function(app) {
                cleanedData[item].score = "0"; // I'll need to revert this later
             }
         }
+      // Average case
+      if(cleanedData[0].score){
+          return cleanedData.sort(function(a, b){
+               return b.score - a.score;
+           })
+      }
+      // With search
+      else{
+          return cleanedData.sort(function(a, b){
+               return b.payload.score - a.payload.score;
+           })
+      }
 
-       return cleanedData.sort(function(a, b){
-            return b.score - a.score;
-        })
     }
+
+
     // Get current quarter/season and year for routes
     function getDate(){
         const date = new Date();

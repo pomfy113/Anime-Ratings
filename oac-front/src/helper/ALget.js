@@ -7,7 +7,6 @@ export function ALfetch(title, url){
         }).then((data) => {
             // If we don't get data due to sequel weirdness
             if(data[0][0] !== null){
-                console.log("Got it", data[0][0])
                 return data[0]
             }
             // Else we do some clean-up

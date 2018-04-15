@@ -1,10 +1,11 @@
 import React from 'react';
-import {seasonGet} from './helper/MALget.js';
+import {seasonGet, animeSearch} from './helper/MALget.js';
 import {simpleFetch} from './helper/ALget.js';
 import Card from './components/card/Card.js';
 import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
+import Toolbar from './components/toolbar/Toolbar.js';
 
 function Loading(props){
     return(
@@ -222,6 +223,7 @@ class App extends React.Component {
 
             return (
                 <div key="container" className="Container">
+                    <button onClick={() => animeSearch('sakura')}>Test - Search</button>
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
                         filter={this.state.filter}
@@ -230,6 +232,9 @@ class App extends React.Component {
                         handleFilter={(i) => this.filterChange(i)}
                         handleGenre={(i) => this.genreChange(i)}
                         handleFavorites={(i) => this.favoritesChange(i)}
+                        favoritesOnly={() => this.favoritesOnly()}
+                    />
+                    <Toolbar
                         favoritesOnly={() => this.favoritesOnly()}
                     />
                     {seasons}
