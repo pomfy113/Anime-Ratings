@@ -33,7 +33,9 @@ class App extends React.Component {
             genres: [],
             // What's showing?
             modal: null,
-            isLoading: false
+            isLoading: false,
+
+            search: ''
         }
 
     }
@@ -220,10 +222,11 @@ class App extends React.Component {
                             browser might not support React.</p>
                     </div>)
 
-
             return (
                 <div key="container" className="Container">
-                    <button onClick={() => animeSearch('sakura')}>Test - Search</button>
+                    <input type="textbox" onChange={(ev) => {this.setState({ search: ev.target.value})}}/>
+                    <button onClick={() => animeSearch(this.state.search)}>Test - Search</button>
+
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
                         filter={this.state.filter}
@@ -234,9 +237,7 @@ class App extends React.Component {
                         handleFavorites={(i) => this.favoritesChange(i)}
                         favoritesOnly={() => this.favoritesOnly()}
                     />
-                    <Toolbar
-                        favoritesOnly={() => this.favoritesOnly()}
-                    />
+
                     {seasons}
                     {modal}
                     {filtered ? filtered : loadingText}

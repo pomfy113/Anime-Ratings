@@ -55,19 +55,11 @@ module.exports = function(app) {
             }
         }
       // Average case
-      if(cleanedData[0].score){
-          return cleanedData.sort(function(a, b){
-               return b.score - a.score;
-           })
-      }
-      // With search
-      else{
-          return cleanedData.sort(function(a, b){
-               return b.payload.score - a.payload.score;
-           })
-      }
+      return cleanedData.sort(function(a, b){
+           return b.score - a.score;
+       })
+   }
 
-    }
 
 
     // Get current quarter/season and year for routes

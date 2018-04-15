@@ -48,14 +48,12 @@ export function seasonGet(season, year){
 }
 
 export function animeSearch(name){
-    console.log("Testing!")
     return fetch(`/search/${name}`, {
         method: 'GET'
     }).then((data) => {
-        console.log("In one layer", data)
         return data.json();
     }).then((data) => {
-        console.log("In two layers", data)
+        console.log("Incoming data: ", data)
         return data
     }).catch((err) => {
       console.log(err);
