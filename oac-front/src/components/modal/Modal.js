@@ -179,15 +179,15 @@ export default class Modal extends React.Component {
 
     render(){
         let currentTab = this.tabGrab(this.state.tab)
-
+        const favorite = <div className={`window-favorite ${this.state.favIndex !== -1 ? 'on' : null}`}
+                        onClick={() => this.changeFavorites()}>
+                            {this.state.favIndex !== -1 ? '★' :'☆'}
+                         </div>
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
-                    <div className="window-favorite" onClick={() => this.changeFavorites()}>
-                        {this.state.favIndex !== -1 ? "Remove from favorites" : "Add to favorites"}
-                    </div>
-                    <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata}/>
+                    <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata} favorite={favorite}/>
                     <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                     <Details currentTab={currentTab}/>
                 </div>

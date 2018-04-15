@@ -8,7 +8,7 @@ export default function Cast(props){
     const characters = props.characters.map((char) => {
         // Individual actor
         const actors = char.voice_actor.map((actor, index) => {
-            // API pls.
+            // API weirdness with apostrophes.
             return(
                 <div key={`${actor.name.replace("&#039;", "'")}-${index}`} className="actor">
                     <div className="actor-name name"><a href={actor.url}>{actor.name}</a></div>

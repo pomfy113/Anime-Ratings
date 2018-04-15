@@ -6,11 +6,6 @@ import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
-
-// DEBUGGING
-localStorage.clear()
-
-
 function Loading(props){
     return(
         <div className="loading">
@@ -220,7 +215,8 @@ class App extends React.Component {
             const loadingText = (
                     <div className="error-react">
                         <h1>Loading React!</h1>
-                        <p>If it's not working, your browser might not support React.</p>
+                        <p>If it's not working, the net might be a tad slow or your
+                            browser might not support React.</p>
                     </div>)
 
 

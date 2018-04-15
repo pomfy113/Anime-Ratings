@@ -46,7 +46,7 @@ export default function ModalBar(props){
     return(
         <div className="window-bar">
             <img src={props.MALdata.picture} alt="Anime cover"></img>
-
+            {props.favorite}
             <table className="bar-data">
                 <tbody>
                     <tr>
