@@ -96,6 +96,9 @@ export default class Sidebar extends React.Component {
                 <div className={`sidebar-cont ${this.state.visible ? 'show' : 'hide'}`}>
                     <div className={`sidebar-content ${this.state.tab}`}>
                         <Search
+                            search={(name) => this.props.search(name)}
+                            searchOnly={this.props.searchOnly}
+                            searchHandle={this.props.handleSearch}
                             changeFilter={(data, type) => this.changeFilter(data, type)}
                         />
                         <Genres
@@ -111,7 +114,7 @@ export default class Sidebar extends React.Component {
                         </div>
 
                         <div className="sidebar-btns">
-                            <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Search</div>
+                            <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Filter</div>
                             <div className="sidebar-genres" onClick={() => this.showSidebar('genre')}>Genres</div>
                             <div className="sidebar-favorites" onClick={() => this.showSidebar('favorite')}>Favorites</div>
                         </div>
@@ -129,8 +132,16 @@ export default class Sidebar extends React.Component {
         function Search(props){
             return (
                 <div className="search-cont side-content">
-                    <h1>Search</h1>
+                    <h1>Search/Filter</h1>
+
+                    <div className="search-anime">
+                        <h2>Search</h2>
+                        <input className="anime-search" onChange={(ev) => props.search(ev.target.value)}></input>
+                        <button className={`anime-search-btn ${props.searchOnly ? 'active' : null}`}
+                            onClick={() => props.searchHandle()}>Search</button>
+                    </div>
                     <form>
+                        <h2>Filter</h2>
                         <label htmlFor="search-name">Title</label>
                             <input id="search-name" onChange={(ev) => props.changeFilter(ev, 'title')}></input>
                         <label htmlFor="search-studio">Studio</label>

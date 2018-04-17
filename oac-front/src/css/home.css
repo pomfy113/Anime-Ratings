@@ -177,7 +177,7 @@ html, body{
         align-items: center;
         margin-right: 20px;
         border: 1px solid lightgrey;
-        width: 9em;
+        width: 20%;
         padding: 5px;
         border-radius: 10px;
     }
@@ -327,8 +327,32 @@ html, body{
 
     .sidebar-content h1{
         text-align: center;
-        font-size: 26px;
+        font-size: 24px;
         padding: 10px 5px;
+    }
+
+    .sidebar-content h2{
+        font-size: 20px;
+    }
+
+    .search-anime{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .anime-search{
+        margin: 0px !important;
+    }
+
+    .anime-search-btn{
+        width: 90%;
+    }
+
+    .anime-search-btn.active{
+        background-color: var(--backgroundColor);
+        color: white;
+        text-shadow: 0px 0px 2px black;
     }
 
     .search-cont input, select{

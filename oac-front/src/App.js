@@ -23,6 +23,7 @@ class App extends React.Component {
         this.state = {
             anime: null,
             season: null,
+            searchOnly: false,
             favoritesOnly: false,
             favorites: [],
             filter: {
@@ -84,17 +85,23 @@ class App extends React.Component {
     // * * * * * * * * * * * * * * * * * * * * * * * *
 
     changeModal(url){
+        this.setState({ isLoading: true })
+
         this.hideModal()
-        simpleFetch(url).then(data => {
-            this.showModal(data)
-        })
+        this.showModal(url);
+
+        this.setState({ isLoading: false})
     }
 
-    showModal(data){
+    showModal(url){
+        this.setState({ isLoading: true })
+
         document.body.style.overflow = "hidden"
         document.body.style.marginRight = "5px"
-        this.setState({modal: data})
 
+        simpleFetch(url).then((data) => {
+            this.setState({modal: data, isLoading: false})
+        })
     }
 
     handleWindowPress(ev){
@@ -136,10 +143,14 @@ class App extends React.Component {
     }
 
     search(name){
+        this.setState({ isLoading: true })
         animeSearch(name).then((data) => {
-            console.log(data)
-            this.setState({ anime: data })
-        })
+            this.setState({ anime: data, searchOnly: true, isLoading: false })
+        });
+    }
+
+    toggleLoading(){
+        this.setState({ isLoading: !this.state.isLoading })
     }
 
     render() {
@@ -206,6 +217,7 @@ class App extends React.Component {
 
             const modal = this.state.modal
             ? <Modal data={this.state.modal}
+                toggleLoading={() => this.toggleLoading()}
                 favorites={this.state.favorites}
                 handleClick={(ev) => this.handleWindowPress(ev)}
                 handleKey={(ev) => this.handleKeyPress(ev)}
@@ -216,6 +228,7 @@ class App extends React.Component {
 
             const seasons = this.state.season
             ? <Season
+                searchOnly={this.state.searchOnly}
                 season={this.state.season}
                 handleSeason={(i, j) => this.dataChange(i, j)}
                 loading={this.state.isLoading}
@@ -231,11 +244,13 @@ class App extends React.Component {
 
             return (
                 <div key="container" className="Container">
-                    <input type="textbox" onChange={(ev) => {this.setState({ search: ev.target.value})}}/>
-                    <button onClick={() => this.search(this.state.search)}>Test - Search</button>
-
+                    {/* <input type="textbox" onChange={(ev) => {this.setState({ search: ev.target.value})}}/>
+                    <button onClick={() => this.search(this.state.search)}>Test - Search</button> */}
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
+                        search={(value) => { this.setState({ search: value }) }}
+                        handleSearch={() => this.search(this.state.search)}
+                        searchOnly={this.state.searchOnly}
                         filter={this.state.filter}
                         genres={this.state.genres}
                         favorites={this.state.favorites}

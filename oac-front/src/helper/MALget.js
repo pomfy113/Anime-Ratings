@@ -72,7 +72,6 @@ export function animeSearch(name){
         return res.json()
     }).then((data) => {
         let anime = data.result;
-        console.log(anime, anime[0])
         for(let item in anime){
             const biggerpic = anime[item].image_url.replace('r/100x140/', '');
             anime[item].image_url = biggerpic;

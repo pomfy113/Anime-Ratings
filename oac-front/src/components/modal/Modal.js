@@ -67,6 +67,8 @@ export default class Modal extends React.Component {
 
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
+        this.props.toggleLoading()
+
         return ALfetch(title, url).then((data) => {
             let ALdata, MALepisodes;
             if(Array.isArray(data) && data.length === 2){
@@ -81,11 +83,14 @@ export default class Modal extends React.Component {
                 updateAt: (ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
                 MALepisodes: MALepisodes && !this.state.MALepisodes ? MALepisodes : this.state.MALepisodes
             });
+            this.props.toggleLoading()
+
         });
     }
 
     // Heavy; grabs a lot of data from Jikan.
     grabMALData(tab){
+        this.props.toggleLoading()
         switch(tab){
             // Both include; have this go into one of them
             // Characters, staff, themes, related
@@ -100,6 +105,7 @@ export default class Modal extends React.Component {
                         MALthemes: [data.opening_theme, data.ending_theme],
                         MALrelated: data.related
                     })
+                    this.props.toggleLoading()
                 })
             // Episodes, themes, related
             case 'episodes':
@@ -109,6 +115,8 @@ export default class Modal extends React.Component {
                         MALthemes: [data.opening_theme, data.ending_theme],
                         MALrelated: data.related
                     })
+                    this.props.toggleLoading()
+
                 })
             default:
                 alert("Something happened during fetching!")

@@ -3,9 +3,10 @@ import moment from 'moment'
 
 
 export default function ModalBar(props){
-    const producers = props.MALdata.studios ?
-    props.MALdata.studios.join(', ') :
-    props.MALdata.producers.join(', ');
+    console.log("STUDIOS?", props.MALdata)
+    const producers = props.MALdata.studios
+        ? props.MALdata.studios.join(', ')
+        : props.MALdata.producers.join(', ');
 
     // The airing time needs al ot of information; function below
     const airingData = AiringData(props.ALdata)
