@@ -73,6 +73,7 @@ class App extends React.Component {
                     year: year,
                     season: season
                 },
+                searchOnly: false,
                 isLoading: false
 
             })
