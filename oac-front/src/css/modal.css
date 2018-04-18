@@ -165,11 +165,11 @@
     .synopsis-trailer{
         display: flex;
         justify-content: center;
+        height: 60%;
     }
 
     .trailer-video{
-        width: 400px;
-        height: 225px;
+        width: 80%;
     }
 
 

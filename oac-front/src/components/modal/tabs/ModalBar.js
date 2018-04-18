@@ -3,7 +3,6 @@ import moment from 'moment'
 
 
 export default function ModalBar(props){
-    console.log("STUDIOS?", props.MALdata)
     const producers = props.MALdata.studios
         ? props.MALdata.studios.join(', ')
         : props.MALdata.producers.join(', ');
@@ -15,8 +14,8 @@ export default function ModalBar(props){
     switch(airingData){
         case null:
             airingData && props.ALdata
-            ? airingDisplay = "Loading!"
-            : airingDisplay = "Anilist data not found!"
+            ? airingDisplay = "Anilist data not found!"
+            : airingDisplay = "Loading!"
             break;
         case "N/A":
             airingDisplay = "Currently not airing :c";

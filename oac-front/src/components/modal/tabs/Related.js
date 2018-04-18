@@ -10,6 +10,7 @@ export default function Related(props){
                 <a
                     key={`${type}-${index}`}
                     href={anime.type === 'manga' ? anime.url : null}                                // If paper medium, redirect
+                    target="_blank"
                     onClick={anime.type === 'anime' ? () => props.changeModal(anime.url) : null}    // If anime, open new modal
                     className="related-cont">
                     <div className={`related-anime ${anime.type}`}>

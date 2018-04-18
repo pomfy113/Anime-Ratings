@@ -114,7 +114,7 @@ export default class Sidebar extends React.Component {
                         </div>
 
                         <div className="sidebar-btns">
-                            <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Filter</div>
+                            <div className="sidebar-search" onClick={() => this.showSidebar('search')}>Search</div>
                             <div className="sidebar-genres" onClick={() => this.showSidebar('genre')}>Genres</div>
                             <div className="sidebar-favorites" onClick={() => this.showSidebar('favorite')}>Favorites</div>
                         </div>

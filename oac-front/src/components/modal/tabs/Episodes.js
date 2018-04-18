@@ -11,7 +11,7 @@ export default function Episodes(props){
                 <td className="eptable-id">{ep.id}</td>
                 <td className="eptable-title">
                     <p className="eptitle-eng">
-                        <a href={ep.video_url}>
+                        <a href={ep.video_url} target="_blank">
                             {ep.title.replace("&#039;", "'")}
                         </a>
                     </p>
@@ -22,7 +22,7 @@ export default function Episodes(props){
                     {ep.filler ? 'Filler' : null}
                     {ep.filler && ep.recap ? '/' : null}
                     {ep.recap ? 'Recap' : null}</td>
-                    <td className="eptable-forum"><a href={ep.forum_url}>Link</a></td>
+                    <td className="eptable-forum"><a href={ep.forum_url} target="_blank">Link</a></td>
                 </tr>
             )
         })

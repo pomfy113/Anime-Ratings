@@ -80,7 +80,7 @@ export default class Modal extends React.Component {
             }
             this.setState({
                 ALdata: ALdata,
-                updateAt: (ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
+                updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
                 MALepisodes: MALepisodes && !this.state.MALepisodes ? MALepisodes : this.state.MALepisodes
             });
             this.props.toggleLoading()

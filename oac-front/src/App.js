@@ -5,7 +5,6 @@ import Card from './components/card/Card.js';
 import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
-import Toolbar from './components/toolbar/Toolbar.js';
 
 function Loading(props){
     return(
@@ -87,11 +86,8 @@ class App extends React.Component {
 
     changeModal(url){
         this.setState({ isLoading: true })
-
         this.hideModal()
         this.showModal(url);
-
-        this.setState({ isLoading: false})
     }
 
     showModal(url){
@@ -108,6 +104,8 @@ class App extends React.Component {
     handleWindowPress(ev){
         if(ev.target.className === 'window-container'){
             this.hideModal()
+            this.setState({ isLoading: false })
+
         }
     }
 
@@ -155,6 +153,13 @@ class App extends React.Component {
     }
 
     render() {
+        const loadingText = (
+                <div className="error-react">
+                    <h1>Loading React!</h1>
+                    <p>If it's not working, the net might be a tad slow or your
+                        browser might not support React.</p>
+                </div>)
+
         let source, filtered;
         if(this.state.favoritesOnly){
             source = this.state.favorites
@@ -173,28 +178,42 @@ class App extends React.Component {
                 })
 
                 // Post category filtering; uses state
-                const filterTypes = ['title', 'synopsis', 'studio']
-                const currentFilter = this.state.filter
+                let filterTypes;
+                if(this.state.searchOnly){
+                    filterTypes = ['title', 'synopsis']
+                }
+                else{
+                    filterTypes = ['title', 'synopsis', 'studio']
+                }
 
+                const currentFilter = this.state.filter
                 filtered = allAnime.filter((card) => {
                     // Faster access
                     const anime = card.props.anime
                     let check = true;
 
+                    // TODO: This is just a mess. I'll have to clean this up.
                     for(let index in filterTypes){
                         const filter = filterTypes[index]
-
                         // If null, we don't have to worry
                         if(currentFilter[filter]){
-                            const data = currentFilter[filter].toLowerCase()
+                            const data = currentFilter[filter].toLowerCase();
+                            // Edge case: Anime full search requires us to search for 'description' instead
+                            if(filter === 'synopsis' && this.state.searchOnly && anime.description
+                              && !anime.description.toLowerCase().includes(data)){
+                                check = false;
+                                break;
+                            }
                             // Simple if searching synopsis or title
-                            if(filter !== 'studio' && !anime[filter].toLowerCase().includes(data)){
+                            else
+                            if(filter !== 'studio' && anime[filter] && !anime[filter].toLowerCase().includes(data)){
                                 check = false;
                                 break;
                             }
                             // If it's a studio, we need to check the whole array
                             else
-                            if(filter === 'studio' && !anime.producers.some(studio => studio.toLowerCase().includes(data))){
+                            if(filter === 'studio' && anime.producers
+                              && !anime.producers.some(studio => studio.toLowerCase().includes(data))){
                                 check = false;
                                 break;
                             }
@@ -236,17 +255,8 @@ class App extends React.Component {
               />
             : null;
 
-            const loadingText = (
-                    <div className="error-react">
-                        <h1>Loading React!</h1>
-                        <p>If it's not working, the net might be a tad slow or your
-                            browser might not support React.</p>
-                    </div>)
-
             return (
                 <div key="container" className="Container">
-                    {/* <input type="textbox" onChange={(ev) => {this.setState({ search: ev.target.value})}}/>
-                    <button onClick={() => this.search(this.state.search)}>Test - Search</button> */}
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
                         search={(value) => { this.setState({ search: value }) }}
