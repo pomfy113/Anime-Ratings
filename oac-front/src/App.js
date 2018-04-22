@@ -73,6 +73,7 @@ class App extends React.Component {
                     season: season
                 },
                 searchOnly: false,
+                favoritesOnly: false,
                 isLoading: false
 
             })
@@ -138,13 +139,20 @@ class App extends React.Component {
     }
 
     favoritesOnly(){
-        this.setState({favoritesOnly: !this.state.favoritesOnly});
+        this.setState({searchOnly: false,
+            favoritesOnly: !this.state.favoritesOnly
+        });
     }
 
     search(name){
         this.setState({ isLoading: true })
         animeSearch(name).then((data) => {
-            this.setState({ anime: data, searchOnly: true, isLoading: false })
+            this.setState({
+                anime: data,
+                searchOnly: true,
+                favoritesOnly: false,
+                isLoading: false
+            })
         });
     }
 
@@ -248,8 +256,8 @@ class App extends React.Component {
 
             const seasons = this.state.season
             ? <Season
-                searchOnly={this.state.searchOnly}
                 season={this.state.season}
+                notSeason={this.state.searchOnly && this.state.favoritesOnly}
                 handleSeason={(i, j) => this.dataChange(i, j)}
                 loading={this.state.isLoading}
               />

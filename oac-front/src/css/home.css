@@ -30,7 +30,7 @@ html, body{
 }
 
 #root{
-    min-height: 77.5%;
+    min-height: 80%;
     padding-bottom: 2.5%;
 }
 
@@ -211,25 +211,25 @@ html, body{
 /* Season End */
 /* Sidebar BEGIN */
 
-.sidebar-content .search-cont input{
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 10px;
-}
-
 .sidebar-cont{
     --sidebarBtn: 25px;
     --width: 180px;
     display: flex;
     position: fixed;
     left: calc((-1 * var(--width)) + var(--sidebarBtn));
-    top: 15%;
+    top: 10%;
 
     width: var(--width);
     height: 80%;
 
     transition: 500ms;
     z-index: 1;
+}
+
+.sidebar-content .search-cont input{
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
 }
 
 .sidebar-cont.show{
@@ -373,6 +373,7 @@ html, body{
     /* Genres */
     .genre-cont .genre-on{
         display: inline-block;
+        background-color: #ddd;
         margin: 0px 1px;
         font-size: 10px;
         border: 1px solid white;
@@ -401,7 +402,8 @@ html, body{
     .favorite-cont .favorite-show{
         font-size: 12px;
         border: 1px solid lightgrey;
-        background-color: #ffffffbb;
+        border-radius: 5px;
+        background-color: #ddd;
         width: 90%;
         margin: 5px 5%;
         padding: 5px;
@@ -524,7 +526,7 @@ span.producer:last-of-type:after {
 }
 
 .MAL-genres{
-    color: darkgrey;
+
     font-size: 10px;
     margin-bottom: 1em;
     overflow-x: hidden;
