@@ -35,7 +35,7 @@ export default class Season extends React.Component{
             return(
                 <div key={season}
                     onClick={() => this.changeSeason(seasonIndex, year)}
-                    className={`season-select ${season === 0 && !this.props.searchOnly ? 'current' : null}`}>
+                    className={`season-select ${season === 0 && this.props.isSeason ? 'current' : null}`}>
                     {this.seasons[seasonIndex]}, {year}
                 </div>
             )

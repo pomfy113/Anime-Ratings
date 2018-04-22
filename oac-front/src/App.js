@@ -73,9 +73,7 @@ class App extends React.Component {
                     season: season
                 },
                 searchOnly: false,
-                favoritesOnly: false,
                 isLoading: false
-
             })
         })
 
@@ -139,7 +137,7 @@ class App extends React.Component {
     }
 
     favoritesOnly(){
-        this.setState({searchOnly: false,
+        this.setState({
             favoritesOnly: !this.state.favoritesOnly
         });
     }
@@ -257,7 +255,7 @@ class App extends React.Component {
             const seasons = this.state.season
             ? <Season
                 season={this.state.season}
-                notSeason={this.state.searchOnly && this.state.favoritesOnly}
+                isSeason={!this.state.searchOnly && !this.state.favoritesOnly}
                 handleSeason={(i, j) => this.dataChange(i, j)}
                 loading={this.state.isLoading}
               />
@@ -269,7 +267,7 @@ class App extends React.Component {
                     <Sidebar
                         search={(value) => { this.setState({ search: value }) }}
                         handleSearch={() => this.search(this.state.search)}
-                        searchOnly={this.state.searchOnly}
+                        searchOnly={this.state.searchOnly && !this.state.favoritesOnly}
                         filter={this.state.filter}
                         genres={this.state.genres}
                         favorites={this.state.favorites}
