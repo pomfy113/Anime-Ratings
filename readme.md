@@ -16,11 +16,11 @@ Mostly for my and my Discord groups' convenience. We were tired of looking at mu
 - Save favorites for later (WIP)
 
 ## ToDo
-Mostly clean-up and styling. All the major stuff is working now; just need to make it look presentable.
+Refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features.
 
 ## Getting Started
 ### Accessing the Site
-The project is up and running at Herok! If you would like to visit it, [click this link](http://ouranimechart.herokuapp.com/). Because of how Heroku works, please allow some time for the site to get up and running.
+The project is up and running at Heroku! If you would like to visit it, [click this link](http://ouranimechart.herokuapp.com/). Because of how Heroku works, please allow some time for the site to get up and running.
 
 ### Prerequisites
 Most of the things needed should be in the folder already. If you have any issues, please feel free to contact me
