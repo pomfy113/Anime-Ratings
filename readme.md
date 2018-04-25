@@ -1,5 +1,7 @@
-## Readme in progress!
 # OurAnimeChart
+## Status & Todo - **HIATUS + CLEAN-UP**
+Need to do some refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features. Not going to make new features
+
 ## About
 This project was originally made to consolidate all the information from several anime information sites at once. Now it's more for ease of finding what's worth looking into season per season.
 
@@ -13,10 +15,7 @@ Mostly for my and my Discord groups' convenience. We were tired of looking at mu
 - Link directly to a legal stream
 - Move directly to sequels, prequels, adaptation, spin-offs, and all other related anime
 - Search by genre, studio, and name instantly
-- Save favorites for later (WIP)
-
-## ToDo
-Refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features.
+- Save favorites
 
 ## Getting Started
 ### Accessing the Site
@@ -39,7 +38,7 @@ And voila! You're good to go
 ### Currently using
 - [Node.js](https://nodejs.org/en/) + [Express](https://expressjs.com/)
 - [React](https://reactjs.org/) - For front-end
-- [MAL Scraper](https://www.npmjs.com/package/mal-scraper) - For seasonal MAL info
+- [MAL Scraper](https://www.npmjs.com/package/mal-scraper) - For seasonal MAL info; may be phased out
 - [Anilist API](https://anilist.gitbooks.io/anilist-apiv2-docs/) - For detailed Anilist info (Using GraphQL)
 - [Jikan](https://jikan.me/docs) - For detailed MAL info
 
