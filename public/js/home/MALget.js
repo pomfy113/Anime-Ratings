@@ -1,6 +1,6 @@
 function MALfetchCAST(info){
     const id = typeof info === 'number' ? info : info.split('/')[4]
-    const api = `http://api.jikan.me/anime/${id}/characters_staff`
+    const api = `http://api.jikan.moe/anime/${id}/characters_staff`
 
     const options = {
             method: 'GET'
@@ -18,7 +18,7 @@ function MALfetchCAST(info){
 
 function MALfetchEP(info){
     const id = typeof info === 'number' ? info : info.split('/')[4]
-    const api = `http://api.jikan.me/anime/${id}/episodes`
+    const api = `http://api.jikan.moe/anime/${id}/episodes`
 
     const options = {
             method: 'GET'
