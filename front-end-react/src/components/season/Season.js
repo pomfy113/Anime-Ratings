@@ -1,4 +1,5 @@
 import React from 'react';
+import './Season.css'
 
 export default class Season extends React.Component{
     constructor(props){

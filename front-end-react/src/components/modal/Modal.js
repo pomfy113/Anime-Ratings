@@ -1,6 +1,8 @@
 import React from 'react';
 import {MALfetchCAST, MALfetchEP} from '../../helper/MALget.js'
 import {ALfetch} from '../../helper/ALget.js'
+import './Modal.css'
+import './Modal-mobile.css'
 
 import Synopsis from './tabs/Synopsis.js';
 import Cast from './tabs/Cast.js';

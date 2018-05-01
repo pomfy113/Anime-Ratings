@@ -16,14 +16,12 @@ module.exports = function(app) {
 
     // API
     app.get('/get-current', (req, res) => {
-        console.log("GOT IN")
         const currentDay = getDate();
         const year = currentDay[0];
         const season = currentDay[1];
 
         malScraper.getSeason(year, season)
           .then((data) => cleanData(data)).then((data) => {
-              console.log(data)
               res.send(JSON.stringify(data));
           }).catch((err) => console.log(err));
     });
