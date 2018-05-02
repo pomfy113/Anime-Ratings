@@ -6,6 +6,9 @@ import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
+// TODO: Change to redux in branch, removing a lot functions pass-down bloat
+// If switching to Jikan, can remove a LOT of conditionals.
+
 function Loading(props){
     return(
         <div className="loading">

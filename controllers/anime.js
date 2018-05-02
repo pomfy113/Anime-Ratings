@@ -2,6 +2,8 @@ const malScraper = require('mal-scraper');
 // Comments
 
 module.exports = function(app) {
+    // TODO: Needs some clean-up after altering season pull to Jikan.moe
+    // mal-scraper will be depreciated, and should remove a lot of unnecessary code
     app.get('/', (req, res) => {
         res.sendFile('/index.html')
     });
@@ -59,8 +61,6 @@ module.exports = function(app) {
            return b.score - a.score;
        })
    }
-
-
 
     // Get current quarter/season and year for routes
     function getDate(){
