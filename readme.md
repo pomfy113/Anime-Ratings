@@ -1,4 +1,6 @@
 # OurAnimeChart
+![alt text](./assets/OAC-Demo-1.gif)
+
 ## Status & Todo - **HIATUS + CLEAN-UP**
 Need to do some refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features. Not going to make new features
 
