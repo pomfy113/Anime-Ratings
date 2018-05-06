@@ -74,7 +74,6 @@ function AnilistGrab(title){
             return res.json();
         }
     }).then((json) => {
-        console.log(json)
         const data = json.data.Media
         return data
     }).catch((err) => {
@@ -97,7 +96,7 @@ export function simpleFetch(url){
 
 function backupMALfetch(url){
     const id = typeof url === "number" ? String(url) : url.split('/')[4];
-    const api = `http://api.jikan.me/anime/${id}/episodes`
+    const api = `http://api.jikan.moe/anime/${id}/episodes`
 
     const options = {
             method: 'GET'

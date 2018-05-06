@@ -1,5 +1,5 @@
 import React from 'react';
-import {seasonGet, animeSearch} from './helper/MALget.js';
+import {seasonGet, animeSearch, MALcurrentGet} from './helper/MALget.js';
 import {simpleFetch} from './helper/ALget.js';
 import Card from './components/card/Card.js';
 import Modal from './components/modal/Modal.js';
@@ -44,10 +44,8 @@ class App extends React.Component {
     }
 
     componentWillMount(){
-        return fetch('/get-current', {method: 'GET'}).then((data) => {
-            // const contentType = data.headers.get("content-type");
-            return data.json()
-        }).then((data) => {
+        return MALcurrentGet().then((data) => {
+            console.log(data)
             const date = new Date()
             this.setState({
                 anime: data,
@@ -162,13 +160,6 @@ class App extends React.Component {
     }
 
     render() {
-        const loadingText = (
-                <div className="error-react">
-                    <h1>Loading React!</h1>
-                    <p>If it's not working, the net might be a tad slow or your
-                        browser might not support React.</p>
-                </div>)
-
         let source, filtered;
         if(this.state.favoritesOnly){
             source = this.state.favorites
@@ -282,7 +273,7 @@ class App extends React.Component {
 
                     {seasons}
                     {modal}
-                    {filtered ? filtered : loadingText}
+                    {filtered ? filtered : <Loading/>}
                 </div>
             );
             }
