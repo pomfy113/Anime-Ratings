@@ -7,7 +7,7 @@ export default class Season extends React.Component{
         this.state = {
             currentSeason: this.props.season
         };
-        this.seasons = ["Winter", "Spring", "Summer", "Fall"];
+        this.seasons = ["winter", "spring", "summer", "fall"];
         this.selection = [-2, -1, 0, 1, 2]
 
     }
@@ -37,7 +37,7 @@ export default class Season extends React.Component{
                 <div key={season}
                     onClick={() => this.changeSeason(seasonIndex, year)}
                     className={`season-select ${season === 0 && this.props.isSeason ? 'current' : null}`}>
-                    {this.seasons[seasonIndex]}, {year}
+                    {capitalizeSeason(this.seasons[seasonIndex])}, {year}
                 </div>
             )
 
@@ -49,3 +49,8 @@ export default class Season extends React.Component{
         )
     }
     }
+
+
+function capitalizeSeason(season){
+    return season[0].toUpperCase() + season.substring(1)
+}

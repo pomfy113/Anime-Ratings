@@ -35,16 +35,27 @@ export function MALfetchEP(info){
 }
 
 export function seasonGet(season, year){
-    return fetch(`/season/${season.toLowerCase()}/${year}`, {
-        method: 'GET'
+    console.log(season, year)
+    const api = `http://api.jikan.moe/season/${year}/${season}/`
+
+    const options = {
+            method: 'GET'
+        };
+
+    return fetch(api, options).then((res) => {
+        return res.json()
     }).then((data) => {
-        return data.json();
-    }).then((data) => {
-        return data
+        let anime = data.season;
+        for(let item in anime){
+            const biggerpic = anime[item].image_url.replace('r/100x140/', '');
+            anime[item].image_url = biggerpic;
+        }
+        return anime.sort(function(a, b){
+             return b.score - a.score;
+         })
     }).catch((err) => {
-      console.log(err);
-      alert('Could not get seasonal info!')
-    })
+        console.log(err)
+    });
 }
 
 export function animeSearch(name){

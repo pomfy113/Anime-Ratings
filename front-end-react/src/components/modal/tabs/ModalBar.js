@@ -3,9 +3,9 @@ import moment from 'moment'
 
 
 export default function ModalBar(props){
-    const producers = props.MALdata.studios
-        ? props.MALdata.studios.join(', ')
-        : props.MALdata.producers.join(', ');
+    const studios = props.MALdata.studio.map((studio) => {
+        return studio.name
+    }).join(', ')
 
     // The airing time needs al ot of information; function below
     const airingData = AiringData(props.ALdata)
@@ -30,27 +30,29 @@ export default function ModalBar(props){
         break;
     }
 
-    let release;
-    if(props.MALdata.releaseDate){
-        const fullDate = props.MALdata.releaseDate
-        release = fullDate.substring(0, fullDate.lastIndexOf(','))
-    }
-    else if(props.MALdata.aired){
-        const fullDate = props.MALdata.aired
-        release = fullDate.substring(0, fullDate.lastIndexOf(' to'))
-    }
-    else{
-        release = "Info not found!"
-    }
+    const release = props.MALdata.aired_string;
+    // if(props.MALdata.releaseDate){
+    //     const fullDate = props.MALdata.releaseDate
+    //     release = fullDate.substring(0, fullDate.lastIndexOf(','))
+    // }
+    // else if(props.MALdata.aired){
+    //     const fullDate = props.MALdata.aired
+    //     console.log(props.ALdata)
+    //     // release = fullDate.substring(0, fullDate.lastIndexOf(' to'))
+    //     releaese = fullDate.
+    // }
+    // else{
+    //     release = "Info not found!"
+    // }
 
     return(
         <div className="window-bar">
-            <img src={props.MALdata.picture} alt="Anime cover"></img>
+            <img src={props.MALdata.image_url} alt="Anime cover"></img>
             {props.favorite}
             <table className="bar-data">
                 <tbody>
                     <tr>
-                        <td>Studio:</td><td>{producers}</td>
+                        <td>Studio:</td><td>{studios}</td>
                     </tr>
                     <tr>
                         <td>Source:</td><td>{props.MALdata.fromType || props.MALdata.source}</td>

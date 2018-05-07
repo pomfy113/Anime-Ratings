@@ -1,6 +1,6 @@
 export function ALfetch(title, url){
     // I needed to clean the title if it has 2nd; Anilist is quirky like that
-    return backupMALfetch(url).then(data => {
+    return simpleFetch(url).then(data => {
         // If we're going to do a fetch, we might as well get the episode list
         return AnilistGrab(data.title_japanese).then(ALdata => {
             return [[ALdata, data.episode], data.title_japanese]
@@ -82,19 +82,7 @@ function AnilistGrab(title){
     });
 }
 
-
 export function simpleFetch(url){
-    return fetch(`/simpleMALscrape?url=${url}`, {
-      method: 'GET',
-    }).then((data) => {
-      return data.json();
-    }).catch((err) => {
-      console.log(err);
-      alert('Could not perform modal fetch!')
-    })
-}
-
-function backupMALfetch(url){
     const id = typeof url === "number" ? String(url) : url.split('/')[4];
     const api = `http://api.jikan.moe/anime/${id}/episodes`
 

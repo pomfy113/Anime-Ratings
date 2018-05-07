@@ -14,7 +14,7 @@ export default class Modal extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            id: this.props.data.id || this.props.data.link.split('/')[4],    // Changes depending on source
+            id: this.props.mal_id,    // Changes depending on source
             tab: 'synopsis',
             MALdata: this.props.data,       // Available from start
             favIndex: -1,                   // Where it is in the favorites
@@ -43,7 +43,7 @@ export default class Modal extends React.Component {
         }
         // Else, update
         else{
-            this.setData(this.state.MALdata.title, this.state.MALdata.link || this.state.MALdata.id);
+            this.setData(this.state.MALdata.title, this.state.MALdata.mal_id);
         }
     }
 
@@ -92,13 +92,14 @@ export default class Modal extends React.Component {
 
     // Heavy; grabs a lot of data from Jikan.
     grabMALData(tab){
+        console.log(this.state.MALdata)
         this.props.toggleLoading()
         switch(tab){
             // Both include; have this go into one of them
             // Characters, staff, themes, related
             case 'related':
             case 'cast':
-                return MALfetchCAST(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
+                return MALfetchCAST(this.state.MALdata.mal_id).then((data) => {
                     this.setState({
                         MALcast: {
                             characters: data.character,
@@ -111,7 +112,7 @@ export default class Modal extends React.Component {
                 })
             // Episodes, themes, related
             case 'episodes':
-                return MALfetchEP(this.state.MALdata.link || this.state.MALdata.id).then((data) => {
+                return MALfetchEP(this.state.MALdata.mal_id).then((data) => {
                     this.setState({
                         MALepisodes: data.episode,
                         MALthemes: [data.opening_theme, data.ending_theme],

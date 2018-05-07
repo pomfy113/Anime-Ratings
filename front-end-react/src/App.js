@@ -9,6 +9,7 @@ import Sidebar from './components/sidebar/Sidebar.js';
 // TODO: Change to redux in branch, removing a lot functions pass-down bloat
 // If switching to Jikan, can remove a LOT of conditionals.
 
+localStorage.clear();
 function Loading(props){
     return(
         <div className="loading">
@@ -45,7 +46,6 @@ class App extends React.Component {
 
     componentWillMount(){
         return MALcurrentGet().then((data) => {
-            console.log(data)
             const date = new Date()
             this.setState({
                 anime: data,
@@ -169,27 +169,34 @@ class App extends React.Component {
         }
 
         if(source){
+            let filterTypes;
+            if(this.state.searchOnly){
+                filterTypes = ['title', 'synopsis']
+            }
+            else{
+                filterTypes = ['title', 'synopsis', 'studio']
+            }
+
             const allAnime = source.map((anime) =>{
+                // Post category filtering; uses state
+                const producers = anime.producer.map((producer) => {
+                    return producer.name
+                })
+
                 return <Card
                     key={anime.title}
                     anime={anime}
+                    producers={producers}
                     genres={anime.genres}
                     handleModal={(i) => this.showModal(i)}/>
                 })
 
-                // Post category filtering; uses state
-                let filterTypes;
-                if(this.state.searchOnly){
-                    filterTypes = ['title', 'synopsis']
-                }
-                else{
-                    filterTypes = ['title', 'synopsis', 'studio']
-                }
-
                 const currentFilter = this.state.filter
+
                 filtered = allAnime.filter((card) => {
                     // Faster access
-                    const anime = card.props.anime
+                    const anime = card.props.anime;
+                    const producers = card.props.producers;
                     let check = true;
 
                     // TODO: This is just a mess. I'll have to clean this up.
@@ -212,8 +219,8 @@ class App extends React.Component {
                             }
                             // If it's a studio, we need to check the whole array
                             else
-                            if(filter === 'studio' && anime.producers
-                              && !anime.producers.some(studio => studio.toLowerCase().includes(data))){
+                            if(filter === 'studio' && producers
+                              && !producers.some(studio => studio.toLowerCase().includes(data))){
                                 check = false;
                                 break;
                             }
