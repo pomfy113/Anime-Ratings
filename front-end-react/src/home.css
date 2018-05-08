@@ -220,3 +220,28 @@ span.producer:last-of-type:after {
 .footer-score{
     padding: 3px;
 }
+
+#r18{
+    position: absolute;
+    border: none;
+    background-color: #343a70;
+    color: #FFF2;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    opacity: 0.1;
+    border-radius: 50%;
+}
+
+#r18:hover{
+    cursor: pointer;
+    color: white;
+    opacity: 0.5;
+}
+
+#r18.active{
+    color: white;
+    opacity: 1.0;
+    background-color: #FFF3;
+}

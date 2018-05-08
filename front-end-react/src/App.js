@@ -28,6 +28,7 @@ class App extends React.Component {
             season: null,
             searchOnly: false,
             favoritesOnly: false,
+            r18: false,
             favorites: [],
             filter: {
                 title: null,
@@ -174,7 +175,7 @@ class App extends React.Component {
                 filterTypes = ['title', 'synopsis']
             }
             else{
-                filterTypes = ['title', 'synopsis', 'studio']
+                filterTypes = ['title', 'synopsis', 'studio', 'r18']
             }
 
             const allAnime = source.map((anime) =>{
@@ -203,9 +204,16 @@ class App extends React.Component {
                     for(let index in filterTypes){
                         const filter = filterTypes[index]
                         // If null, we don't have to worry
+
+                        // Easy exit - no lewd
+                        if(anime.r18_plus !== this.state.r18){
+                            return false
+                        }
+
                         if(currentFilter[filter]){
                             const data = currentFilter[filter].toLowerCase();
                             // Edge case: Anime full search requires us to search for 'description' instead
+
                             if(filter === 'synopsis' && this.state.searchOnly && anime.description
                               && !anime.description.toLowerCase().includes(data)){
                                 check = false;
@@ -224,6 +232,7 @@ class App extends React.Component {
                                 check = false;
                                 break;
                             }
+
                         }
                     }
 
@@ -261,9 +270,12 @@ class App extends React.Component {
                 loading={this.state.isLoading}
               />
             : null;
-
             return (
                 <div key="container" className="Container">
+                    <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
+                        onClick={() => this.setState({ r18: !this.state.r18 })}>
+                        R-18
+                    </button>
                     {this.state.isLoading ? <Loading/> : null}
                     <Sidebar
                         search={(value) => { this.setState({ search: value }) }}

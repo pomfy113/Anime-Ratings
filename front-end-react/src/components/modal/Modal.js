@@ -70,7 +70,7 @@ export default class Modal extends React.Component {
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
         this.props.toggleLoading()
-
+        console.log("Loading rerender")
         return ALfetch(title, url).then((data) => {
             let ALdata, MALepisodes;
             if(Array.isArray(data) && data.length === 2){
@@ -80,6 +80,7 @@ export default class Modal extends React.Component {
             else{
                 ALdata = data
             }
+            console.log("changing ALdata")
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),

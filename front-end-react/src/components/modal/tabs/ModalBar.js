@@ -67,7 +67,7 @@ export default function ModalBar(props){
                         </td>
                     </tr>
                     <tr>
-                        <td>Release:</td><td>{release}</td>
+                        <td>Air Dates:</td><td>{release}</td>
                     </tr>
                     <tr>
                         <td>Airing:</td><td>{airingDisplay}</td>

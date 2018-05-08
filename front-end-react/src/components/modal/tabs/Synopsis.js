@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default function Synopsis(props){
-    console.log(props)
+    const cleanedText = props.synopsis.replace('&#039;', "'")
     return(
         <div className="content content-synopsis">
-            <div className="synopsis-text">{props.synopsis}</div>
+            <div className="synopsis-text">{cleanedText}</div>
             <div className="synopsis-trailer">
                 {props.trailer ? <Trailer site={props.trailer.site} url={props.trailer.id}/> : null}
             </div>
