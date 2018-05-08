@@ -14,7 +14,7 @@ export default class Modal extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            id: this.props.mal_id,    // Changes depending on source
+            id: this.props.data.mal_id,    // Changes depending on source
             tab: 'synopsis',
             MALdata: this.props.data,       // Available from start
             favIndex: -1,                   // Where it is in the favorites
@@ -92,7 +92,6 @@ export default class Modal extends React.Component {
 
     // Heavy; grabs a lot of data from Jikan.
     grabMALData(tab){
-        console.log(this.state.MALdata)
         this.props.toggleLoading()
         switch(tab){
             // Both include; have this go into one of them

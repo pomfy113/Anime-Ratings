@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Synopsis(props){
+    console.log(props)
     return(
         <div className="content content-synopsis">
             <div className="synopsis-text">{props.synopsis}</div>
