@@ -6,18 +6,9 @@ import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
-// TODO: Change to redux in branch, removing a lot functions pass-down bloat
-// If switching to Jikan, can remove a LOT of conditionals.
+import { connect } from 'react-redux';
+import { getModal } from './redux/actions'
 
-localStorage.clear();
-function Loading(props){
-    return(
-        <div className="loading">
-            <img className="loadingImage" alt="Loading!" src="../../images/TamamoBall4.gif"/>
-            <div className="loadingText">LOADING!</div>
-        </div>
-    )
-}
 
 class App extends React.Component {
     constructor(props){
@@ -298,4 +289,23 @@ class App extends React.Component {
             }
         }
 
-export default App;
+function Loading(props){
+    return(
+        <div className="loading">
+            <img className="loadingImage" alt="Loading!" src="../../images/TamamoBall4.gif"/>
+            <div className="loadingText">LOADING!</div>
+        </div>
+    )
+}
+
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = () => {
+  return {
+    getModal
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(App)
