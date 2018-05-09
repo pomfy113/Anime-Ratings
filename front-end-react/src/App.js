@@ -198,9 +198,9 @@ class App extends React.Component {
 
         if(source){
             const allAnime = source.map((anime) => {
-                return <Card key={anime.title} anime={anime} genres={anime.genre.map(g => { return g.name })}
-                    producers={anime.producer ? anime.producer.map((producer) => {return producer.name}) : []}
-                    handleModal={(i) => this.showModal(i)}/>
+                return <Card key={anime.title} anime={anime} handleModal={(i) => this.showModal(i)}
+                    genres={anime.genre ? anime.genre.map(g => { return g.name }) : null}
+                    producers={anime.producer ? anime.producer.map((producer) => {return producer.name}) : []}/>
             })
 
             filteredAnime = this.filter(allAnime)
