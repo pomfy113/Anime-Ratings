@@ -1,7 +1,10 @@
 import React from 'react';
 
 export default function Synopsis(props){
-    const cleanedText = props.synopsis.replace('&#039;', "'")
+    const cleanedText = props.synopsis
+        ? props.synopsis.replace('&#039;', "'")
+        : "Summary unavailable."
+
     return(
         <div className="content content-synopsis">
             <div className="synopsis-text">{cleanedText}</div>

@@ -10,7 +10,7 @@ export default class Card extends React.Component {
     render() {
         return(
             <div className="anime-container" style={{backgroundImage: `url(${this.props.anime.image_url})`}}
-                onClick={() => this.props.handleModal(this.props.anime.url || this.props.anime.link)}>
+                onClick={() => this.props.handleModal(this.props.anime.mal_id)}>
                 <div className="anime-footer">
                     <div className="anime-title">{this.props.anime.title}</div>
                     <div className="anime-score">{this.props.anime.score}

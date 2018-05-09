@@ -1,32 +1,44 @@
-export function ALfetch(title, url){
-    // I needed to clean the title if it has 2nd; Anilist is quirky like that
-    return simpleFetch(url).then(data => {
-        // If we're going to do a fetch, we might as well get the episode list
-        return AnilistGrab(data.title_japanese).then(ALdata => {
-            return [[ALdata, data.episode], data.title_japanese]
-        }).then((data) => {
-            // If we don't get data due to sequel weirdness
-            if(data[0][0] !== null){
-                return data[0]
-            }
-            // Else we do some clean-up
-            else{
-                const title = titleCleanup(data[1]);
+// export function ALfetch(title, url){
+//     // I needed to clean the title if it has 2nd; Anilist is quirky like that
+//     return simpleFetch(url).then(MALdata => {
+//         // If we're going to do a fetch, we might as well get the episode list
+//         return AnilistGrab(data.title_japanese).then(ALdata => {
+//             return [[ALdata, data.episode], data.title_japanese]
+//         }).then((data) => {
+//             // If we don't get data due to sequel weirdness
+//             if(data[0][0] !== null){
+//                 return data[0]
+//             }
+//             // Else we do some clean-up
+//             else{
+//                 const title = titleCleanup(data[1]);
+//
+//                 return AnilistGrab(title).then((ALdata) => {
+//                     return [ALdata, data]
+//                 })
+//             }
+//         })
+//     })
+// }
 
-                return AnilistGrab(title).then((ALdata) => {
-                    return [ALdata, data.episode]
-                })
-            }
-        })
-    })
-}
+// export function ALfetch(title){
+//     // return simpleFetch(url).then(MALdata => {
+//     //     return AnilistGrab(MALdata.title_japanese).then(ALdata => {
+//     //         return [ALdata, MALdata]
+//     //     })
+//     // }).then((data) => {
+//     //     return data
+//     // })
+//
+//     return AnilistGrab(title).then(data => { return data})
+// }
 
 function titleCleanup(title){
     const sequel = title.search(/\dth|3rd|2nd/)
     return title.slice(0, sequel+1);
 }
 
-function AnilistGrab(title){
+export function ALfetch(title){
     var query = `
     query ($query: String) {
         Media (search: $query, type: ANIME) {
@@ -83,12 +95,27 @@ function AnilistGrab(title){
 }
 
 export function simpleFetch(url){
-    const id = typeof url === "number" ? String(url) : url.split('/')[4];
-    const api = `http://api.jikan.moe/anime/${id}/episodes`
+    const api = `http://api.jikan.moe/anime/${url}/episodes`
+    const options = { method: 'GET' };
 
-    const options = {
-            method: 'GET'
-        };
+    return fetch(api, options).then((res) => {
+        return res.json()
+    }).then((data) => {
+        if(data.error){
+            return backupSimpleFetch(url)
+        }
+        else{
+            return data
+        }
+    }).catch((err) => {
+        console.log(err)
+        alert('Could not get MAL episode info!')
+    });
+}
+
+function backupSimpleFetch(url){
+    const api = `http://api.jikan.moe/anime/${url}/`
+    const options = { method: 'GET' };
 
     return fetch(api, options).then((res) => {
         return res.json()
@@ -96,6 +123,5 @@ export function simpleFetch(url){
         return data
     }).catch((err) => {
         console.log(err)
-        alert('Could not get MAL episode info!')
     });
 }

@@ -16,6 +16,8 @@ import { connect } from 'react-redux'
 class Modal extends React.Component {
     constructor(props){
         super(props)
+        this.props.toggleLoading();
+
         this.state = {
             id: this.props.data.mal_id,    // Changes depending on source
             tab: 'synopsis',
@@ -61,21 +63,11 @@ class Modal extends React.Component {
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
         this.props.toggleLoading()
-        console.log("Loading rerender")
-        return ALfetch(title, url).then((data) => {
-            let ALdata, MALepisodes;
-            if(Array.isArray(data) && data.length === 2){
-                ALdata = data[0]
-                MALepisodes = data[1]
-            }
-            else{
-                ALdata = data
-            }
-            console.log("changing ALdata")
+
+        return ALfetch(this.state.MALdata.title_japanese).then((ALdata) => {
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
-                MALepisodes: MALepisodes && !this.state.MALepisodes ? MALepisodes : this.state.MALepisodes
             });
             this.props.toggleLoading()
 

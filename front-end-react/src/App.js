@@ -9,7 +9,7 @@ import Sidebar from './components/sidebar/Sidebar.js';
 import { connect } from 'react-redux';
 import { getModal } from './redux/actions'
 
-
+localStorage.clear()
 class App extends React.Component {
     constructor(props){
         super(props)
@@ -78,7 +78,7 @@ class App extends React.Component {
     changeModal(url){
         this.setState({ isLoading: true })
         this.hideModal()
-        this.showModal(url);
+
     }
 
     showModal(url){
@@ -146,141 +146,100 @@ class App extends React.Component {
         this.setState({ isLoading: !this.state.isLoading })
     }
 
+    filter(animeList){
+        const titleFilter = this.state.filter.title
+        const synopFilter = this.state.filter.synopsis
+        const prodFilter = this.state.filter.studio
+        return animeList.filter((card) => {
+            const anime = card.props.anime
+            const producers = card.props.producers
+            const title = anime.title
+            const descrip = anime.synopsis
+
+            // Exit 1 - if r18
+            if(anime.r18_plus && anime.r18_plus !== this.state.r18){
+                return false
+            }
+
+            // Exit 2 - title
+            if(title && titleFilter && !title.toLowerCase().includes(titleFilter)){
+                return false
+            }
+            // Exit 3 - description
+            if(descrip && synopFilter && !descrip.toLowerCase().includes(synopFilter)){
+                return false
+            }
+            // Exit 4 - genre
+            if(producers && prodFilter && !producers.some(prod => prod.toLowerCase().includes(prodFilter))){
+                return false;
+            }
+
+            return true
+
+
+        })
+    }
+
     render() {
         let source, filtered;
         if(this.state.favoritesOnly){
             source = this.props.favorites
-            console.log(source)
         }
         else{
             source = this.state.anime
         }
 
         if(source){
-            let filterTypes;
-            if(this.state.searchOnly){
-                filterTypes = ['title', 'synopsis']
-            }
-            else{
-                filterTypes = ['title', 'synopsis', 'studio', 'r18']
-            }
-
             const allAnime = source.map((anime) => {
-                // Post category filtering; uses state
-                const producers = anime.producer.map((producer) => {
-                    return producer.name
-                })
-
-                return <Card
-                    key={anime.title}
-                    anime={anime}
-                    producers={producers}
-                    genres={anime.genres}
+                return <Card key={anime.title} anime={anime} genres={anime.genres}
+                    producers={anime.producer ? anime.producer.map((producer) => {return producer.name}) : []}
                     handleModal={(i) => this.showModal(i)}/>
             })
 
-            const currentFilter = this.state.filter
-
-            filtered = allAnime.filter((card) => {
-                // Faster access
-                const anime = card.props.anime;
-                const producers = card.props.producers;
-                let check = true;
-
-                // TODO: This is just a mess. I'll have to clean this up.
-                for(let index in filterTypes){
-                    const filter = filterTypes[index]
-                    // If null, we don't have to worry
-
-                    // Easy exit - no lewd
-                    if(anime.r18_plus && anime.r18_plus !== this.state.r18){
-                        return false
-                    }
-
-                    if(currentFilter[filter]){
-                        console.log("There's a filter?")
-                        const data = currentFilter[filter].toLowerCase();
-                        // Edge case: Anime full search requires us to search for 'description' instead
-
-                        if(filter === 'synopsis' && this.state.searchOnly && anime.description
-                          && !anime.description.toLowerCase().includes(data)){
-                            console.log("synopsis")
-                            check = false;
-                        }
-                        // Simple if searching synopsis or title
-                        else
-                        if(filter !== 'studio' && anime[filter] && !anime[filter].toLowerCase().includes(data)){
-                            console.log("Studio")
-                            check = false;
-                        }
-                        // If it's a studio, we need to check the whole array
-                        else
-                        if(filter === 'studio' && producers
-                          && !producers.some(studio => studio.toLowerCase().includes(data))){
-                            check = false;
-                            console.log("producers")
-                        }
-                    }
-                }
-
-                // Early exit 1
-                if(check === false){
-                    console.log("?!")
-                    return false
-                }
-
-                if(this.state.genres.length > 0){
-                    console.log("I don't actually know what's here")
-                    return card.props.genres.some(genre => this.state.genres.includes(genre))
-                }
-                else{
-                    console.log("We should make it alright")
-                    return true
-                }
-
-            })
+            filtered = this.filter(allAnime)
         }
 
-            const modal = this.state.modal
-            ? <Modal data={this.state.modal}
-                toggleLoading={() => this.toggleLoading()}
-                handleClick={(ev) => this.handleWindowPress(ev)}
-                handleKey={(ev) => this.handleKeyPress(ev)}
-                newModal={(ev) => this.changeModal(ev)}
-            />
-            : null;
+        const modal = this.state.modal
+        ? <Modal data={this.state.modal}
+            toggleLoading={() => this.toggleLoading()}
+            handleClick={(ev) => this.handleWindowPress(ev)}
+            handleKey={(ev) => this.handleKeyPress(ev)}
+            newModal={(ev) => this.changeModal(ev)}
+        />
+        : null;
 
-            const seasons = this.state.season
-            ? <Season
-                season={this.state.season}
-                isSeason={!this.state.searchOnly && !this.state.favoritesOnly}
-                handleSeason={(i, j) => this.dataChange(i, j)}
-                loading={this.state.isLoading}
-              />
-            : null;
-            return (
-                <div key="container" className="Container">
-                    <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
-                        onClick={() => this.setState({ r18: !this.state.r18 })}>
-                        R-18
-                    </button>
-                    {this.state.isLoading ? <Loading/> : null}
-                    <Sidebar
-                        search={(value) => { this.setState({ search: value }) }}
-                        handleSearch={() => this.search(this.state.search)}
-                        searchOnly={this.state.searchOnly && !this.state.favoritesOnly}
-                        filter={this.state.filter}
-                        genres={this.state.genres}
-                        handleFilter={(i) => this.filterChange(i)}
-                        handleGenre={(i) => this.genreChange(i)}
-                        favoritesOnly={() => this.favoritesOnly()}
-                    />
+        const seasons = this.state.season
+        ? <Season
+            season={this.state.season}
+            isSeason={!this.state.searchOnly && !this.state.favoritesOnly}
+            handleSeason={(i, j) => this.dataChange(i, j)}
+            loading={this.state.isLoading}
+          />
+        : null;
 
-                    {seasons}
-                    {modal}
-                    {filtered ? filtered : <Loading/>}
-                </div>
-            );
+        return (
+            <div key="container" className="Container">
+                <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
+                    onClick={() => this.setState({ r18: !this.state.r18 })}>
+                    R-18
+                </button>
+                {this.state.isLoading ? <Loading/> : null}
+                <Sidebar
+                    search={(value) => { this.setState({ search: value }) }}
+                    handleSearch={() => this.search(this.state.search)}
+                    searchOnly={this.state.searchOnly && !this.state.favoritesOnly}
+                    filter={this.state.filter}
+                    genres={this.state.genres}
+                    handleFilter={(i) => this.filterChange(i)}
+                    handleGenre={(i) => this.genreChange(i)}
+                    favoritesOnly={() => this.favoritesOnly()}
+                />
+
+                {seasons}
+                {modal}
+                {filtered ? filtered : <Loading/>}
+            </div>
+        );
             }
         }
 
