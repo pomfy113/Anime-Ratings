@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Synopsis(props){
     const cleanedText = props.synopsis
-        ? props.synopsis.replace('&#039;', "'")
+        ? props.synopsis.replace(/&#039;/g, "'")
         : "Summary unavailable."
 
     return(

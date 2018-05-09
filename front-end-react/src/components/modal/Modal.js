@@ -16,19 +16,17 @@ import { connect } from 'react-redux'
 class Modal extends React.Component {
     constructor(props){
         super(props)
-        this.props.toggleLoading();
-
         this.state = {
-            id: this.props.data.mal_id,    // Changes depending on source
+            id: this.props.data.mal_id,         // Changes depending on source
             tab: 'synopsis',
-            MALdata: this.props.data,       // Available from start
-            ALdata: null,                   // SHOULD be available on start; airing, score, trailer
+            MALdata: this.props.data,           // Available from start
+            ALdata: null,                       // SHOULD be available on start; airing, score, trailer
             updateAt: null,
             // MAL info
-            MALcast: null,                  // Includes staff
-            MALepisodes: null,              // Includes episodes, forum
-            MALthemes: null,                // On both episode/cast fetches; OP, ED
-            MALrelated: null                // On both episode/cast fetches; related
+            MALcast: null,                      // Includes staff
+            MALepisodes: null,                  // Includes episodes, forum
+            MALthemes: null,                    // On both episode/cast fetches; OP, ED
+            MALrelated: this.props.data.related // On both episode/cast fetches; related
         }
     }
 

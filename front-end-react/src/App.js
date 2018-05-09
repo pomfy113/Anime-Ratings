@@ -75,6 +75,7 @@ class App extends React.Component {
     changeModal(url){
         this.setState({ isLoading: true })
         this.hideModal()
+        this.showModal(url)
     }
 
     showModal(url){
@@ -84,6 +85,7 @@ class App extends React.Component {
         document.body.style.marginRight = "5px"
 
         simpleFetch(url).then((data) => {
+            console.log(url)
             this.setState({modal: data, isLoading: false})
         })
     }
@@ -159,11 +161,11 @@ class App extends React.Component {
             const title = anime.title
             const descrip = anime.synopsis || anime.description
 
+            // Set from fastest to slowest
             // Exit 1 - if r18
             if(anime.r18_plus && anime.r18_plus !== this.state.r18){
                 return false
             }
-
             // Exit 2 - title
             if(title && titleFilter && !title.toLowerCase().includes(titleFilter)){
                 return false
@@ -176,19 +178,17 @@ class App extends React.Component {
             if(producers && prodFilter && !producers.some(prod => prod.toLowerCase().includes(prodFilter))){
                 return false;
             }
-
+            // Exit 5 - genres
             if(genres && genreFilter && !genres.some(genre => genre.includes(genreFilter))){
                 return false;
             }
 
             return true
-
-
         })
     }
 
     render() {
-        let source, filtered;
+        let source, filteredAnime;
         if(this.state.favoritesOnly){
             source = this.props.favorites
         }
@@ -203,7 +203,7 @@ class App extends React.Component {
                     handleModal={(i) => this.showModal(i)}/>
             })
 
-            filtered = this.filter(allAnime)
+            filteredAnime = this.filter(allAnime)
         }
 
         const modal = this.state.modal
@@ -224,7 +224,6 @@ class App extends React.Component {
           />
         : null;
 
-        console.log(this.props.modal)
         return (
             <div key="container" className="Container">
                 <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
@@ -245,7 +244,7 @@ class App extends React.Component {
 
                 {seasons}
                 {modal}
-                {filtered ? filtered : <Loading/>}
+                {filteredAnime ? filteredAnime : <Loading/>}
             </div>
         );
             }

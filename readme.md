@@ -1,8 +1,8 @@
 # OurAnimeChart
-![alt text](./assets/OAC-Demo-1.gif)
+![Short demo of basic function](./assets/OAC-Demo-1.gif)
 
-## Status & Todo - **HIATUS + CLEAN-UP**
-Need to do some refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features. Not going to make new features
+## Status & Todo - **ACTIVE CLEAN-UP - REDUX, UNTANGLING CODE**
+Need to do some refactoring and cleaning up code. Managed to get in just in time for a fair; now to make sure that it's easy to maintain for future features. Not going to make new features. Redux is also neato!
 
 ## About
 This project was originally made to consolidate all the information from several anime information sites at once. Now it's more for ease of finding what's worth looking into season per season.
@@ -39,8 +39,7 @@ And voila! You're good to go
 ## Info
 ### Currently using
 - [Node.js](https://nodejs.org/en/) + [Express](https://expressjs.com/)
-- [React](https://reactjs.org/) - For front-end
-- [MAL Scraper](https://www.npmjs.com/package/mal-scraper) - For seasonal MAL info; may be phased out
+- [React w/ Redux](https://reactjs.org/) - For front-end
 - [Anilist API](https://anilist.gitbooks.io/anilist-apiv2-docs/) - For detailed Anilist info (Using GraphQL)
 - [Jikan](https://jikan.me/docs) - For detailed MAL info
 
@@ -48,6 +47,7 @@ And voila! You're good to go
 ### Previously built with
 - [Handlebars](http://handlebarsjs.com/) for templating
 - [Bootstrap](https://getbootstrap.com/) for styling; switched to CSS
+- [MAL Scraper](https://www.npmjs.com/package/mal-scraper) - Slowly being phased out for Jikan
 - [MongoDB](https://www.mongodb.com/) as database; switched to using local storage
 - [Kitsu API](https://www.npmjs.com/package/kitsu)
 - [Popura API](https://www.npmjs.com/package/popura)
