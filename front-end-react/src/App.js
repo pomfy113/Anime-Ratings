@@ -85,7 +85,6 @@ class App extends React.Component {
         document.body.style.marginRight = "5px"
 
         simpleFetch(url).then((data) => {
-            console.log(url)
             this.setState({modal: data, isLoading: false})
         })
     }

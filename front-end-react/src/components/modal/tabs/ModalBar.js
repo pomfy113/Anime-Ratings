@@ -3,7 +3,6 @@ import moment from 'moment'
 
 
 export default function ModalBar(props){
-    console.log(props)
     const studios = props.MALdata.studio
     ? props.MALdata.studio.map((studio) => { return studio.name }).join(', ')
     : null
