@@ -9,7 +9,8 @@ import Sidebar from './components/sidebar/Sidebar.js';
 import { connect } from 'react-redux';
 import { getModal } from './redux/actions'
 
-localStorage.clear()
+// localStorage.clear()
+// TODO: Reworking THIS WHOLE BIT in redux, please wait warmly!
 class App extends React.Component {
     constructor(props){
         super(props)
@@ -70,15 +71,10 @@ class App extends React.Component {
         })
 
     }
-
-    // * * * * * * * * * * * * * * * * * * * * * * * *
     // Modal switches
-    // * * * * * * * * * * * * * * * * * * * * * * * *
-
     changeModal(url){
         this.setState({ isLoading: true })
         this.hideModal()
-
     }
 
     showModal(url){
@@ -96,7 +92,6 @@ class App extends React.Component {
         if(ev.target.className === 'window-container'){
             this.hideModal()
             this.setState({ isLoading: false })
-
         }
     }
 
@@ -113,9 +108,7 @@ class App extends React.Component {
 
     }
 
-    // * * * * * * * * * * * * * * * * * * * * * * * *
     // Filter switches
-    // * * * * * * * * * * * * * * * * * * * * * * * *
     filterChange(content){
         this.setState({filter: content})
     }
@@ -131,15 +124,21 @@ class App extends React.Component {
     }
 
     search(name){
-        this.setState({ isLoading: true })
-        animeSearch(name).then((data) => {
-            this.setState({
-                anime: data,
-                searchOnly: true,
-                favoritesOnly: false,
-                isLoading: false
-            })
-        });
+        if(name.length < 3){
+            alert('Please enter a longer search term! (>3 characters)')
+        }
+        else{
+            this.setState({ isLoading: true })
+
+            animeSearch(name).then((data) => {
+                this.setState({
+                    anime: data,
+                    searchOnly: true,
+                    favoritesOnly: false,
+                    isLoading: false
+                })
+            });
+        }
     }
 
     toggleLoading(){
@@ -154,7 +153,7 @@ class App extends React.Component {
             const anime = card.props.anime
             const producers = card.props.producers
             const title = anime.title
-            const descrip = anime.synopsis
+            const descrip = anime.synopsis || anime.description
 
             // Exit 1 - if r18
             if(anime.r18_plus && anime.r18_plus !== this.state.r18){
@@ -217,6 +216,7 @@ class App extends React.Component {
           />
         : null;
 
+        console.log(this.props.modal)
         return (
             <div key="container" className="Container">
                 <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
@@ -254,7 +254,8 @@ function Loading(props){
 
 const mapStateToProps = (state) => {
   return {
-      favorites: state.favorites
+      favorites: state.favorites,
+      modal: state.modal
   }
 }
 
