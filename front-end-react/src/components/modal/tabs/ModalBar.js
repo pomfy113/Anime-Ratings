@@ -3,9 +3,10 @@ import moment from 'moment'
 
 
 export default function ModalBar(props){
-    const studios = props.MALdata.studio.map((studio) => {
-        return studio.name
-    }).join(', ')
+    console.log(props)
+    const studios = props.MALdata.studio
+    ? props.MALdata.studio.map((studio) => { return studio.name }).join(', ')
+    : null
 
     // The airing time needs al ot of information; function below
     const airingData = AiringData(props.ALdata)
@@ -31,19 +32,6 @@ export default function ModalBar(props){
     }
 
     const release = props.MALdata.aired_string;
-    // if(props.MALdata.releaseDate){
-    //     const fullDate = props.MALdata.releaseDate
-    //     release = fullDate.substring(0, fullDate.lastIndexOf(','))
-    // }
-    // else if(props.MALdata.aired){
-    //     const fullDate = props.MALdata.aired
-    //     console.log(props.ALdata)
-    //     // release = fullDate.substring(0, fullDate.lastIndexOf(' to'))
-    //     releaese = fullDate.
-    // }
-    // else{
-    //     release = "Info not found!"
-    // }
 
     return(
         <div className="window-bar">
@@ -107,5 +95,4 @@ function AiringData(data){
         airingHour: airingHour,
         relativeTime: relativeTime
     }
-
 }

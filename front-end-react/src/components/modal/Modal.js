@@ -10,29 +10,29 @@ import Related from './tabs/Related.js';
 import Episodes from './tabs/Episodes.js';
 import ModalBar from './tabs/ModalBar.js';
 
-export default class Modal extends React.Component {
+import { toggleFavorite } from '../../redux/actions'
+import { connect } from 'react-redux'
+
+class Modal extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            id: this.props.data.mal_id,    // Changes depending on source
+            id: this.props.data.mal_id,         // Changes depending on source
             tab: 'synopsis',
-            MALdata: this.props.data,       // Available from start
-            favIndex: -1,                   // Where it is in the favorites
-            ALdata: null,                   // SHOULD be available on start; airing, score, trailer
+            MALdata: this.props.data,           // Available from start
+            ALdata: null,                       // SHOULD be available on start; airing, score, trailer
             updateAt: null,
             // MAL info
-            MALcast: null,                  // Includes staff
-            MALepisodes: null,              // Includes episodes, forum
-            MALthemes: null,                // On both episode/cast fetches; OP, ED
-            MALrelated: null                // On both episode/cast fetches; related
+            MALcast: null,                      // Includes staff
+            MALepisodes: null,                  // Includes episodes, forum
+            MALthemes: null,                    // On both episode/cast fetches; OP, ED
+            MALrelated: this.props.data.related // On both episode/cast fetches; related
         }
     }
 
     componentDidMount(){
         // For closing
         document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
-        // Find index in favorites
-        this.findIndex()
         // Loading
         let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
@@ -58,33 +58,14 @@ export default class Modal extends React.Component {
         })
     }
 
-    // Should hit this immediately; check all of favorites to see if current data is in there
-    findIndex(){
-        this.props.favorites.forEach((item, index) => {
-            if(this.state.MALdata.title === item.title){
-                this.setState({favIndex: index})
-            }
-        })
-    }
-
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
         this.props.toggleLoading()
-        console.log("Loading rerender")
-        return ALfetch(title, url).then((data) => {
-            let ALdata, MALepisodes;
-            if(Array.isArray(data) && data.length === 2){
-                ALdata = data[0]
-                MALepisodes = data[1]
-            }
-            else{
-                ALdata = data
-            }
-            console.log("changing ALdata")
+
+        return ALfetch(this.state.MALdata.title_japanese).then((ALdata) => {
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
-                MALepisodes: MALepisodes && !this.state.MALepisodes ? MALepisodes : this.state.MALepisodes
             });
             this.props.toggleLoading()
 
@@ -141,25 +122,6 @@ export default class Modal extends React.Component {
         }
     }
 
-    // Changing whether this is in favorites or not
-    changeFavorites(){
-        let favoritesCopy = this.props.favorites;
-        let modalInfo = this.state.MALdata;
-
-        // If it's in there, remove
-        if(this.state.favIndex !== -1){
-            favoritesCopy.splice(this.state.favIndex, 1);
-            this.setState({favIndex: -1})
-        }
-        // Else, push in a new copy
-        else{
-            favoritesCopy.push(modalInfo)
-            this.setState({favIndex: favoritesCopy.length - 1})
-        }
-
-        return this.props.handleFavorites(favoritesCopy)
-    }
-
     // Grabbing the proper tab
     tabGrab(tab){
         switch(tab){
@@ -189,10 +151,11 @@ export default class Modal extends React.Component {
     }
 
     render(){
+        const isOn = this.props.favorites.indexOf(this.state.MALdata) !== -1
         let currentTab = this.tabGrab(this.state.tab)
-        const favorite = <div className={`window-favorite ${this.state.favIndex !== -1 ? 'on' : null}`}
-                        onClick={() => this.changeFavorites()}>
-                            {this.state.favIndex !== -1 ? '★' :'☆'}
+        const favorite = <div className={`window-favorite ${isOn ? 'on' : null}`}
+                            onClick={() => this.props.toggleFavorite(this.state.MALdata)}>
+                            {isOn ? '★' :'☆'}
                          </div>
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
@@ -200,7 +163,9 @@ export default class Modal extends React.Component {
                     <h1 className="window-title">{this.props.data.title}</h1>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata} favorite={favorite}/>
                     <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
-                    <Details currentTab={currentTab}/>
+                    <div className="window-details">
+                        {currentTab}
+                    </div>
                 </div>
             </div>
         )
@@ -227,11 +192,14 @@ function Tabs(props){
     )
 }
 
-// Tab-dependent info
-function Details(props){
-    return(
-        <div className="window-details">
-            {props.currentTab}
-        </div>
-    )
+const mapStateToProps = (state) => {
+  return { favorites: state.favorites }
 }
+
+const mapDispatchToProps = () => {
+  return {
+    toggleFavorite
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(Modal)
