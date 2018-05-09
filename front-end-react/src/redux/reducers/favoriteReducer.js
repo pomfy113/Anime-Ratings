@@ -1,4 +1,4 @@
-import { TOGGLE_FAVORITE } from '../actions'
+import { TOGGLE_FAVORITE, CLEAR_FAVORITES } from '../actions'
 
 const favoriteReducer = (state = [], action) => {
   const stateCopy = state.slice()
@@ -14,14 +14,14 @@ const favoriteReducer = (state = [], action) => {
 
         if(favIndex !== -1){
             stateCopy.splice(favIndex, 1)
-            console.log(stateCopy)
             return stateCopy
         }
         else{
             stateCopy.push(action.payload.data)
-            console.log(stateCopy)
             return stateCopy
         }
+    case CLEAR_FAVORITES:
+        return []
     default:
       return state
   }

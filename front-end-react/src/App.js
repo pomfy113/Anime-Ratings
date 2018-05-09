@@ -20,7 +20,6 @@ class App extends React.Component {
             searchOnly: false,
             favoritesOnly: false,
             r18: false,
-            favorites: [],
             filter: {
                 title: null,
                 synopsis: null,
@@ -125,10 +124,6 @@ class App extends React.Component {
         this.setState({genres: content})
     }
 
-    favoritesChange(content){
-        this.setState({favorites: content})
-    }
-
     favoritesOnly(){
         this.setState({
             favoritesOnly: !this.state.favoritesOnly
@@ -154,7 +149,8 @@ class App extends React.Component {
     render() {
         let source, filtered;
         if(this.state.favoritesOnly){
-            source = this.state.favorites
+            source = this.props.favorites
+            console.log(source)
         }
         else{
             source = this.state.anime
@@ -169,7 +165,7 @@ class App extends React.Component {
                 filterTypes = ['title', 'synopsis', 'studio', 'r18']
             }
 
-            const allAnime = source.map((anime) =>{
+            const allAnime = source.map((anime) => {
                 // Post category filtering; uses state
                 const producers = anime.producer.map((producer) => {
                     return producer.name
@@ -181,75 +177,76 @@ class App extends React.Component {
                     producers={producers}
                     genres={anime.genres}
                     handleModal={(i) => this.showModal(i)}/>
-                })
+            })
 
-                const currentFilter = this.state.filter
+            const currentFilter = this.state.filter
 
-                filtered = allAnime.filter((card) => {
-                    // Faster access
-                    const anime = card.props.anime;
-                    const producers = card.props.producers;
-                    let check = true;
+            filtered = allAnime.filter((card) => {
+                // Faster access
+                const anime = card.props.anime;
+                const producers = card.props.producers;
+                let check = true;
 
-                    // TODO: This is just a mess. I'll have to clean this up.
-                    for(let index in filterTypes){
-                        const filter = filterTypes[index]
-                        // If null, we don't have to worry
+                // TODO: This is just a mess. I'll have to clean this up.
+                for(let index in filterTypes){
+                    const filter = filterTypes[index]
+                    // If null, we don't have to worry
 
-                        // Easy exit - no lewd
-                        if(anime.r18_plus !== this.state.r18){
-                            return false
-                        }
-
-                        if(currentFilter[filter]){
-                            const data = currentFilter[filter].toLowerCase();
-                            // Edge case: Anime full search requires us to search for 'description' instead
-
-                            if(filter === 'synopsis' && this.state.searchOnly && anime.description
-                              && !anime.description.toLowerCase().includes(data)){
-                                check = false;
-                                break;
-                            }
-                            // Simple if searching synopsis or title
-                            else
-                            if(filter !== 'studio' && anime[filter] && !anime[filter].toLowerCase().includes(data)){
-                                check = false;
-                                break;
-                            }
-                            // If it's a studio, we need to check the whole array
-                            else
-                            if(filter === 'studio' && producers
-                              && !producers.some(studio => studio.toLowerCase().includes(data))){
-                                check = false;
-                                break;
-                            }
-
-                        }
-                    }
-
-                    // Early exit 1
-                    if(check === false){
+                    // Easy exit - no lewd
+                    if(anime.r18_plus && anime.r18_plus !== this.state.r18){
                         return false
                     }
 
-                    if(this.state.genres.length > 0){
-                        return card.props.genres.some(genre => this.state.genres.includes(genre))
-                    }
-                    else{
-                        return true
-                    }
+                    if(currentFilter[filter]){
+                        console.log("There's a filter?")
+                        const data = currentFilter[filter].toLowerCase();
+                        // Edge case: Anime full search requires us to search for 'description' instead
 
-                })
+                        if(filter === 'synopsis' && this.state.searchOnly && anime.description
+                          && !anime.description.toLowerCase().includes(data)){
+                            console.log("synopsis")
+                            check = false;
+                        }
+                        // Simple if searching synopsis or title
+                        else
+                        if(filter !== 'studio' && anime[filter] && !anime[filter].toLowerCase().includes(data)){
+                            console.log("Studio")
+                            check = false;
+                        }
+                        // If it's a studio, we need to check the whole array
+                        else
+                        if(filter === 'studio' && producers
+                          && !producers.some(studio => studio.toLowerCase().includes(data))){
+                            check = false;
+                            console.log("producers")
+                        }
+                    }
+                }
+
+                // Early exit 1
+                if(check === false){
+                    console.log("?!")
+                    return false
+                }
+
+                if(this.state.genres.length > 0){
+                    console.log("I don't actually know what's here")
+                    return card.props.genres.some(genre => this.state.genres.includes(genre))
+                }
+                else{
+                    console.log("We should make it alright")
+                    return true
+                }
+
+            })
         }
 
             const modal = this.state.modal
             ? <Modal data={this.state.modal}
                 toggleLoading={() => this.toggleLoading()}
-                favorites={this.state.favorites}
                 handleClick={(ev) => this.handleWindowPress(ev)}
                 handleKey={(ev) => this.handleKeyPress(ev)}
                 newModal={(ev) => this.changeModal(ev)}
-                handleFavorites={(i) => this.favoritesChange(i)}
             />
             : null;
 
@@ -274,10 +271,8 @@ class App extends React.Component {
                         searchOnly={this.state.searchOnly && !this.state.favoritesOnly}
                         filter={this.state.filter}
                         genres={this.state.genres}
-                        favorites={this.state.favorites}
                         handleFilter={(i) => this.filterChange(i)}
                         handleGenre={(i) => this.genreChange(i)}
-                        handleFavorites={(i) => this.favoritesChange(i)}
                         favoritesOnly={() => this.favoritesOnly()}
                     />
 
@@ -300,7 +295,7 @@ function Loading(props){
 
 const mapStateToProps = (state) => {
   return {
-
+      favorites: state.favorites
   }
 }
 

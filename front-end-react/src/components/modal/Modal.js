@@ -20,7 +20,6 @@ class Modal extends React.Component {
             id: this.props.data.mal_id,    // Changes depending on source
             tab: 'synopsis',
             MALdata: this.props.data,       // Available from start
-            favIndex: -1,                   // Where it is in the favorites
             ALdata: null,                   // SHOULD be available on start; airing, score, trailer
             updateAt: null,
             // MAL info
@@ -162,11 +161,11 @@ class Modal extends React.Component {
     }
 
     render(){
+        const isOn = this.props.favorites.indexOf(this.state.MALdata) !== -1
         let currentTab = this.tabGrab(this.state.tab)
-        const favorite = <div className={`window-favorite ${this.state.favIndex !== -1 ? 'on' : null}`}
-                        onClick={() => this.props.toggleFavorite(this.state.MALdata)}>
-                            {/* {this.state.favIndex !== -1 ? '★' :'☆'} */}
-                            Testing!
+        const favorite = <div className={`window-favorite ${isOn ? 'on' : null}`}
+                            onClick={() => this.props.toggleFavorite(this.state.MALdata)}>
+                            {isOn ? '★' :'☆'}
                          </div>
         return(
             <div onClick={(i) => this.props.handleClick(i)} className="window-container">
