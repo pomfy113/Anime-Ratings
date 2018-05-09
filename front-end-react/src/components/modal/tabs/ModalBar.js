@@ -31,19 +31,6 @@ export default function ModalBar(props){
     }
 
     const release = props.MALdata.aired_string;
-    // if(props.MALdata.releaseDate){
-    //     const fullDate = props.MALdata.releaseDate
-    //     release = fullDate.substring(0, fullDate.lastIndexOf(','))
-    // }
-    // else if(props.MALdata.aired){
-    //     const fullDate = props.MALdata.aired
-    //     console.log(props.ALdata)
-    //     // release = fullDate.substring(0, fullDate.lastIndexOf(' to'))
-    //     releaese = fullDate.
-    // }
-    // else{
-    //     release = "Info not found!"
-    // }
 
     return(
         <div className="window-bar">
@@ -107,5 +94,4 @@ function AiringData(data){
         airingHour: airingHour,
         relativeTime: relativeTime
     }
-
 }

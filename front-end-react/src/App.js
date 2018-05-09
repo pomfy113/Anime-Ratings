@@ -299,7 +299,9 @@ function Loading(props){
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+
+  }
 }
 
 const mapDispatchToProps = () => {
