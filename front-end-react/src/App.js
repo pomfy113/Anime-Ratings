@@ -149,8 +149,12 @@ class App extends React.Component {
         const titleFilter = this.state.filter.title
         const synopFilter = this.state.filter.synopsis
         const prodFilter = this.state.filter.studio
+        const genreFilter = this.state.genres
+
         return animeList.filter((card) => {
             const anime = card.props.anime
+            const genres = card.props.genres
+
             const producers = card.props.producers
             const title = anime.title
             const descrip = anime.synopsis || anime.description
@@ -168,8 +172,12 @@ class App extends React.Component {
             if(descrip && synopFilter && !descrip.toLowerCase().includes(synopFilter)){
                 return false
             }
-            // Exit 4 - genre
+            // Exit 4 - producers
             if(producers && prodFilter && !producers.some(prod => prod.toLowerCase().includes(prodFilter))){
+                return false;
+            }
+
+            if(genres && genreFilter && !genres.some(genre => genre.includes(genreFilter))){
                 return false;
             }
 
@@ -190,7 +198,7 @@ class App extends React.Component {
 
         if(source){
             const allAnime = source.map((anime) => {
-                return <Card key={anime.title} anime={anime} genres={anime.genres}
+                return <Card key={anime.title} anime={anime} genres={anime.genre.map(g => { return g.name })}
                     producers={anime.producer ? anime.producer.map((producer) => {return producer.name}) : []}
                     handleModal={(i) => this.showModal(i)}/>
             })
