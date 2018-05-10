@@ -1,11 +1,21 @@
+import { simpleFetch } from '../scripts/ALget.js'
+
 export const GET_MODAL = "GET_MODAL"
 export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE"
 export const CLEAR_FAVORITES = "CLEAR_FAVORITES"
 
-export const getModal = (id) => {
+export const sendModal = (obj) => {
   return {
     type: GET_MODAL,
-    payload: { id }
+    payload: obj
+  }
+}
+
+export const getModal = (id) => {
+  return (dispatch) => {
+      simpleFetch(id).then(data => {
+          dispatch(sendModal(data))
+      })
   }
 }
 

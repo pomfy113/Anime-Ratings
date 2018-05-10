@@ -222,13 +222,13 @@ class App extends React.Component {
             loading={this.state.isLoading}
           />
         : null;
-
         return (
             <div key="container" className="Container">
                 <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
                     onClick={() => this.setState({ r18: !this.state.r18 })}>
                     R-18
                 </button>
+
                 {this.state.isLoading ? <Loading/> : null}
                 <Sidebar
                     search={(value) => { this.setState({ search: value }) }}
