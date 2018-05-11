@@ -1,8 +1,9 @@
 import React from 'react';
+import { getModal, hideModal } from '../../../redux/actions'
+import { connect } from 'react-redux'
 
-export default function Related(props){
+function Related(props){
     let relationships = [];
-
     for(let type in props.related){
         // First let's actually seperate them by type
         const reltype = props.related[type].map((anime, index) => {
@@ -11,7 +12,7 @@ export default function Related(props){
                     key={`${type}-${index}`}
                     href={anime.type === 'manga' ? anime.url : null}                                // If paper medium, redirect
                     target="_blank"
-                    onClick={anime.type === 'anime' ? () => props.changeModal(anime.mal_id) : null}    // If anime, open new modal
+                    onClick={anime.type === 'anime' ? () => props.getModal(anime.mal_id) : null}    // If anime, open new modal
                     className="related-cont">
                     <div className={`related-anime ${anime.type}`}>
                         <div className="related-anime-title">
@@ -39,3 +40,15 @@ export default function Related(props){
         </div>
     )
 }
+
+const mapStateToProps = (state) => {
+  return { modal: state.modal }
+}
+
+const mapDispatchToProps = () => {
+  return {
+    getModal, hideModal
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(Related)

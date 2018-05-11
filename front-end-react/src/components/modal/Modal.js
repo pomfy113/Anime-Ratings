@@ -10,7 +10,7 @@ import Related from './tabs/Related.js';
 import Episodes from './tabs/Episodes.js';
 import ModalBar from './tabs/ModalBar.js';
 
-import { toggleFavorite } from '../../redux/actions'
+import { toggleFavorite, hideModal } from '../../redux/actions'
 import { connect } from 'react-redux'
 
 class Modal extends React.Component {
@@ -30,9 +30,15 @@ class Modal extends React.Component {
         }
     }
 
+    escapeCheck(ev){
+        if(ev.key === 'Escape' || ev.target.className === 'window-container'){
+            this.props.hideModal(document)
+        }
+    }
+
     componentDidMount(){
         // For closing
-        document.addEventListener("keydown", (ev) => this.props.handleKey(ev));
+        document.addEventListener("keydown", (ev) => this.escapeCheck(ev));
         // Loading
         let loadstate = JSON.parse(localStorage.getItem(this.state.id));
 
@@ -43,7 +49,7 @@ class Modal extends React.Component {
         }
         // Else, update
         else{
-            this.setData(this.state.MALdata.title, this.state.MALdata.mal_id);
+            this.setData(this.props.modal.title, this.props.modal.mal_id);
         }
     }
 
@@ -62,7 +68,7 @@ class Modal extends React.Component {
     grabALData(title, url){
         this.props.toggleLoading()
 
-        return ALfetch(this.state.MALdata.title_japanese).then((ALdata) => {
+        return ALfetch(this.props.modal.title_japanese).then((ALdata) => {
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
@@ -80,7 +86,7 @@ class Modal extends React.Component {
             // Characters, staff, themes, related
             case 'related':
             case 'cast':
-                return MALfetchCAST(this.state.MALdata.mal_id).then((data) => {
+                return MALfetchCAST(this.props.modal.mal_id).then((data) => {
                     this.setState({
                         MALcast: {
                             characters: data.character,
@@ -93,7 +99,7 @@ class Modal extends React.Component {
                 })
             // Episodes, themes, related
             case 'episodes':
-                return MALfetchEP(this.state.MALdata.mal_id).then((data) => {
+                return MALfetchEP(this.props.modal.mal_id).then((data) => {
                     this.setState({
                         MALepisodes: data.episode,
                         MALthemes: [data.opening_theme, data.ending_theme],
@@ -127,7 +133,7 @@ class Modal extends React.Component {
         switch(tab){
             case "synopsis":
                 return <Synopsis
-                    synopsis={this.state.MALdata.synopsis}
+                    synopsis={this.props.modal.synopsis}
                     trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
                 />
             case "cast":
@@ -141,24 +147,21 @@ class Modal extends React.Component {
                     episodes={this.state.MALepisodes}
                 />
             case "related":
-                return <Related
-                    related={this.state.MALrelated}
-                    changeModal={(data) => this.props.newModal(data)}
-                />
+                return <Related related={this.props.modal.related}/>
             default:
                 return <div>?</div>
         }
     }
 
     render(){
-        const isOn = this.props.favorites.indexOf(this.state.MALdata) !== -1
+        const isOn = this.props.favorites.indexOf(this.props.modal) !== -1
         let currentTab = this.tabGrab(this.state.tab)
         const favorite = <div className={`window-favorite ${isOn ? 'on' : null}`}
-                            onClick={() => this.props.toggleFavorite(this.state.MALdata)}>
+                            onClick={() => this.props.toggleFavorite(this.props.modal)}>
                             {isOn ? '★' :'☆'}
                          </div>
         return(
-            <div onClick={(i) => this.props.handleClick(i)} className="window-container">
+            <div onClick={(ev) => this.escapeCheck(ev)} className="window-container">
                 <div className="window-content">
                     <h1 className="window-title">{this.props.data.title}</h1>
                     <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata} favorite={favorite}/>
@@ -193,12 +196,15 @@ function Tabs(props){
 }
 
 const mapStateToProps = (state) => {
-  return { favorites: state.favorites }
+  return {
+      favorites: state.favorites,
+      modal: state.modal
+   }
 }
 
 const mapDispatchToProps = () => {
   return {
-    toggleFavorite
+    toggleFavorite, hideModal
   }
 }
 

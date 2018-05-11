@@ -70,44 +70,6 @@ class App extends React.Component {
         })
 
     }
-    // Modal switches
-    changeModal(url){
-        this.setState({ isLoading: true })
-        this.hideModal()
-        this.showModal(url)
-    }
-
-    showModal(url){
-        this.setState({ isLoading: true })
-
-        document.body.style.overflow = "hidden"
-        document.body.style.marginRight = "5px"
-
-        simpleFetch(url).then((data) => {
-            this.setState({modal: data, isLoading: false})
-        })
-    }
-
-    handleWindowPress(ev){
-        if(ev.target.className === 'window-container'){
-            this.hideModal()
-            this.setState({ isLoading: false })
-        }
-    }
-
-    handleKeyPress(ev){
-        if(ev.key === 'Escape'){
-            this.hideModal()
-        }
-    }
-
-    hideModal(){
-        this.setState({modal: null})
-        document.body.style.overflow = "initial"
-        document.body.style.marginRight = "0px"
-
-    }
-
     // Filter switches
     filterChange(content){
         this.setState({filter: content})
