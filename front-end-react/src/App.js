@@ -7,7 +7,6 @@ import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
 import { connect } from 'react-redux';
-import { getModal } from './redux/actions'
 
 // localStorage.clear()
 // TODO: Reworking THIS WHOLE BIT in redux, please wait warmly!
@@ -28,7 +27,7 @@ class App extends React.Component {
             },
             genres: [],
             // What's showing?
-            modal: null,
+            modal: this.props.modal,
             isLoading: false,
 
             search: ''
@@ -205,8 +204,8 @@ class App extends React.Component {
             filteredAnime = this.filter(allAnime)
         }
 
-        const modal = this.state.modal
-        ? <Modal data={this.state.modal}
+        const modal = this.props.modal
+        ? <Modal data={this.props.modal}
             toggleLoading={() => this.toggleLoading()}
             handleClick={(ev) => this.handleWindowPress(ev)}
             handleKey={(ev) => this.handleKeyPress(ev)}
@@ -266,9 +265,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = () => {
-  return {
-    getModal
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps())(App)

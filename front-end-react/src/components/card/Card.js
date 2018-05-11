@@ -1,7 +1,10 @@
 import React from 'react';
 import './Card.css'
 
-export default class Card extends React.Component {
+import { getModal } from '../../redux/actions'
+import { connect } from 'react-redux';
+
+class Card extends React.Component {
     constructor(props){
         super(props);
         this.producers = this.props.producers.join(', ')
@@ -12,7 +15,7 @@ export default class Card extends React.Component {
     render() {
         return(
             <div className="anime-container" style={{backgroundImage: `url(${this.props.anime.image_url})`}}
-                onClick={() => this.props.handleModal(this.props.anime.mal_id)}>
+                onClick={() => this.props.getModal(this.props.anime.mal_id)}>
                 <div className="anime-footer">
                     <div className="anime-title">{this.title}</div>
                     <div className="anime-score">{this.score}
@@ -23,3 +26,15 @@ export default class Card extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = () => {
+  return {
+    getModal
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(Card)
