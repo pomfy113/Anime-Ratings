@@ -141,9 +141,13 @@ class App extends React.Component {
     }
 
     render() {
-        let filteredAnime;
-        const source = this.state[this.props.visible]
-        console.log(source, this.state.search)
+        let source, filteredAnime;
+        if(this.props.visible === 'favorites'){
+            source = this.props.favorites
+        }
+        else{
+            source = this.state.anime
+        }
 
         if(source){
             const allAnime = source.map((anime) => {
