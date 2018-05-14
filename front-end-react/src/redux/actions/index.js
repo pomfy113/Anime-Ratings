@@ -4,6 +4,7 @@ export const SHOW_MODAL = "SHOW_MODAL"
 export const HIDE_MODAL = "HIDE_MODAL"
 export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE"
 export const CLEAR_FAVORITES = "CLEAR_FAVORITES"
+export const MAKE_VISIBLE = "MAKE_VISIBLE"
 
 
 // Modals
@@ -25,6 +26,14 @@ export const getModal = (id) => {
         simpleFetch(id).then(data => {
             dispatch(showModal(data))
         })
+    }
+}
+
+// Current visible
+export const makeVisible = (type) => {
+    return {
+        type: MAKE_VISIBLE,
+        payload: type
     }
 }
 

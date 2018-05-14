@@ -83,7 +83,7 @@ export class Sidebar extends React.Component {
                 <div className={`sidebar-content ${this.state.tab}`}>
                     <Search
                         search={(name) => this.props.search(name)}
-                        searchOnly={this.props.searchOnly}
+                        visibility={this.props.searchOnly}
                         searchHandle={this.props.handleSearch}
                         changeFilter={(data, type) => this.changeFilter(data, type)}
                     />
@@ -197,7 +197,10 @@ function Favorites(props){
 
 
 const mapStateToProps = (state) => {
-  return { favorites: state.favorites }
+  return {
+      favorites: state.favorites,
+      visible: state.visible
+  }
 }
 
 const mapDispatchToProps = () => {

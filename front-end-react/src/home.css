@@ -221,6 +221,19 @@ span.producer:last-of-type:after {
     padding: 3px;
 }
 
+/* Modal? */
+.modal-off{
+    overflow: initial;
+    margin-right: 0px;
+}
+
+.modal-on{
+    overflow: hidden;
+    margin-right: 5px;
+}
+
+
+/* ?! */
 #r18{
     position: absolute;
     border: none;

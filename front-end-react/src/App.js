@@ -27,7 +27,6 @@ class App extends React.Component {
             },
             genres: [],
             // What's showing?
-            modal: this.props.modal,
             isLoading: false,
 
             search: ''
@@ -123,7 +122,7 @@ class App extends React.Component {
 
             // Set from fastest to slowest
             // Exit 1 - if r18
-            if(anime.r18_plus && anime.r18_plus !== this.state.r18){
+            if(anime.r18_plus !== undefined && anime.r18_plus !== this.state.r18){
                 return false
             }
             // Exit 2 - title
@@ -222,7 +221,8 @@ function Loading(props){
 const mapStateToProps = (state) => {
   return {
       favorites: state.favorites,
-      modal: state.modal
+      modal: state.modal,
+      visible: state.visible
   }
 }
 
