@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css'
 
-import { toggleFavorite, clearFavorites } from '../../redux/actions'
+import { toggleFavorite, clearFavorites, makeVisible } from '../../redux/actions'
 import { connect } from 'react-redux'
 
 export class Sidebar extends React.Component {
@@ -83,7 +83,7 @@ export class Sidebar extends React.Component {
                 <div className={`sidebar-content ${this.state.tab}`}>
                     <Search
                         search={(name) => this.props.search(name)}
-                        visibility={this.props.searchOnly}
+                        visible={this.props.visible}
                         searchHandle={this.props.handleSearch}
                         changeFilter={(data, type) => this.changeFilter(data, type)}
                     />
@@ -95,7 +95,8 @@ export class Sidebar extends React.Component {
                         removeFavorite={(data) => this.props.toggleFavorite(data)}
                         favorites={this.props.favorites}
                         clearFavorites={() => this.props.clearFavorites()}
-                        favoritesOnly={() => this.props.favoritesOnly()}
+                        toFavorites={(type) => this.props.makeVisible(type)}
+                        visible={this.props.visible}
                     />
                     </div>
 
@@ -123,7 +124,7 @@ function Search(props){
             <div className="search-anime">
                 <h2>Search</h2>
                 <input className="anime-search" onChange={(ev) => props.search(ev.target.value)}></input>
-                <button className={`anime-search-btn ${props.searchOnly ? 'active' : null}`}
+                <button className={`anime-search-btn ${props.visible}`}
                     onClick={() => props.searchHandle()}>Search</button>
             </div>
             <form>
@@ -187,7 +188,7 @@ function Favorites(props){
         <div className="favorite-cont side-content">
             <h1>Favorites</h1>
             <div className="favorite-btns">
-                <button onClick={() => props.favoritesOnly()}>Toggle Favorites</button>
+                <button onClick={() => props.toFavorites('favorites')}>Toggle Favorites</button>
                 <button onClick={() => props.clearFavorites()}>Clear All</button>
             </div>
 
@@ -205,7 +206,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-      toggleFavorite, clearFavorites
+      toggleFavorite, clearFavorites, makeVisible
   }
 }
 

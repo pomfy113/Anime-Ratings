@@ -7,5 +7,5 @@ import visibilityReducer from './visibilityReducer.js'
 export default combineReducers({
   modal: modalReducer,
   favorites: favoriteReducer,
-  visible: visibilityReducer.js
+  visible: visibilityReducer
 })

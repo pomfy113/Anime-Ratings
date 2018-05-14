@@ -7,6 +7,8 @@ import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
 import { connect } from 'react-redux';
+import { makeVisible } from './redux/actions';
+
 
 // localStorage.clear()
 // TODO: Reworking THIS WHOLE BIT in redux, please wait warmly!
@@ -17,14 +19,13 @@ class App extends React.Component {
         this.state = {
             anime: null,
             season: null,
-            searchOnly: false,
-            favoritesOnly: false,
             r18: false,
             filter: {
                 title: null,
                 synopsis: null,
                 studio: null,
             },
+            favorites: [],
             genres: [],
             // What's showing?
             isLoading: false,
@@ -63,7 +64,6 @@ class App extends React.Component {
                     year: year,
                     season: season
                 },
-                searchOnly: false,
                 isLoading: false
             })
         })
@@ -78,12 +78,6 @@ class App extends React.Component {
         this.setState({genres: content})
     }
 
-    favoritesOnly(){
-        this.setState({
-            favoritesOnly: !this.state.favoritesOnly
-        });
-    }
-
     search(name){
         if(name.length < 3){
             alert('Please enter a longer search term! (>3 characters)')
@@ -94,11 +88,11 @@ class App extends React.Component {
             animeSearch(name).then((data) => {
                 this.setState({
                     anime: data,
-                    searchOnly: true,
-                    favoritesOnly: false,
                     isLoading: false
                 })
             });
+
+            this.props.makeVisible('anime')
         }
     }
 
@@ -147,13 +141,9 @@ class App extends React.Component {
     }
 
     render() {
-        let source, filteredAnime;
-        if(this.state.favoritesOnly){
-            source = this.props.favorites
-        }
-        else{
-            source = this.state.anime
-        }
+        let filteredAnime;
+        const source = this.state[this.props.visible]
+        console.log(source, this.state.search)
 
         if(source){
             const allAnime = source.map((anime) => {
@@ -177,7 +167,6 @@ class App extends React.Component {
         const seasons = this.state.season
         ? <Season
             season={this.state.season}
-            isSeason={!this.state.searchOnly && !this.state.favoritesOnly}
             handleSeason={(i, j) => this.dataChange(i, j)}
             loading={this.state.isLoading}
           />
@@ -193,12 +182,10 @@ class App extends React.Component {
                 <Sidebar
                     search={(value) => { this.setState({ search: value }) }}
                     handleSearch={() => this.search(this.state.search)}
-                    searchOnly={this.state.searchOnly && !this.state.favoritesOnly}
                     filter={this.state.filter}
                     genres={this.state.genres}
                     handleFilter={(i) => this.filterChange(i)}
                     handleGenre={(i) => this.genreChange(i)}
-                    favoritesOnly={() => this.favoritesOnly()}
                 />
 
                 {seasons}
@@ -222,12 +209,12 @@ const mapStateToProps = (state) => {
   return {
       favorites: state.favorites,
       modal: state.modal,
-      visible: state.visible
+      visible: state.visible,
   }
 }
 
 const mapDispatchToProps = () => {
-  return {}
+  return { makeVisible }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps())(App)

@@ -1,9 +1,14 @@
 import { MAKE_VISIBLE } from '../actions'
 
-const visibilityReducer = (state = null, action) => {
+const visibilityReducer = (state = 'anime', action) => {
   switch(action.type) {
     case MAKE_VISIBLE:
-        return action.payload
+        if(state == 'favorites'){
+            return 'anime'
+        }
+        else{
+            return action.payload
+        }
     default:
       return state
   }
