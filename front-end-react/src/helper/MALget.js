@@ -35,7 +35,6 @@ export function MALfetchEP(info){
 }
 
 export function seasonGet(season, year){
-    console.log(season, year)
     const api = `http://api.jikan.moe/season/${year}/${season}/`
 
     const options = {

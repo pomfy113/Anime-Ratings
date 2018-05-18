@@ -5,6 +5,7 @@ html {
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
+    background-color: lightgrey;
 }
 
 ::-webkit-scrollbar-track {
@@ -29,9 +30,15 @@ html, body{
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
+html {
+    background-color: var(--backgroundColor);
+}
+
 #root{
     min-height: 80%;
     padding-bottom: 2.5%;
+    background-color: #EEE;
+
 }
 
 .error-react{
@@ -147,6 +154,7 @@ html, body{
 /* React stuff */
 
 .Container{
+    background-color: #EEE;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;

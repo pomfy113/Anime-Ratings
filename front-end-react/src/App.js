@@ -1,6 +1,5 @@
 import React from 'react';
 import {seasonGet, animeSearch, MALcurrentGet} from './helper/MALget.js';
-import {simpleFetch} from './helper/ALget.js';
 import Card from './components/card/Card.js';
 import Modal from './components/modal/Modal.js';
 import Season from './components/season/Season.js';
@@ -85,12 +84,10 @@ class App extends React.Component {
         }
         else{
             this.props.loadingOn()
-
             animeSearch(name).then((data) => {
                 this.setState({
                     anime: data,
                 })
-
                 this.props.loadingOff()
             });
 

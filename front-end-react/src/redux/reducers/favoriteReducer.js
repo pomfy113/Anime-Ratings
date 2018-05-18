@@ -7,7 +7,7 @@ const favoriteReducer = (state = [], action) => {
     case TOGGLE_FAVORITE:
         let favIndex = -1;
         state.forEach((item, index) => {
-            if(action.payload.data.title == item.title){
+            if(action.payload.data.title === item.title){
                 favIndex = index
             }
         })

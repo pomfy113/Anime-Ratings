@@ -3,7 +3,7 @@ import { MAKE_VISIBLE } from '../actions'
 const visibilityReducer = (state = 'anime', action) => {
   switch(action.type) {
     case MAKE_VISIBLE:
-        if(state == 'favorites'){
+        if(state === 'favorites'){
             return 'anime'
         }
         else{

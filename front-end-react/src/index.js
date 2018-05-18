@@ -8,8 +8,6 @@ import { Provider } from 'react-redux';
 import reducers from './redux/reducers';
 import thunk from 'redux-thunk';
 
-import { getModal } from './redux/actions';
-
 import './home.css';
 import './home-mobile.css';
 

@@ -12,5 +12,4 @@ const loadingReducer = (state = false, action) => {
 
 }
 
-
 export default loadingReducer
