@@ -6,6 +6,8 @@ export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE"
 export const CLEAR_FAVORITES = "CLEAR_FAVORITES"
 export const MAKE_VISIBLE = "MAKE_VISIBLE"
 
+export const LOADING_ON = "LOADING_ON"
+export const LOADING_OFF = "LOADING_OFF"
 
 // Modals
 export const showModal = (obj) => {
@@ -49,5 +51,18 @@ export const toggleFavorite = (data) => {
 export const clearFavorites = (data) => {
     return {
         type: CLEAR_FAVORITES
+    }
+}
+
+// Loading
+export const loadingOn = () => {
+    return {
+        type: LOADING_ON
+    }
+}
+
+export const loadingOff = () => {
+    return {
+        type: LOADING_OFF
     }
 }

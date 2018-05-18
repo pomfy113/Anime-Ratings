@@ -1,7 +1,10 @@
 import React from 'react';
 import './Season.css'
 
-export default class Season extends React.Component{
+import { loadingOn, loadingOff } from '../../redux/actions'
+import { connect } from 'react-redux'
+
+class Season extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -22,6 +25,7 @@ export default class Season extends React.Component{
                 year: year
             }
         })
+        
         this.props.handleSeason(this.seasons[season], year)
     }
 
@@ -36,7 +40,7 @@ export default class Season extends React.Component{
             return(
                 <div key={season}
                     onClick={() => this.changeSeason(seasonIndex, year)}
-                    className={`season-select ${season === 0 && this.props.isSeason ? 'current' : null}`}>
+                    className='season-select'>
                     {capitalizeSeason(this.seasons[seasonIndex])}, {year}
                 </div>
             )
@@ -54,3 +58,15 @@ export default class Season extends React.Component{
 function capitalizeSeason(season){
     return season[0].toUpperCase() + season.substring(1)
 }
+
+const mapStateToProps = (state) => {
+  return {
+      loading: state.loading
+  }
+}
+
+const mapDispatchToProps = () => {
+  return { loadingOn, loadingOff }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps())(Season)

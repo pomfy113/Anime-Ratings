@@ -10,7 +10,7 @@ import Related from './tabs/Related.js';
 import Episodes from './tabs/Episodes.js';
 import ModalBar from './tabs/ModalBar.js';
 
-import { toggleFavorite, hideModal } from '../../redux/actions'
+import { toggleFavorite, hideModal, loadingOn, loadingOff } from '../../redux/actions'
 import { connect } from 'react-redux'
 
 class Modal extends React.Component {
@@ -66,21 +66,20 @@ class Modal extends React.Component {
 
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
-        this.props.toggleLoading()
-
+        this.props.loadingOn()
         return ALfetch(this.props.modal.title_japanese).then((ALdata) => {
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
             });
-            this.props.toggleLoading()
+            this.props.loadingOff()
 
         });
     }
 
     // Heavy; grabs a lot of data from Jikan.
     grabMALData(tab){
-        this.props.toggleLoading()
+        this.props.loadingOn()
         switch(tab){
             // Both include; have this go into one of them
             // Characters, staff, themes, related
@@ -95,7 +94,7 @@ class Modal extends React.Component {
                         MALthemes: [data.opening_theme, data.ending_theme],
                         MALrelated: data.related
                     })
-                    this.props.toggleLoading()
+                    this.props.loadingOff()
                 })
             // Episodes, themes, related
             case 'episodes':
@@ -105,7 +104,7 @@ class Modal extends React.Component {
                         MALthemes: [data.opening_theme, data.ending_theme],
                         MALrelated: data.related
                     })
-                    this.props.toggleLoading()
+                    this.props.loadingOff()
 
                 })
             default:
@@ -204,7 +203,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    toggleFavorite, hideModal
+    toggleFavorite, hideModal, loadingOn, loadingOff
   }
 }
 

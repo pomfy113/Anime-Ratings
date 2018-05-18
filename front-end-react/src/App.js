@@ -7,7 +7,7 @@ import Season from './components/season/Season.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 
 import { connect } from 'react-redux';
-import { makeVisible } from './redux/actions';
+import { makeVisible, loadingOn, loadingOff } from './redux/actions';
 
 
 // localStorage.clear()
@@ -19,17 +19,17 @@ class App extends React.Component {
         this.state = {
             anime: null,
             season: null,
+
             r18: false,
             filter: {
                 title: null,
                 synopsis: null,
                 studio: null,
             },
+
             favorites: [],
             genres: [],
             // What's showing?
-            isLoading: false,
-
             search: ''
         }
 
@@ -50,11 +50,11 @@ class App extends React.Component {
 
 
     dataChange(season, year){
-        if(this.state.isLoading){
+        if(this.props.loading){
             return
         }
 
-        this.setState({isLoading: true})
+        this.props.loadingOn()
         seasonGet(season, year).then((data) => {
             return data
         }).then((data) => {
@@ -63,9 +63,10 @@ class App extends React.Component {
                 season: {
                     year: year,
                     season: season
-                },
-                isLoading: false
+                }
             })
+            this.props.loadingOff()
+
         })
 
     }
@@ -83,21 +84,18 @@ class App extends React.Component {
             alert('Please enter a longer search term! (>3 characters)')
         }
         else{
-            this.setState({ isLoading: true })
+            this.props.loadingOn()
 
             animeSearch(name).then((data) => {
                 this.setState({
                     anime: data,
-                    isLoading: false
                 })
+
+                this.props.loadingOff()
             });
 
             this.props.makeVisible('anime')
         }
-    }
-
-    toggleLoading(){
-        this.setState({ isLoading: !this.state.isLoading })
     }
 
     filter(animeList){
@@ -172,9 +170,9 @@ class App extends React.Component {
         ? <Season
             season={this.state.season}
             handleSeason={(i, j) => this.dataChange(i, j)}
-            loading={this.state.isLoading}
           />
         : null;
+
         return (
             <div key="container" className="Container">
                 <button id='r18' className={`${this.state.r18 ? 'active' : 'inactive'}`}
@@ -182,7 +180,7 @@ class App extends React.Component {
                     R-18
                 </button>
 
-                {this.state.isLoading ? <Loading/> : null}
+                {this.props.loading ? <Loading/> : null}
                 <Sidebar
                     search={(value) => { this.setState({ search: value }) }}
                     handleSearch={() => this.search(this.state.search)}
@@ -214,11 +212,12 @@ const mapStateToProps = (state) => {
       favorites: state.favorites,
       modal: state.modal,
       visible: state.visible,
+      loading: state.loading
   }
 }
 
 const mapDispatchToProps = () => {
-  return { makeVisible }
+  return { makeVisible, loadingOn, loadingOff }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps())(App)

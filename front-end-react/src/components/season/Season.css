@@ -23,7 +23,7 @@
         text-shadow: 0px 0px 2px black;
     }
 
-    .season-select.current{
+    .season-select:nth-child(3){
         background-color: var(--backgroundColor);
         color: white;
         text-shadow: black;
@@ -34,7 +34,7 @@
         background-color: #e5e5e5;
     }
 
-    .season-cont.disabled .season-select.current{
+    .season-cont.disabled .season-select:nth-child(3){
         background-color: #aaa;
     }
 

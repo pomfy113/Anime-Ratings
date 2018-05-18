@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css'
 
-import { getModal } from '../../redux/actions'
+import { getModal, loadingOn, loadingOff } from '../../redux/actions'
 import { connect } from 'react-redux';
 
 class Card extends React.Component {
@@ -15,7 +15,10 @@ class Card extends React.Component {
     render() {
         return(
             <div className="anime-container" style={{backgroundImage: `url(${this.props.anime.image_url})`}}
-                onClick={() => this.props.getModal(this.props.anime.mal_id)}>
+                onClick={() => {
+                    this.props.loadingOn()
+                    this.props.getModal(this.props.anime.mal_id)
+                }}>
                 <div className="anime-footer">
                     <div className="anime-title">{this.title}</div>
                     <div className="anime-score">{this.score}
@@ -33,7 +36,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    getModal
+    getModal, loadingOn, loadingOff
   }
 }
 
