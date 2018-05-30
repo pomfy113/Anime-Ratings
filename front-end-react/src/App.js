@@ -136,7 +136,7 @@ class App extends React.Component {
     }
 
     render() {
-        let source, filteredAnime;
+        let source, animeData;
         if(this.props.visible === 'favorites'){
             source = this.props.favorites
         }
@@ -144,14 +144,37 @@ class App extends React.Component {
             source = this.state.anime
         }
 
-        if(source){
+        if(source && source.length > 0){
             const allAnime = source.map((anime) => {
                 return <Card key={anime.title} anime={anime} handleModal={(i) => this.showModal(i)}
                     genres={anime.genre ? anime.genre.map(g => { return g.name }) : null}
                     producers={anime.producer ? anime.producer.map((producer) => {return producer.name}) : []}/>
             })
 
-            filteredAnime = this.filter(allAnime)
+            animeData = this.filter(allAnime)
+        }
+        else{
+            switch(source){
+                // quick fix for now
+                case undefined:
+                    animeData =
+                    <div className='error'>
+                        <h1>Server error</h1>
+                        <p>Either something went wrong on our end, or MAL is down!</p>
+                    </div>
+                    break;
+                case null:
+                    animeData = <Loading/>
+                    break;
+                default:
+                    // For the time being, should only hit if empty favoritees
+                    animeData = <div className='error'>
+                        <h1>No favorites</h1>
+                        <p>Open an anime and click the star underneath to add
+                        favorites!</p>
+                    </div>
+                    break;
+            }
         }
 
         const modal = this.props.modal
@@ -189,7 +212,7 @@ class App extends React.Component {
 
                 {seasons}
                 {modal}
-                {filteredAnime ? filteredAnime : <Loading/>}
+                {animeData}
             </div>
         );
             }

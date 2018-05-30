@@ -266,3 +266,7 @@ span.producer:last-of-type:after {
     opacity: 1.0;
     background-color: #FFF3;
 }
+
+.error{
+    text-align: center;
+}
