@@ -5,7 +5,6 @@ module.exports = function(app) {
     // TODO: Needs some clean-up after altering season pull to Jikan.moe
     // mal-scraper will be depreciated, and should remove a lot of unnecessary code
     app.get('/', (req, res) => {
-        // console.log("???")
         res.sendFile('/index.html')
     });
 
@@ -16,19 +15,6 @@ module.exports = function(app) {
               res.send(JSON.stringify(data));
           }).catch((err) => console.log(err));
     });
-
-    // API
-    // Deprecated
-    // app.get('/get-current', (req, res) => {
-    //     const currentDay = getDate();
-    //     const year = currentDay[0];
-    //     const season = currentDay[1];
-    //
-    //     malScraper.getSeason(year, season)
-    //       .then((data) => cleanData(data)).then((data) => {
-    //           res.send(JSON.stringify(data));
-    //       }).catch((err) => console.log(err));
-    // });
 
     // For simple fetch
     app.get('/simpleMALscrape', (req, res) =>{
