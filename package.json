@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha -t 100000"
+    "test": "mocha -t 100000",
+    "build": "cd front-end-react && yarn install && yarn build"
   },
   "author": "",
   "license": "ISC",
