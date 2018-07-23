@@ -56,6 +56,7 @@ export function ALfetch(title){
 
 export function simpleFetch(url){
     const api = `https://api.jikan.moe/anime/${url}/episodes`
+    console.log(api)
     const options = { method: 'GET' };
 
     return fetch(api, options).then((res) => {

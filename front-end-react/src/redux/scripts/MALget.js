@@ -1,6 +1,6 @@
 export function MALfetchCAST(info){
     const id = typeof info === 'number' ? info : info.split('/')[4]
-    const api = `http://api.jikan.moe/anime/${id}/characters_staff`
+    const api = `https://api.jikan.moe/anime/${id}/characters_staff`
 
     const options = {
             method: 'GET'
@@ -18,7 +18,7 @@ export function MALfetchCAST(info){
 
 export function MALfetchEP(info){
     const id = typeof info === 'number' ? info : info.split('/')[4]
-    const api = `http://api.jikan.moe/anime/${id}/episodes`
+    const api = `https://api.jikan.moe/anime/${id}/episodes`
 
     const options = {
             method: 'GET'
@@ -36,7 +36,7 @@ export function MALfetchEP(info){
 
 export function seasonGet(season, year){
     console.log(season, year)
-    const api = `http://api.jikan.moe/season/${year}/${season}/`
+    const api = `https://api.jikan.moe/season/${year}/${season}`
 
     const options = {
             method: 'GET'
@@ -59,7 +59,7 @@ export function seasonGet(season, year){
 }
 
 export function animeSearch(name){
-    const api = `http://api.jikan.moe/search/anime/${name}/`
+    const api = `https://api.jikan.moe/search/anime/${name}`
 
     const options = {
             method: 'GET'
@@ -84,7 +84,7 @@ export function MALcurrentGet(){
     const year = currentDay[0];
     const season = currentDay[1];
 
-    const api = `http://api.jikan.moe/season/${year}/${season}/`
+    const api = `https://api.jikan.moe/season/${year}/${season}`
 
     const options = {
             method: 'GET'

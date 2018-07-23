@@ -55,7 +55,7 @@ export function ALfetch(title){
 }
 
 export function simpleFetch(url){
-    const api = `http://api.jikan.moe/anime/${url}/episodes`
+    const api = `https://api.jikan.moe/anime/${url}/episodes`
     const options = { method: 'GET' };
 
     return fetch(api, options).then((res) => {
@@ -74,7 +74,7 @@ export function simpleFetch(url){
 }
 
 function backupSimpleFetch(url){
-    const api = `http://api.jikan.moe/anime/${url}/`
+    const api = `https://api.jikan.moe/anime/${url}`
     const options = { method: 'GET' };
 
     return fetch(api, options).then((res) => {
