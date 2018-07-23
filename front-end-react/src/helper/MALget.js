@@ -35,7 +35,7 @@ export function MALfetchEP(info){
 }
 
 export function seasonGet(season, year){
-    const api = `https://api.jikan.moe/season/${year}/${season}/`
+    const api = `https://api.jikan.moe/season/${year}/${season}`
 
     const options = {
             method: 'GET'
@@ -58,7 +58,7 @@ export function seasonGet(season, year){
 }
 
 export function animeSearch(name){
-    const api = `https://api.jikan.moe/search/anime/${name}/`
+    const api = `https://api.jikan.moe/search/anime/${name}`
 
     const options = {
             method: 'GET'
@@ -83,7 +83,7 @@ export function MALcurrentGet(){
     const year = currentDay[0];
     const season = currentDay[1];
 
-    const api = `https://api.jikan.moe/season/${year}/${season}/`
+    const api = `https://api.jikan.moe/season/${year}/${season}`
 
     const options = {
             method: 'GET'
