@@ -7,9 +7,7 @@ import { connect } from 'react-redux';
 class Card extends React.Component {
     constructor(props){
         super(props);
-        console.log(this.props.anime.title)
         this.producers = this.props.producers.join(', ')
-        this.title = this.props.anime.title.replace(/&#039;/g, "'")
         this.score = this.props.anime.score ? this.props.anime.score.toFixed(2) : 'N/A'
     }
 
@@ -21,7 +19,7 @@ class Card extends React.Component {
                     this.props.getModal(this.props.anime.mal_id)
                 }}>
                 <div className="anime-footer">
-                    <div dangerouslySetInnerHTML={{__html: this.title}} className="anime-title"/>
+                    <div dangerouslySetInnerHTML={{__html: this.props.anime.title}} className="anime-title"/>
                     <div className="anime-score">{this.score}
                     </div>
                     <div dangerouslySetInnerHTML={{__html: this.producers}} className="anime-studio"/>

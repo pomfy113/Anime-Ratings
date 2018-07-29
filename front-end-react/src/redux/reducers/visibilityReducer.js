@@ -15,5 +15,4 @@ const visibilityReducer = (state = 'anime', action) => {
 
 }
 
-
 export default visibilityReducer

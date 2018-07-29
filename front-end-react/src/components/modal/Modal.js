@@ -16,17 +16,18 @@ import { connect } from 'react-redux'
 class Modal extends React.Component {
     constructor(props){
         super(props)
+        console.log(this.props.modal)
         this.state = {
-            id: this.props.data.mal_id,         // Changes depending on source
+            id: this.props.modal.MALdata.mal_id, // Changes depending on source
             tab: 'synopsis',
-            MALdata: this.props.data,           // Available from start
-            ALdata: null,                       // SHOULD be available on start; airing, score, trailer
+            MALdata: this.props.modal.MALdata,  // Available from start
+            ALdata: this.props.modal.ALdata,    // SHOULD be available on start; airing, score, trailer
             updateAt: null,
             // MAL info
             MALcast: null,                      // Includes staff
             MALepisodes: null,                  // Includes episodes, forum
             MALthemes: null,                    // On both episode/cast fetches; OP, ED
-            MALrelated: this.props.data.related // On both episode/cast fetches; related
+            MALrelated: this.props.modal.MALdata.related // On both episode/cast fetches; related
         }
     }
 
@@ -49,7 +50,7 @@ class Modal extends React.Component {
         }
         // Else, update
         else{
-            this.setData(this.props.modal.title, this.props.modal.mal_id);
+            this.setData(this.props.modal.MALdata.title, this.props.modal.MALdata.mal_id);
         }
     }
 
@@ -67,7 +68,7 @@ class Modal extends React.Component {
     // Should hit this immediately; lightweight gathering of data
     grabALData(title, url){
         this.props.loadingOn()
-        return ALfetch(this.props.modal.title_japanese).then((ALdata) => {
+        return ALfetch(this.props.modal.MALdata.title_japanese).then((ALdata) => {
             this.setState({
                 ALdata: ALdata,
                 updateAt: (ALdata && ALdata.nextAiringEpisode ? ALdata.nextAiringEpisode.airingAt * 1000 : null),
@@ -85,7 +86,7 @@ class Modal extends React.Component {
             // Characters, staff, themes, related
             case 'related':
             case 'cast':
-                return MALfetchCAST(this.props.modal.mal_id).then((data) => {
+                return MALfetchCAST(this.props.modal.MALdata.mal_id).then((data) => {
                     this.setState({
                         MALcast: {
                             characters: data.character,
@@ -98,7 +99,7 @@ class Modal extends React.Component {
                 })
             // Episodes, themes, related
             case 'episodes':
-                return MALfetchEP(this.props.modal.mal_id).then((data) => {
+                return MALfetchEP(this.props.modal.MALdata.mal_id).then((data) => {
                     this.setState({
                         MALepisodes: data.episode,
                         MALthemes: [data.opening_theme, data.ending_theme],
@@ -132,7 +133,7 @@ class Modal extends React.Component {
         switch(tab){
             case "synopsis":
                 return <Synopsis
-                    synopsis={this.props.modal.synopsis}
+                    synopsis={this.props.modal.MALdata.synopsis}
                     trailer={this.state.ALdata ? this.state.ALdata.trailer : null}
                 />
             case "cast":
@@ -146,24 +147,24 @@ class Modal extends React.Component {
                     episodes={this.state.MALepisodes}
                 />
             case "related":
-                return <Related related={this.props.modal.related}/>
+                return <Related related={this.props.modal.MALdata.related}/>
             default:
                 return <div>?</div>
         }
     }
 
     render(){
-        const isOn = this.props.favorites.indexOf(this.props.modal) !== -1
+        const isOn = this.props.favorites.indexOf(this.state.MALdata) !== -1
         let currentTab = this.tabGrab(this.state.tab)
         const favorite = <div className={`window-favorite ${isOn ? 'on' : null}`}
-                            onClick={() => this.props.toggleFavorite(this.props.modal)}>
+                            onClick={() => this.props.toggleFavorite(this.state.MALdata)}>
                             {isOn ? '★' :'☆'}
                          </div>
         return(
             <div onClick={(ev) => this.escapeCheck(ev)} className="window-container">
                 <div className="window-content">
-                    <h1 className="window-title">{this.props.data.title}</h1>
-                    <ModalBar MALdata={this.props.data} ALdata={this.state.ALdata} favorite={favorite}/>
+                    <h1 className="window-title">{this.state.MALdata.title}</h1>
+                    <ModalBar MALdata={this.state.MALdata} ALdata={this.state.ALdata} favorite={favorite}/>
                     <Tabs currentTab={this.state.tab} handleTab={(tab, info) => this.tabSwitch(tab, info)}/>
                     <div className="window-details">
                         {currentTab}

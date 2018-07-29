@@ -4,14 +4,13 @@ export default function Synopsis(props){
     const cleanedText = props.synopsis
         ? props.synopsis.replace(/&#039;/g, "'")
         : "Summary unavailable."
-
     return(
-        <div className="content content-synopsis">
-            <div className="synopsis-text">{cleanedText}</div>
-            <div className="synopsis-trailer">
-                {props.trailer ? <Trailer site={props.trailer.site} url={props.trailer.id}/> : null}
-            </div>
-        </div>
+      <div className="content content-synopsis">
+          <div className="synopsis-text">{cleanedText}</div>
+          <div className="synopsis-trailer">
+              {props.trailer ? <Trailer site={props.trailer.site} url={props.trailer.id}/> : null}
+          </div>
+      </div>
     )
 }
 

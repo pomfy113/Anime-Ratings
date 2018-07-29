@@ -1,4 +1,4 @@
-import { simpleFetch } from '../scripts/ALget.js'
+import { simpleFetch, ALfetch } from '../scripts/ALget.js'
 
 export const SHOW_MODAL = "SHOW_MODAL"
 export const HIDE_MODAL = "HIDE_MODAL"
@@ -25,8 +25,14 @@ export const hideModal = () => {
 
 export const getModal = (id) => {
     return (dispatch) => {
+        let MALdata;
         simpleFetch(id).then(data => {
-            dispatch(showModal(data))
+          MALdata = data
+          return data.title
+        }).then(title => {
+          return ALfetch(title)
+        }).then(ALdata => {
+          dispatch(showModal({MALdata, ALdata}));
         })
     }
 }

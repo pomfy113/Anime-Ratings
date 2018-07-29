@@ -1,5 +1,5 @@
 import React from 'react';
-import { getModal, hideModal } from '../../../redux/actions'
+import { getModal, hideModal, loadingOn } from '../../../redux/actions'
 import { connect } from 'react-redux'
 
 function Related(props){
@@ -12,12 +12,14 @@ function Related(props){
                     key={`${type}-${index}`}
                     href={anime.type === 'manga' ? anime.url : null}                                // If paper medium, redirect
                     target="_blank"
-                    onClick={anime.type === 'anime' ? () => props.getModal(anime.mal_id) : null}    // If anime, open new modal
+                    onClick={anime.type === 'anime' ? () => {
+                      props.hideModal();
+                      props.loadingOn();
+                      props.getModal(anime.mal_id);
+                    } : null}    // If anime, open new modal
                     className="related-cont">
                     <div className={`related-anime ${anime.type}`}>
-                        <div className="related-anime-title">
-                            {anime.title.replace("&#039;", "'")}
-                        </div>
+                        <div dangerouslySetInnerHTML={{__html: anime.title}} className="related-anime-title"/>
                         <div className="related-anime-type">
                             {anime.type === 'anime' ? anime.type.toUpperCase() : 'MANGA/NOVEL (external link)'}
                         </div>
@@ -47,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    getModal, hideModal
+    getModal, hideModal, loadingOn
   }
 }
 
